@@ -13,4 +13,11 @@ contextBridge.exposeInMainWorld('darkMode', {
 // receive a message from the main process
 ipcRenderer.on('message', function (evt, message) {
   console.log(message); 
+  alert(JSON.stringify(message));
+});
+
+ipcRenderer.on('stats', function (evt, message) {
+  console.log("update the stats on the page");
+  alert(JSON.stringify(message));
+  //ipcRenderer.invoke('stats');
 });
