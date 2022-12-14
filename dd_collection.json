@@ -1,0 +1,1486 @@
+[
+    {
+        "uri": "redcap://ABCD?instrument=abcd_abcls&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_abcls01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_adbc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_adbc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ant&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ant01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_asrs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_asrs01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_auto_postqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_auto_postqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_betnet&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_betnet02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_bisbas&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_bisbas01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_bkfs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_bkfs01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_bp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_bp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_bpm&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_bpm01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_bpmt&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_bpmt01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_cb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_cb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_cbcl&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_cbcl01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_cbcls&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_cbcls01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_cna&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_cna01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_crpf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_crpf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ddtidp&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ddtidp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ddtidp&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ddtidp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ddtifp&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ddtifp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ddtifp&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ddtifp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ddtlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ddtlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_devhxss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_devhxss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_dmdtifp&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_dmdtifp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_dmdtifp&release=v4.0&version=v02&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_dmdtifp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_dmriqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_dmriqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=3",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip301.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=4",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip401.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=5",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip501.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=6",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip601.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_drsip&release=v4.0&version=v01&part=7",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_drsip701.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_dti_p&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_dti_p101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_dti_p&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_dti_p201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_earsraw&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_earsraw01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_eatqp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_eatqp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ehis&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ehis01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_esttlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_esttlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbdpas&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbdpas01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbdss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbdss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbpap&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbpap01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbpay&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbpay01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbprp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbprp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbpry&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbpry01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbwpas&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbwpas01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fbwss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fbwss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fes&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fes01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fhxssp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fhxssp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fmriqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fmriqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_fsurfqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_fsurfqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_gdss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_gdss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_gdtlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_gdtlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_gish2y&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_gish2y01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_hers&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_hers01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_hsss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_hsss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ics&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ics01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_imgincl&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_imgincl01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ip&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ip01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ksad&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ksad01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ksad&release=v4.0&version=v01&part=5",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ksad501.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lmtlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lmtlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lpds&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lpds01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lpksad&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lpksad01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lpmh&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lpmh01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lpohstbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lpohstbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lpsaiq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lpsaiq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lssmh&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lssmh01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lsssa&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lsssa01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lsstbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lsstbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_lt&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_lt01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_macvsy&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_macvsy01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mcqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mcqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_medhxss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_medhxss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_meim&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_meim01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mhp&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mhp02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mhy&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mhy02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mid&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mid02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midabwdp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midabwdp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midabwdp&release=v4.0&version=v02&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midabwdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midasemdp&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midasemdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midasemp102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midasemp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr1bwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr1bwdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr1bwp102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr1bwp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr2semp102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr2semp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midr2semp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr2semp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midsemp102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midsemp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midsemp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midsemp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_midtlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midtlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_monet&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_monet01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrfindings02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrfindings02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mri&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mri01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrinback02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrinback02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrirsfd&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrirsfd01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrirstv02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrirstv02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrisdp102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrisdp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrisdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrisdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mrisdp302.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mrisdp302.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mte&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mte01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mtpa&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mtpa01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mtpap&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mtpap01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mtpay&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mtpay01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mtpry&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mtpry01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mtv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mtv01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_mx&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_mx01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_nbacktlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_nbacktlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_nsc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_nsc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_occsp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_occsp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_otbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_otbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pbp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pbp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_peq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_peq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pfb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pfb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pff&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pff01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pgbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pgbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pgi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pgi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pksadscd&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pksadscd01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ple&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ple01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_plus&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_plus01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pnhps&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pnhps01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pnsc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pnsc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ppdms&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ppdms01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_prepost&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_prepost01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ps&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ps01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_psb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_psb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pssrs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pssrs01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pssudse&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pssudse01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ptsd&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ptsd01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_pxccp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_pxccp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ra&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ra01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_rhds&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_rhds01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_saag&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_saag01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_saiq02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_saiq02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_screen&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_screen01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_screen02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_screen02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sds&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sds01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_siss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_siss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sitlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sitlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_smrip102.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_smrip102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_smrip202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_smrip202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_smrip302.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_smrip302.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_alabam&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_alabam01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_emr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_emr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_fa&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_fa01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_fb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_fb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_pb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_pb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_pdis&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_pdis01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_rde&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_rde01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_child_vic&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_child_vic01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_ctr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_ctr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_alabama&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_alabama01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_emr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_emr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_fa&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_fa01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_fb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_fb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_nbh&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_nbh01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_pdis&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_pdis01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_rde&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_rde01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_p_vic&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_p_vic01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_socdev_vt&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_socdev_vt01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_spacss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_spacss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ssbpmtf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ssbpmtf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sscep&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sscep01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sscey&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sscey01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ssmty&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ssmty01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ssphp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ssphp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ssphy&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ssphy01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sst02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sst02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_sst_tlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sst_tlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_stq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_stq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_suss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_suss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_svs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_svs01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_t2wqc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_t2wqc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tb_tlb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tb_tlb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tbss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tbss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfabwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfabwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfabwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfabwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr1semdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr1semdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr1semdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr1semdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr2bwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2bwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr2bwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2bwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr2dp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2dp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfnbr2dp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2dp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfncr1bwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfncr1bwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfncr1bwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfncr1bwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstabwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstabwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstabwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstabwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstasemdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstasemdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstasemdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstasemdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr1bwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr1bwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr1bwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr1bwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr1semdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr1semdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr1semdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr1semdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr2bwdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr2bwdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr2bwdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr2bwdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr2semdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr2semdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tfsstr2semdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstr2semdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tlfb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tlfb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tmidr1semdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tmidr1semdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tmidr1semdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tmidr1semdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tnbasemdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tnbasemdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tnbasemdp2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tnbasemdp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tr2bwdp&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tr2bwdp01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tr2bwdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tr2bwdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tr2semdp1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tr2semdp101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tr2semdp202.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tr2semdp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_tztab&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tztab01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_upps&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_upps01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_via&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_via01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_y7mi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_y7mi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yam&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yam01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ybd&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ybd01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ycrpf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ycrpf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yddss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yddss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ydmes&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ydmes01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yest&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yest01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yfb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yfb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yff&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yff01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ygi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ygi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ygs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ygs01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yhr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yhr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yksad&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yksad01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yle&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yle01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ymidm&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ymidm01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ymypisu&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ymypisu01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yn&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yn01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ynm&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ynm01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ypdms&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ypdms01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ypre1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ypre101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ypre2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ypre201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ypsq1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ypsq101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ypsq2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ypsq201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yrb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yrb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ysaag&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ysaag01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ysr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ysr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_yssbpm&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_yssbpm01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ysu02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ysu02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ysua&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ysua01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ysuip&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ysuip01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ytbpai&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ytbpai01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ytt&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ytt01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=abcd_ywpss&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_ywpss01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=acspsw&release=v4.0&version=v03",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/acspsw03.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=agoraphobia_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/agoraphobia_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=alcohol_use_disorder&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/alcohol_use_disorder01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=alcohol_use_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/alcohol_use_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=attn_deficit_hyperactiv_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/attn_deficit_hyperactiv_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=aurora&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/aurora01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=autism_spectrum_dis_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/autism_spectrum_dis_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=barkley_exec_func&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/barkley_exec_func01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=biocf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/biocf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=bipolar_disorders&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/bipolar_disorders01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=bipolar_disorders_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/bipolar_disorders_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=breast_feeding&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/breast_feeding01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=bteeth&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/bteeth01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=cct&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/cct01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=conduct_disorder&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/conduct_disorder01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=covid19_fitbit_survey&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/covid19_fitbit_survey01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=covid19_geocoded_data&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/covid19_geocoded_data01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=crpbi&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/crpbi01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=depressive_disorders&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/depressive_disorders01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=depressive_disorders_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/depressive_disorders_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=dhx&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/dhx01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=dibf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/dibf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=diff_emotion_reg_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/diff_emotion_reg_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=disruptive_mood_dysreg&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/disruptive_mood_dysreg01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=disruptive_mood_dysreg_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/disruptive_mood_dysreg_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=drug_use_disorders&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/drug_use_disorders01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=drug_use_disorders_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/drug_use_disorders_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=eating_disorders&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/eating_disorders01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=eating_disorders_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/eating_disorders_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=emotion_reg_erq_feelings&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/emotion_reg_erq_feelings01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=fes&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/fes02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=fhxp&release=v4.0&version=v02&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/fhxp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=fhxp&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/fhxp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=generaled_anx_disorder&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/generaled_anx_disorder01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=generaled_anx_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/generaled_anx_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=genomics_sample&release=v4.0&version=v03",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/genomics_sample03.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=homicidality_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/homicidality_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=internat_physical_activ&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/internat_physical_activ01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=ksads2daic_use_only&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/ksads2daic_use_only01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=ksads2daic_use_only_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/ksads2daic_use_only_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=led_school_part_&release=v4.0&version=v01&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/led_school_part_101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=led_school_part_&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/led_school_part_201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=led_school_part_&release=v4.0&version=v01&part=3",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/led_school_part_301.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=led_school_part_&release=v4.0&version=v01&part=4",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/led_school_part_401.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=led_school_part_&release=v4.0&version=v01&part=5",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/led_school_part_501.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=lmtp&release=v4.0&version=v01&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/lmtp201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=macv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/macv01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=medsy&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/medsy01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=midaparc&release=v4.0&version=v03",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/midaparc03.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=midaparcp&release=v4.0&version=v03&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/midaparcp203.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=midr2bwp&release=v4.0&version=v02&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/midr2bwp102.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=midr2bwp&release=v4.0&version=v02&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/midr2bwp202.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mribrec&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mribrec02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mriqcrp&release=v4.0&version=v03&part=1",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mriqcrp103.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mriqcrp&release=v4.0&version=v03&part=2",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mriqcrp203.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mriqcrp&release=v4.0&version=v02&part=3",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mriqcrp302.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrirscor&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrirscor02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisst&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisst02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisstr1bw&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisstr1bw01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisstr1sem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisstr1sem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisstr2bw&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisstr2bw01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisstr2bwsem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisstr2bwsem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=mrisstsem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/mrisstsem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=multigrp_ethnic_id_meim&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/multigrp_ethnic_id_meim01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nback_bwroi&release=v4.0&version=v02",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nback_bwroi02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nbackallsem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nbackallsem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nbackr1&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nbackr101.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nbackr1sem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nbackr1sem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nbackr2&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nbackr201.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=nbackr2sem&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/nbackr2sem01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=neglectful_behavior&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/neglectful_behavior01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=neurocog_youth_session&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/neurocog_youth_session01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=obs_compulsive_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/obs_compulsive_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=opp_defiant_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/opp_defiant_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pabcdcovid19questionnaire&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pabcdcovid19questionnaire01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pacc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pacc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=panic_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/panic_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pasr&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pasr01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pdem02.csv&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pdem02.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=perceived_stress_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/perceived_stress_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pet_ownership&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pet_ownership01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=plus&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/plus01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pmq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pmq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=pps&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/pps01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=prq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/prq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=psb&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/psb01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=psychosis_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/psychosis_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=recog_memory_trial_level&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/recog_memory_trial_level01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=screentime_psq_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/screentime_psq_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=separation_anxiety_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/separation_anxiety_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=sleep_problems&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/sleep_problems01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=sleep_problems_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/sleep_problems_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=smarte_sumscores&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/smarte_sumscores01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=smarte_trial_level_behav&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/smarte_trial_level_behav01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_alabama&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_alabama01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_alabama_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_alabama_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_diff_emo_reg&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_diff_emo_reg01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_diff_emo_reg_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_diff_emo_reg_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_feedback&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_feedback01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_feedback_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_feedback_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_firearms&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_firearms01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_firearms_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_firearms_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_neighbor_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_neighbor_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_peer_behav&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_peer_behav01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_personality&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_personality01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_personality_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_personality_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_rep_delinq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_rep_delinq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_rep_delinq_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_rep_delinq_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_victimize&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_victimize01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_victimize_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_victimize_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=soc_dev_fu_visit_type&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/soc_dev_fu_visit_type01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=social_anxiety_disorder&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/social_anxiety_disorder01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=social_anxiety_disorder_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/social_anxiety_disorder_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=specific_phobia_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/specific_phobia_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=sph&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/sph01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=sports_activ_read_music&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/sports_activ_read_music01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=sports_activ_read_music_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/sports_activ_read_music_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=srpf&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/srpf01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=stq&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/stq01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=suicidality&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/suicidality01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=suicidality_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/suicidality_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=tic_disorders_p&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/tic_disorders_p01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=vancouver_identity_accult&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/vancouver_identity_accult01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=yacc&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/yacc01.csv"
+    },
+    {
+        "uri": "redcap://ABCD?instrument=yalcs&release=v4.0&version=v01",
+        "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/yalcs01.csv"
+    }
+]
