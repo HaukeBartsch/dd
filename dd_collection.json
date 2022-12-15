@@ -320,47 +320,47 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midasemdp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midasemdp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemdp202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midasemp102.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midasemp&release=v4.0&version=v02&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemp102.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midasemp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midasemp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midasemp202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr1bwdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr1bwdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr1bwdp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr1bwdp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwdp202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr1bwp102.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr1bwp&release=v4.0&version=v02&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwp102.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr1bwp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr1bwp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr1bwp202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr2semp102.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr2semp&release=v4.0&version=v02&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr2semp102.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midr2semp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midr2semp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midr2semp202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midsemp102.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midsemp&release=v4.0&version=v02&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midsemp102.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_midsemp202.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_midsemp&release=v4.0&version=v02&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_midsemp202.csv"
     },
     {
@@ -540,7 +540,7 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_saag01.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_saiq&release=v4.0&version=v03",
+        "uri": "nda://ABCD?instrument=abcd_saiq&release=v4.0&version=v02",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_saiq02.csv"
     },
     {
@@ -548,7 +548,7 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_screen01.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_screen&release=v4.0&version=v03",
+        "uri": "nda://ABCD?instrument=abcd_screen&release=v4.0&version=v02",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_screen02.csv"
     },
     {
@@ -572,7 +572,7 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_smrip202.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_smrip302.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_smrip&release=v4.0&version=v02&part=3",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_smrip302.csv"
     },
     {
@@ -680,7 +680,7 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sss01.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_sst02.csv&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_sst&release=v4.0&version=v02",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_sst02.csv"
     },
     {
@@ -716,51 +716,51 @@
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tbss01.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfabwdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfabwdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfabwdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfabwdp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfabwdp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfabwdp201.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr1semdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr1semdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr1semdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr1semdp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr1semdp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr1semdp201.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr2bwdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr2bwdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2bwdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr2bwdp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr2bwdp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2bwdp201.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr2dp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr2dp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2dp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfnbr2dp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfnbr2dp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfnbr2dp201.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfncr1bwdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfncr1bwdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfncr1bwdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfncr1bwdp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfncr1bwdp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfncr1bwdp201.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfsstabwdp1&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfsstabwdp&release=v4.0&version=v01&part=1",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstabwdp101.csv"
     },
     {
-        "uri": "nda://ABCD?instrument=abcd_tfsstabwdp2&release=v4.0&version=v01",
+        "uri": "nda://ABCD?instrument=abcd_tfsstabwdp&release=v4.0&version=v01&part=2",
         "url": "https://raw.githubusercontent.com/HaukeBartsch/dd/main/abcd-4.0-data-dictionaries/abcd_tfsstabwdp201.csv"
     },
     {
