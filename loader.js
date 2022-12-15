@@ -85,9 +85,16 @@ function downloadCollection(req, url) {
                     // lets download this resource's URL (use the parser from the uri)
                     var url = contentParsed[i].url;
                     var uri = contentParsed[i].uri;
-                    var parser = parseAsREDCapInstrument;
+                    s = parseURI(uri);
+                    var parser = parseAsNDAInstrument;
+                    if (s.protocol == "nda:") {
+                        parser = parseAsNDAInstrument;
+                    } else {
+                        console.log("Error: unknown parser based on uri entry: " + s.protocol + " (could be \"nda\")");
+                        continue;
+                    }
                     downloadAndParse(req, url, uri, parser);
-                    // check if the uri first part is "redcap" - use the above reader function
+                    // check if the uri first part is "nda" - use the above reader function
                     console.log("download " + url + " with resource: " + uri);
                 }
             });
@@ -98,7 +105,7 @@ function downloadCollection(req, url) {
 function parseURI(str) {
     // couple of things in here, project name
     var s = {
-        protocol: "redcap",
+        protocol: "nda:",
         project: "",
         project_version: "",
         instrument: "",
@@ -181,7 +188,7 @@ function downloadAndParse(req, url, uri, parser) {
 }
 
 // returns the str as a REDCap instrument structure for db (list of instruments and items)
-function parseAsREDCapInstrument(str) {
+function parseAsNDAInstrument(str) {
     return new Promise((resolve, reject) => {
         const parser = parse({
             delimiter: ','

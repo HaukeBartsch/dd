@@ -51,11 +51,24 @@ var projects = [];
 var instruments = [];
 var fields = [];
 
+
+/**
+ * This function checks for duplicates in fields, instruments and projects. What is considered a duplicate depends on the 
+ * type of field. This function specifically does not test using the 'id' field. It is safe to create a new id first before
+ * calling this test.
+ * @param {object} entry to test
+ * @param {string} what either "field", "instrument", or "project"
+ * @returns {bool} true if the entry does not yet exist in fields, instruments, projects
+ */
 function checkForDuplicates(entry, what) {
     if (what == "field") {
         // check if the field name with the instrument and project and version is unique
     } else if (what == "instrument") {
-
+        for (var i = 0; i < projects.length; i++) {
+            if (entry["Instrument Title"] == instruments[i]["Instrument Title"]) {
+                return false;
+            }
+        }
     } else if (what == "project") {
         for (var i = 0; i < projects.length; i++) {
             if (entry.name == projects[i].name)
@@ -118,7 +131,7 @@ function addToDatabase(options) {
                 }
                 id++;  // make the new ID one larger
                 var entry = options[1][j].project; // add this to the field in the database.. what about the keys?
-                var newProject = { ...instrument };
+                var newProject = { ...project };
                 newProject.id = id;
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
@@ -150,10 +163,10 @@ function addToDatabase(options) {
     for (var i = 1; i < options[1].length; i++) { // ignore the first row, its the header
         // should we sanitize the fields?
         var entry = { ...options[1][i] };
-        var inst = instrument;
+        var inst = { ...instrument };
         var instKeys = Object.keys(mapToColumn);
         for (var j = 0; j < instKeys.length; j++) {
-            if (mapToColumn[instKeys[j]] != "") {
+            if (typeof mapToColumn[instKeys[j]] != 'undefined') {
                 inst[instKeys[j]] = entry[mapToColumn[instKeys[j]]];
             }
         }
@@ -175,7 +188,7 @@ parentPort.on('message', function (a) {
     var func = a[0];
     var options = a[1];
 
-    console.log("Worker db got a message: " + JSON.stringify(func));
+    //console.log("Worker db got a message: " + JSON.stringify(func));
 
 
     if (func == "announce") {

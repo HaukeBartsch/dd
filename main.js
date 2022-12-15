@@ -89,7 +89,7 @@ app.whenReady().then(() => {
   // initial loader
   loader = new Worker(path.resolve(__dirname, 'loader.js'));
   loader.on('message', function (msg) {
-    console.log("got a message: " + JSON.stringify(msg));
+    //console.log("got a message: " + JSON.stringify(msg));
     // for loadDatabase we will have
     if (msg[0] == "loadDefaults") {
       // we should send all of these to the database db, they should have enough context to be readable
@@ -105,10 +105,10 @@ app.whenReady().then(() => {
   db = new Worker(path.resolve(__dirname, 'db.js'));
   db.on('message', function (msg) {
     //mainWindow.webContents.send('message', { 'Message received from db': JSON.stringify(msg) });
-    console.log("Receive a message from the db");
+    //console.log("Receive a message from the db");
     // if we receive an update message we should check if the user interface needs to be updated
     if (msg[0] == "update") {
-      console.log("there have been some update on the database, update the user interface now");
+      //console.log("there have been some update on the database, update the user interface now");
       update();
     } else if (msg[0] == "stats") {
       // update these fields in the renderer
