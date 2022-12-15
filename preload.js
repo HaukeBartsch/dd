@@ -17,7 +17,11 @@ ipcRenderer.on('message', function (evt, message) {
 });
 
 ipcRenderer.on('stats', function (evt, message) {
-  console.log("update the stats on the page");
-  alert(JSON.stringify(message));
-  //ipcRenderer.invoke('stats');
+  console.log("update the stats on the page: " + JSON.stringify(message));
+  //alert(JSON.stringify(message));
+
+  const information = document.getElementById('stats-text');
+  information.innerHTML = "<button class='btn btn-info'>instruments " + message["instruments"] + "</button>"
+    + "<button class='btn btn-info'>projects: " + message["projects"] + "</button>"
+    + "<button class='btn btn-info'>fields: " + message["fields"] + "</button>";
 });

@@ -58,7 +58,7 @@ function createWindow() {
   })
 
   ipcMain.handle('stats', function (stats) {
-    console.log("got soem stats: " + JSON.stringify(stats));
+    console.log("got some stats: " + JSON.stringify(stats));
   });
 
   return mainWindow;
@@ -86,22 +86,25 @@ app.whenReady().then(() => {
     mainWindow.webContents.send('message', { 'BBLA': 'me me me' });
   }, 1000);
 
-  // load the initial loader
+  // initial loader
   loader = new Worker(path.resolve(__dirname, 'loader.js'));
   loader.on('message', function (msg) {
     console.log("got a message: " + JSON.stringify(msg));
     // for loadDatabase we will have
     if (msg[0] == "loadDefaults") {
-      // we should send all of these to the database db
+      // we should send all of these to the database db, they should have enough context to be readable
+      // we could check if there is really something to do here before we send this message - sometimes msg[1] is an empty array
       db.postMessage(["announce", msg]);
     } else {
       console.log("Error: unknown message coming to main from loader: " + JSON.stringify(msg[0]));
+      msg[0] += " (unknown type)";
+      mainWindow.webContents.send('message', msg);
     }
   })
 
   db = new Worker(path.resolve(__dirname, 'db.js'));
   db.on('message', function (msg) {
-    mainWindow.webContents.send('message', { 'Message received from db': JSON.stringify(msg) });
+    //mainWindow.webContents.send('message', { 'Message received from db': JSON.stringify(msg) });
     console.log("Receive a message from the db");
     // if we receive an update message we should check if the user interface needs to be updated
     if (msg[0] == "update") {
@@ -111,12 +114,13 @@ app.whenReady().then(() => {
       // update these fields in the renderer
       mainWindow.webContents.send('stats', msg[1]);
     } else {
-      mainWindow.webContents.send('message', { "Error, unknown msg received (should be stats or update": msg[0] });
+      mainWindow.webContents.send('message', { "Error, unknown msg received (should be stats or update)": msg[0] });
     }
   });
 
-  // trigger a load of the basic data dictionaries
+  // trigger a load of the basic data dictionaries (will add them to db)
   loader.postMessage(["loadDefaults", { "description": "initial request to load list of data dictionaries" }]);
+  update();
 })
 
 function update() {
