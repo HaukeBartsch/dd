@@ -51,6 +51,10 @@ var projects = [];
 var instruments = [];
 var fields = [];
 
+// we just increment this id if we need one
+var lastIDprojects = -1;
+var lastIDinstruments = -1;
+var lastIDfields = -1;
 
 /**
  * This function checks for duplicates in fields, instruments and projects. What is considered a duplicate depends on the 
@@ -79,6 +83,49 @@ function checkForDuplicates(entry, what) {
     return true;
 }
 
+/**
+ * This function returns a new ID for fields, instruments and projects. 
+ * The function uses a global object to cache the largest ID.
+ * @param {string} what either "fields", "instruments", or "projects"
+ * @returns {number} next free id (one larger than previous ids)
+ */
+function getNewID(what) {
+    if (what == "fields") {
+        if (lastIDfields == -1) {
+            var id = -1; // optimize this if we have more than one field in the list
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].id > id)
+                    id = fields[i].id;
+            }
+            lastIDfields = id;
+        }
+        return ++lastIDfields;
+    } else if (what == "projects") {
+        if (lastIDprojects == -1) {
+            var id = -1; // optimize this if we have more than one field in the list
+            for (var i = 0; i < projects.length; i++) {
+                if (projects[i].id > id)
+                    id = projects[i].id;
+            }
+            lastIDprojects = id;
+        }
+        return ++lastIDprojects;
+    } else if (what == "instruments") {
+        if (lastIDinstruments == -1) {
+            var id = -1; // optimize this if we have more than one field in the list
+            for (var i = 0; i < instruments.length; i++) {
+                if (instruments[i].id > id)
+                    id = instruments[i].id;
+            }
+            lastIDinstruments = id;
+        }
+        return ++lastIDinstruments;
+    } else {
+        console.log("Error: unknown ID type requested (fields, projects, instruments): " + what);
+    }
+    return -1;
+}
+
 function addToDatabase(options) {
     //console.log("got an announce to add to database! with key: " + JSON.stringify(options[0]));
 
@@ -88,13 +135,8 @@ function addToDatabase(options) {
         for (var j = 0; j < options[1].length; j++) {
             if (typeof options[1][j].field != "undefined") {
                 // assign to new field id
-                // what is the last id we can use?
-                var id = -1; // optimize this if we have more than one field in the list
-                for (var i = 0; i < fields.length; i++) {
-                    if (fields[i].id > id)
-                        id = fields[i].id;
-                }
-                id++;  // make the new ID one larger
+                // what is the last id we can use? (should do this only once)
+                var id = getNewID("fields");
                 // the field values are in:
                 var entry = options[1][j].field; // add this to the field in the database.. what about the keys?
                 //console.log(entry);
@@ -108,12 +150,7 @@ function addToDatabase(options) {
                     fields.push(newField);
             } else if (typeof options[1][j].instrument != "undefined") {
                 // append an entry to the instrument list
-                var id = -1;
-                for (var i = 0; i < instruments.length; i++) {
-                    if (instruments[i].id > id)
-                        id = instruments[i].id;
-                }
-                id++;  // make the new ID one larger
+                var id = getNewID("instruments");
                 var entry = options[1][j].instrument; // add this to the field in the database.. what about the keys?
                 var newInstrument = { ...instrument };
                 newInstrument.id = id;
@@ -124,12 +161,7 @@ function addToDatabase(options) {
             } else if (typeof options[1][j].project != "undefined") {
                 // append an entry to the project list
                 // append an entry to the instrument list
-                var id = -1;
-                for (var i = 0; i < projects.length; i++) {
-                    if (projects[i].id > id)
-                        id = projects[i].id;
-                }
-                id++;  // make the new ID one larger
+                var id = getNewID("projects");
                 var entry = options[1][j].project; // add this to the field in the database.. what about the keys?
                 var newProject = { ...project };
                 newProject.id = id;
@@ -178,6 +210,11 @@ function addToDatabase(options) {
 function search(options) {
     // full text search support
     console.log("Search found: " + JSON.stringify(options));
+
+    // unqualified search
+    if (typeof options == "string") {
+        // we assume that string is a regular expression
+    }
 
     // here we need to respond with some JSON as a result
     var result = [instruments[0]];
