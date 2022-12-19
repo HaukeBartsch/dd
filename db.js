@@ -146,8 +146,10 @@ function addToDatabase(options) {
                 newField.field_type = entry.DataType;
                 newField.field_label = entry.ElementDescription;
                 newField.form_name = entry.FormName;
-                if (checkForDuplicates(newField, "field"))
+                if (checkForDuplicates(newField, "field")) {
+                    newField.longDesc = JSON.stringify(newField);
                     fields.push(newField);
+                }
             } else if (typeof options[1][j].instrument != "undefined") {
                 // append an entry to the instrument list
                 var id = getNewID("instruments");
@@ -156,8 +158,10 @@ function addToDatabase(options) {
                 newInstrument.id = id;
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
-                if (checkForDuplicates(newInstrument, "instrument"))
+                if (checkForDuplicates(newInstrument, "instrument")) {
+                    newInstrument.longDesc = JSON.stringify(newInstrument);
                     instruments.push(newInstrument);
+                }
             } else if (typeof options[1][j].project != "undefined") {
                 // append an entry to the project list
                 // append an entry to the instrument list
@@ -167,8 +171,10 @@ function addToDatabase(options) {
                 newProject.id = id;
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
-                if (checkForDuplicates(newProject, "project"))
+                if (checkForDuplicates(newProject, "project")) {
+                    newProject.longDesc = JSON.stringify(newProject);
                     projects.push(newProject);
+                }
             }
         }
         return;
@@ -203,7 +209,10 @@ function addToDatabase(options) {
             }
         }
         inst.id = id++;
-        instruments.push(inst);
+        if (checkForDuplicates(inst, "instrument")) {
+            inst.longDesc = JSON.stringify(inst);
+            instruments.push(inst);
+        }
     }
 }
 
@@ -214,6 +223,35 @@ function search(options) {
     // unqualified search
     if (typeof options == "string") {
         // we assume that string is a regular expression
+        var regexp = new RegExp(options, 'i');
+        var resultsF = [];
+        for (var i = 0; i < fields.length; i++) {
+            if (resultsF.length > 100)
+                break;
+            if (fields[i].longDesc.match(regexp).length > 0) {
+                // push a copy
+                resultsF.push(Object.assign({}, fields[i]))
+            }
+        }
+        var resultsI = [];
+        for (var i = 0; i < instruments.length; i++) {
+            if (resultsI.length > 100)
+                break;
+            if (instruments[i].longDesc.match(regexp).length > 0) {
+                // push a copy
+                resultsI.push(Object.assign({}, instruments[i]))
+            }
+        }
+        var resultsP = [];
+        for (var i = 0; i < projects.length; i++) {
+            if (resultsP.length > 100)
+                break;
+            if (projects[i].longDesc.match(regexp).length > 0) {
+                // push a copy
+                resultsP.push(Object.assign({}, projects[i]))
+            }
+        }
+        return [...resultsF, ...resultsI, ...resultsP]
     }
 
     // here we need to respond with some JSON as a result
@@ -227,14 +265,14 @@ parentPort.on('message', function (a) {
 
     //console.log("Worker db got a message: " + JSON.stringify(func));
 
-
     if (func == "announce") {
         if (options[0] == "loadDefaults" && options[1].length > 0) {
             addToDatabase(options); // the first field in here will be "loadDatabase" the second the list of found rows
             parentPort.postMessage(["update", {}]);
         }
     } else if (func == "search") {
-        search(options);
+        results = search(options);
+        parentPort.postMessage(["search", results]);
     } else if (func == "stats") {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length }]);

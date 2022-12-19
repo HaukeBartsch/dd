@@ -19,6 +19,11 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
     document.getElementById('theme-source').innerHTML = 'System'
 })
 
+document.getElementById('search').addEventListener("keyup", function (e) {
+    //ipcRenderer.send('search', e.target.value);
+    window.search.string(e.target.value);
+});
+
 window.onresize = function() {
     document.getElementsByClassName('middle')[0].style.height = (window.innerHeight-50) + "px";
 }

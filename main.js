@@ -61,13 +61,27 @@ function createWindow() {
     console.log("got some stats: " + JSON.stringify(stats));
   });
 
+//  ipcMain.handle('search:string', function (searchString) {
+//    // start a search action on db
+//    console.log("in main.js, receive a search request for a string")
+//    db.postMessage(["search", searchString]);
+//  });
+
   return mainWindow;
 }
 
 app.whenReady().then(() => {
   //ipcMain.on('set-title', handleSetTitle)
-  ipcMain.removeHandler('dialog:openFile'); // in case window gets opened again
-  ipcMain.handle('dialog:openFile', handleFileOpen);
+  //ipcMain.removeHandler('dialog:openFile'); // in case window gets opened again
+  //ipcMain.handle('dialog:openFile', handleFileOpen);
+
+  ipcMain.removeHandler('search:string');
+  ipcMain.handle('search:string', function (ev, searchString) {
+    console.log("HI");
+    mainWindow.webContents.send('message', { "Info": "search message in main.js on way to db" });
+    db.postMessage(["search", searchString]);
+  });
+
   mainWindow = createWindow();
 
   app.on('window-all-closed', function () {
@@ -100,7 +114,7 @@ app.whenReady().then(() => {
       msg[0] += " (unknown type)";
       mainWindow.webContents.send('message', msg);
     }
-  })
+  });
 
   db = new Worker(path.resolve(__dirname, 'db.js'));
   db.on('message', function (msg) {
@@ -110,6 +124,10 @@ app.whenReady().then(() => {
     if (msg[0] == "update") {
       //console.log("there have been some update on the database, update the user interface now");
       update();
+    } else if (msg[0] == "search") {
+      // got  a search result back from db
+      console.log("search results returned : " + msg[1].length);
+      mainWindow.webContents.send('search', msg[1]);
     } else if (msg[0] == "stats") {
       // update these fields in the renderer
       mainWindow.webContents.send('stats', msg[1]);
