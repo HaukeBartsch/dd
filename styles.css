@@ -7,9 +7,9 @@
     }    
     
     .row-list .row-bar {
-        background: rgb(2,0,36);
-        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 19%, rgba(87,87,87,1) 100%);
-        border-bottom: 1px solid darkgray;
+        border-bottom: 0px solid darkgray;
+            text-transform: uppercase;
+            letter-spacing: .2em;
     }
     
     .p-muted {
@@ -21,6 +21,18 @@
     }
         .middle-scroll {
             background: linear-gradient(180deg, rgba(179, 179, 179, 1) 0%, rgba(70, 70, 70, 1) 25%, rgba(27, 27, 27, 1) 100%);
+        }
+        .box {
+            border: 0px solid white;
+            background: rgba(20, 20, 20, 1);
+        }
+    
+        .box div.title {
+            color: white;
+        }
+    
+        .box div.description {
+            color: white;
         }
 }
 
@@ -48,17 +60,29 @@
         .middle-scroll {
             background: "white";
         }
+        .box {
+            border: 0px solid white;
+            background-color: rgba(240, 240, 240, 1);
         }
     
-        .slider {
-            width: 2000px;
-            height: 100%;
+        .box div.title {
+            color: black;
         }
     
-        .slide-right {
-            overflow-x: scroll;
-            overflow-y: hidden;
-            height: 270px;
+        .box div.description {
+            color: black;
+        }
+}
+
+.slider {
+    min-width: 2000px;
+        height: 100%;
+    }
+    
+    .slide-right {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height: 270px;
 }
 
 * {
@@ -163,7 +187,7 @@ body {
 @media screen and (max-width: 600px) {
     .header a, .header input[type=text] {
         float: none;
-            display: block;
+        display: block;
             text-align: left;
             width: 100%;
             margin: 0;
@@ -218,4 +242,78 @@ html {
 
 .p-muted {
     font-size: 9px;
+}
+.box {
+    width: 180px;
+    height: 240px;
+    margin-right: 5px;
+    border-radius: 4px;
+    padding: 5px;
+    overflow: hidden;
+    animation: fadeIn 0.5s;
+}
+
+.box div.title {
+    font-size: 1em;
+    overflow: hidden;
+}
+
+.box div.description {
+    font-size: 0.5em;
+}
+
+.slider {
+    display: inline-flex;
+    padding: 5px;
+    padding-bottom: 0px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

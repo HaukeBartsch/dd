@@ -126,8 +126,15 @@ function getNewID(what) {
     return -1;
 }
 
+var haveSomethingDone = false;
+
 function addToDatabase(options) {
     //console.log("got an announce to add to database! with key: " + JSON.stringify(options[0]));
+
+    if (!haveSomethingDone && (fields.length > 100 || instruments.length > 100 || projects.length > 100)) {
+        haveSomethingDone = true;
+        parentPort.postMessage(["haveSomething", {}]);
+    }
 
     if (options[0] == "loadDefaults" && options[1].length > 0 && (typeof options[1][0].field != "undefined" || typeof options[1][0].instrument != "undefined" || typeof options[1][0].project != "undefined")) {
         // read this as a field or instrument or project
@@ -218,7 +225,8 @@ function addToDatabase(options) {
 
 function search(options) {
     // full text search support
-    console.log("Search found: " + JSON.stringify(options));
+    //console.log("Search found: " + JSON.stringify(options));
+    // we should mark our search results by type and by search
 
     // unqualified search
     if (typeof options == "string") {
@@ -228,27 +236,33 @@ function search(options) {
         for (var i = 0; i < fields.length; i++) {
             if (resultsF.length > 100)
                 break;
-            if (fields[i].longDesc.match(regexp).length > 0) {
+            var m = fields[i].longDesc.match(regexp);
+            if (m != null && m.length > 0) {
                 // push a copy
-                resultsF.push(Object.assign({}, fields[i]))
+                var ne = Object.assign({}, fields[i]);
+                resultsF.push([options, { field: ne }]);
             }
         }
         var resultsI = [];
         for (var i = 0; i < instruments.length; i++) {
             if (resultsI.length > 100)
                 break;
-            if (instruments[i].longDesc.match(regexp).length > 0) {
+            var m = instruments[i].longDesc.match(regexp);
+            if (m != null && m.length > 0) {
                 // push a copy
-                resultsI.push(Object.assign({}, instruments[i]))
+                var ne = Object.assign({}, instruments[i]);
+                resultsI.push([options, { instrument: ne }]);
             }
         }
         var resultsP = [];
         for (var i = 0; i < projects.length; i++) {
             if (resultsP.length > 100)
                 break;
-            if (projects[i].longDesc.match(regexp).length > 0) {
+            var m = projects[i].longDesc.match(regexp);
+            if (m != null && m.length > 0) {
                 // push a copy
-                resultsP.push(Object.assign({}, projects[i]))
+                var ne = Object.assign({}, projects[i]);
+                resultsP.push([options, { project: ne }]);
             }
         }
         return [...resultsF, ...resultsI, ...resultsP]
@@ -273,6 +287,9 @@ parentPort.on('message', function (a) {
     } else if (func == "search") {
         results = search(options);
         parentPort.postMessage(["search", results]);
+    } else if (func == "searchRandom") {
+        results = searchRandom();
+        parentPort.postMessage(["search", results]);
     } else if (func == "stats") {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length }]);
@@ -285,3 +302,45 @@ parentPort.on('message', function (a) {
     //console.log('Posting message back to main script');
     //postMessage(workerResult);
 });
+
+function searchRandom() {
+    var results = [];
+
+    var resultsF = [];
+    // randomize order
+    var order = [...Array(fields.length).keys()];
+    var shuffled = order.sort((a, b) => 0.5 - Math.random());
+    for (var i = 0; i < shuffled.length; i++) {
+        if (resultsF.length > 100)
+            break;
+        // push a copy
+        var ne = Object.assign({}, fields[shuffled[i]]);
+        resultsF.push(["search", { field: ne }]);
+    }
+
+    var resultsI = [];
+    // randomize order
+    var order = [...Array(instruments.length).keys()];
+    var shuffled = order.sort((a, b) => 0.5 - Math.random());
+    for (var i = 0; i < shuffled.length; i++) {
+        if (resultsI.length > 100)
+            break;
+        // push a copy
+        var ne = Object.assign({}, instruments[shuffled[i]]);
+        resultsI.push(["search", { instrument: ne }]);
+    }
+
+    var resultsP = [];
+    // randomize order
+    var order = [...Array(projects.length).keys()];
+    var shuffled = order.sort((a, b) => 0.5 - Math.random());
+    for (var i = 0; i < shuffled.length; i++) {
+        if (resultsP.length > 100)
+            break;
+        // push a copy
+        var ne = Object.assign({}, projects[shuffled[i]]);
+        resultsP.push(["search", { project: ne }]);
+    }
+
+    return [...resultsF, ...resultsI, ...resultsP];
+}

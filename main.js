@@ -77,8 +77,8 @@ app.whenReady().then(() => {
 
   ipcMain.removeHandler('search:string');
   ipcMain.handle('search:string', function (ev, searchString) {
-    console.log("HI");
-    mainWindow.webContents.send('message', { "Info": "search message in main.js on way to db" });
+    //console.log("HI");
+    //mainWindow.webContents.send('message', { "Info": "search message in main.js on way to db" });
     db.postMessage(["search", searchString]);
   });
 
@@ -96,9 +96,9 @@ app.whenReady().then(() => {
   }
 
   // test if we can send a message to the main process
-  setTimeout(function () {
-    mainWindow.webContents.send('message', { 'BBLA': 'me me me' });
-  }, 1000);
+  //setTimeout(function () {
+  //  mainWindow.webContents.send('message', { 'BBLA': 'me me me' });
+  //}, 1000);
 
   // initial loader
   loader = new Worker(path.resolve(__dirname, 'loader.js'));
@@ -126,11 +126,18 @@ app.whenReady().then(() => {
       update();
     } else if (msg[0] == "search") {
       // got  a search result back from db
-      console.log("search results returned : " + msg[1].length);
-      mainWindow.webContents.send('search', msg[1]);
+      //console.log("search results returned : " + msg[1].length);
+      if (typeof msg[1] == "string" && msg[1] == "") {
+        // instead of a normal search, search random
+        db.postMessage(["searchRandom", "*"]);
+      } else {
+        mainWindow.webContents.send('search', msg[1]);
+      }
     } else if (msg[0] == "stats") {
       // update these fields in the renderer
       mainWindow.webContents.send('stats', msg[1]);
+    } else if (msg[0] == "haveSomething") { // as soon as we have some values, do a random list of results, need to do the same if search field is empty
+      db.postMessage(["searchRandom", "*"]);
     } else {
       mainWindow.webContents.send('message', { "Error, unknown msg received (should be stats or update)": msg[0] });
     }

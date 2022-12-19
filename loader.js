@@ -5,7 +5,7 @@ const { parse } = require("csv-parse");
 
 parentPort.on('message', function (a) {
     if (a[0] == "loadDefaults") {
-        parentPort.postMessage(["msg", "start loading defaults in loader"]);
+        //parentPort.postMessage(["msg", "start loading defaults in loader"]);
         downloadCollection(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/dd_collection.json");
         downloadREDCapListFromREDCapLoc(a[0]);
     }
