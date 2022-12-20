@@ -11,9 +11,68 @@ parentPort.on('message', function (a) {
         downloadREDCapListFromREDCapLoc(a[0]);
         downloadHUNT(a[0]);
         downloadHUNTVariables(a[0]);
+        downloadHelseData(a[0]);
     }
     //parentPort.postMessage(["PPPP", a]);
 })
+
+function downloadHelseData(req, page) {
+    if (typeof page == "undefined") {
+        page = 1;
+    }
+    var url = "https://helsedata.no/api/1.0/variable/FullSearch?q=gender&page=1&sort=0";
+    url = "https://helsedata.no/api/1.0/variable/FullSearch?q=&page=" + page + "&sort=0"; // this will get us 100 entries, we should page more
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("helseData_variables", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        //console.log("In downloadHelseData... ");
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                // what is the string in this stream?
+                // read the data from the file again
+
+                const content = fs.readFileSync(fname);
+                contentJSON = JSON.parse(content);
+                //console.log("hi there");
+                var data = contentJSON.payload.result;
+                var results = [];
+                for (var i = 0; i < data.length; i++) {
+                    var entry = data[i];
+                    results.push({
+                        "field": {
+                            "ElementName": entry.code,
+                            "DataType": entry.dataType,
+                            "Instrument Part": entry.code,
+                            "ElementDescription": typeof entry.descriptionEnglish != 'undefined' ? entry.descriptionEnglish : entry.description,
+                            "FormName": "helsedata://helsedata.no?instrument=" + entry.parentRegisterName.toLowerCase().replace(/ /g, "_"),
+                            "fields": "helsedata://helsedata.no?instrument=" + entry.parentRegisterName.toLowerCase().replace(/ /g, "_")
+                        }
+                    });
+                }
+                parentPort.postMessage([req, results]);
+                if (results.length > 0) {
+                    // request another page
+                    setTimeout(function () {
+                        downloadHelseData(req, ++page);
+                    }, 10);
+                }
+            });
+        });
+    });
+
+}
 
 function downloadHUNT(req) {
 
@@ -341,7 +400,7 @@ function downloadAndParse(req, url, uri, parser) {
         var fname = info.path;
 
         const file = fs.createWriteStream(fname);
-        console.log("In downloadAndParse for a single instrument... " + uri);
+        //console.log("In downloadAndParse for a single instrument... " + uri);
         https.get(url, response => {
             var stream = response.pipe(file);
 

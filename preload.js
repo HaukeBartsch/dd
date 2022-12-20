@@ -23,15 +23,21 @@ ipcRenderer.on('message', function (evt, message) {
   alert(JSON.stringify(message));
 });
 
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
 // receive a message from the main process
 ipcRenderer.on('stats', function (evt, message) {
   //console.log("update the stats on the page: " + JSON.stringify(message));
   //alert(JSON.stringify(message));
 
-  const information = document.getElementById('stats-text');
-  information.innerHTML = "<button class='btn btn-info'>instruments " + message["instruments"] + "</button>"
-    + "<button class='btn btn-info'>projects: " + message["projects"] + "</button>"
-    + "<button class='btn btn-info'>fields: " + message["fields"] + "</button>";
+  const information = document.getElementById('stats-text'); 
+  information.innerHTML = "<button class='btn btn-info'>instruments " + numberWithCommas(message["instruments"]) + "</button>"
+    + "<button class='btn btn-info'>projects: " + numberWithCommas(message["projects"]) + "</button>"
+    + "<button class='btn btn-info'>fields: " + numberWithCommas(message["fields"]) + "</button>";
 });
 
 // receive a message from the main process with a finished search

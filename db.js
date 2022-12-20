@@ -242,7 +242,7 @@ function search(options) {
         var regexp = new RegExp(options, 'i');
         var resultsF = [];
         for (var i = 0; i < fields.length; i++) {
-            if (resultsF.length > 100)
+            if (resultsF.length > 200)
                 break;
             var m = fields[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -253,7 +253,7 @@ function search(options) {
         }
         var resultsI = [];
         for (var i = 0; i < instruments.length; i++) {
-            if (resultsI.length > 100)
+            if (resultsI.length > 200)
                 break;
             var m = instruments[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -264,7 +264,7 @@ function search(options) {
         }
         var resultsP = [];
         for (var i = 0; i < projects.length; i++) {
-            if (resultsP.length > 100)
+            if (resultsP.length > 200)
                 break;
             var m = projects[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
