@@ -1,6 +1,6 @@
 # dd - Data Dictionaries
 
-A data dictionary describes data about data. Many data spreadsheets only contain abbreviations as column headers. A data dictionary is a separate table with each variable as a row described by features like the form they are collected in as context, permissible value ranges, coding information about the meaning of categorical values etc.. The value of a data dictionary is that it provides a machine readable format for describing a data collection.
+A data dictionary describes data collections. Spreadsheets containing data might only contain abbreviations as column headers. A data dictionary is a separate table that describes the column headers of the data table. Each variable as a row lists the form they are collected in, the permissible value range, coding information about the meaning of categorical values and information about visibility during data capture. Data dictionary information is machine readable and can be used to verify a dataset or to generate toy data.
 
 ### Data dictionary discovery
 
@@ -11,4 +11,4 @@ We propose a distributed architecture where data dictionaries locations are repr
 
 In order to provide such discovery information we will host a file in this repository that includes some examples.
 
-<img src="images/interface.jpg" alt="interface logo" width="auto" style="padding: 20px"/>
+<img src="images/interface.jpg" alt="interface" width="auto" style="padding: 20px"/>
