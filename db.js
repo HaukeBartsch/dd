@@ -68,7 +68,7 @@ function checkForDuplicates(entry, what) {
     if (what == "field") {
         // check if the field name with the instrument and project and version is unique
     } else if (what == "instrument") {
-        for (var i = 0; i < projects.length; i++) {
+        for (var i = 0; i < instruments.length; i++) {
             if (entry["Instrument Title"] == instruments[i]["Instrument Title"]) {
                 return false;
             }
@@ -131,7 +131,7 @@ var haveSomethingDone = false;
 function addToDatabase(options) {
     //console.log("got an announce to add to database! with key: " + JSON.stringify(options[0]));
 
-    if (!haveSomethingDone && (fields.length > 100 || instruments.length > 100 || projects.length > 100)) {
+    if (!haveSomethingDone && (fields.length > 0 && instruments.length > 0 && projects.length > 0)) {
         haveSomethingDone = true;
         parentPort.postMessage(["haveSomething", {}]);
     }
@@ -164,6 +164,7 @@ function addToDatabase(options) {
                 var newInstrument = { ...instrument };
                 newInstrument.id = id;
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
+                newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
                 if (checkForDuplicates(newInstrument, "instrument")) {
                     newInstrument.longDesc = JSON.stringify(newInstrument);
@@ -188,6 +189,9 @@ function addToDatabase(options) {
     }
 
     // this should be removed at some point, we need the mechanism above to add fields, instruments and projects
+
+    // this is an instrument list so we need to fill out the fields variable
+    var uri_prefix = "redcap://REDLoc?release=2022&";
 
     // what is the last id we can use?
     var id = -1;
@@ -216,6 +220,10 @@ function addToDatabase(options) {
             }
         }
         inst.id = id++;
+        if (typeof inst["Instrument Title"] != "undefined") {
+            var t = inst["Instrument Title"].replace(/ /g, "_").toLowerCase();
+            inst.fields = uri_prefix + t;
+        }
         if (checkForDuplicates(inst, "instrument")) {
             inst.longDesc = JSON.stringify(inst);
             instruments.push(inst);

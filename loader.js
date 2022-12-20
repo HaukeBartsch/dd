@@ -7,10 +7,209 @@ parentPort.on('message', function (a) {
     if (a[0] == "loadDefaults") {
         //parentPort.postMessage(["msg", "start loading defaults in loader"]);
         downloadCollection(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/dd_collection.json");
+        // maybe we can update the interface after loading each group?
         downloadREDCapListFromREDCapLoc(a[0]);
+        downloadHUNT(a[0]);
+        downloadHUNTVariables(a[0]);
     }
     //parentPort.postMessage(["PPPP", a]);
 })
+
+function downloadHUNT(req) {
+
+    var uri = "hunt://hunt?release=hunt-db.medisin.ntnu.no";
+    // curl 'https://hunt-db.medisin.ntnu.no/hunt-db/graphql' \
+    //-X 'POST' \
+    //-H 'Accept: application/json, text/plain, */* ' \
+    //-H 'Content - Type: application / json' \
+    //-H 'Origin: https://hunt-db.medisin.ntnu.no' \
+    //    -H 'Content-Length: 4502' \
+    //    -H 'Accept-Language: en-US,en;q=0.9' \
+    //    -H 'Host: hunt-db.medisin.ntnu.no' \
+    //    -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15' \
+    //    -H 'Referer: https://hunt-db.medisin.ntnu.no/hunt-db/variablelist' \
+    //    -H 'Accept-Encoding: gzip, deflate, br' \
+    //    -H 'Connection: keep-alive' \
+    //    --data - binary '{"query":"query filtercollectionRefetchQuery(\n  $surveyFilter: [String]\n  $surveyCount: Int\n  $studyFilter: [String]\n  $studyCount: Int\n  $studyPartFilter: [String]\n  $studyPartCount: Int\n  $instrumentFilter: [String]\n  $instrumentCount: Int\n  $variableGroupCount: Int\n  $variableGroupFilter: [String]\n  $variableFilter: [ID]\n  $limitSurveys: Boolean\n  $limitStudies: Boolean\n  $limitStudyParts: Boolean\n  $limitInstruments: Boolean\n  $limitVariableGroups: Boolean\n  $limitVariables: Boolean\n) {\n  ...filtercollection_viewer_3U635X\n}\n\nfragment filtercollection_viewer_3U635X on Viewer {\n  ...surveyfilter_viewer_3bYWbf\n  ...studyfilter_viewer_3trzrc\n  ...studypartfilter_viewer_3s0g7G\n  ...instrumentfilter_viewer_xrv1a\n  ...variablegroupfilter_viewer_m9mCM\n}\n\nfragment instrumentfilter_viewer_xrv1a on Viewer {\n  instruments(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $instrumentCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment studyfilter_viewer_3trzrc on Viewer {\n  studies(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $studyCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment studypartfilter_viewer_3s0g7G on Viewer {\n  studyParts(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $studyPartCount) {\n    edges {\n      enabled\n      node {\n        id\n        name\n        title\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment surveyfilter_viewer_3bYWbf on Viewer {\n  surveys(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $surveyCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment variablegroupfilter_viewer_m9mCM on Viewer {\n  variableGroups(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariables: $limitVariables, first: $variableGroupCount) {\n    edges {\n      enabled\n      node {\n        id\n        name\n        title\n      }\n    }\n  }\n}\n","variables":{"surveyFilter":[],"surveyCount":20,"studyFilter":[],"studyCount":20,"studyPartFilter":[],"studyPartCount":20,"instrumentFilter":[],"instrumentCount":500,"variableGroupCount":20,"variableGroupFilter":[],"variableFilter":null,"limitSurveys":false,"limitStudies":false,"limitStudyParts":false,"limitInstruments":false,"limitVariableGroups":false,"limitVariables":false}}'
+
+    // download the list of instruments first
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("hunt_instruments", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        console.log("In downloadCollection... ");
+        var postData = {
+            "query": "query filtercollectionRefetchQuery(\n  $surveyFilter: [String]\n  $surveyCount: Int\n  $studyFilter: [String]\n  $studyCount: Int\n  $studyPartFilter: [String]\n  $studyPartCount: Int\n  $instrumentFilter: [String]\n  $instrumentCount: Int\n  $variableGroupCount: Int\n  $variableGroupFilter: [String]\n  $variableFilter: [ID]\n  $limitSurveys: Boolean\n  $limitStudies: Boolean\n  $limitStudyParts: Boolean\n  $limitInstruments: Boolean\n  $limitVariableGroups: Boolean\n  $limitVariables: Boolean\n) {\n  ...filtercollection_viewer_3U635X\n}\n\nfragment filtercollection_viewer_3U635X on Viewer {\n  ...surveyfilter_viewer_3bYWbf\n  ...studyfilter_viewer_3trzrc\n  ...studypartfilter_viewer_3s0g7G\n  ...instrumentfilter_viewer_xrv1a\n  ...variablegroupfilter_viewer_m9mCM\n}\n\nfragment instrumentfilter_viewer_xrv1a on Viewer {\n  instruments(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $instrumentCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment studyfilter_viewer_3trzrc on Viewer {\n  studies(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $studyCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment studypartfilter_viewer_3s0g7G on Viewer {\n  studyParts(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $studyPartCount) {\n    edges {\n      enabled\n      node {\n        id\n        name\n        title\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment surveyfilter_viewer_3bYWbf on Viewer {\n  surveys(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariableGroups: $limitVariableGroups, limitVariables: $limitVariables, first: $surveyCount) {\n    edges {\n      enabled\n      node {\n        id\n        title\n        name\n        description\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment variablegroupfilter_viewer_m9mCM on Viewer {\n  variableGroups(surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, variableFilter: $variableFilter, limitSurveys: $limitSurveys, limitStudies: $limitStudies, limitStudyParts: $limitStudyParts, limitInstruments: $limitInstruments, limitVariables: $limitVariables, first: $variableGroupCount) {\n    edges {\n      enabled\n      node {\n        id\n        name\n        title\n      }\n    }\n  }\n}\n",
+            "variables": {
+                "surveyFilter": [],
+                "surveyCount": 20,
+                "studyFilter": [],
+                "studyCount": 200,
+                "studyPartFilter": [],
+                "studyPartCount": 20,
+                "instrumentFilter": [],
+                "instrumentCount": 500,
+                "variableGroupCount": 200,
+                "variableGroupFilter": [],
+                "variableFilter": null,
+                "limitSurveys": false,
+                "limitStudies": false,
+                "limitStudyParts": false,
+                "limitInstruments": false,
+                "limitVariableGroups": false,
+                "limitVariables": false
+            }
+        };
+        var postDataJSON = JSON.stringify(postData);
+        var options = {
+            hostname: "hunt-db.medisin.ntnu.no",
+            port: 443,
+            path: '/hunt-db/graphql',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': postDataJSON.length
+            }
+        };
+
+        var request = https.request(options, (response) => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                var contentParsed = JSON.parse(content.toString());
+                if (contentParsed != null && typeof contentParsed.data != 'undefined') {
+                    var data = contentParsed.data;
+                    var results = [];
+                    // start with the instruments
+                    for (var i = 0; i < data.instruments.edges.length; i++) {
+                        var entry = data.instruments.edges[i].node;
+                        // we have a description, id, name, title and __typename
+                        results.push({
+                            "instrument": {
+                                "Instrument Title": entry.title,
+                                "Instrument Version": entry.id,
+                                "Description": entry.description,
+                                "Instrument Part": entry.id,
+                                "fields": uri + "&instrument=" + entry.name
+                            }
+                        });
+                        // we should have a list of instruments now
+                        // console.log("download " + uri + " with resource: " + uri);
+                    }
+                    // add the studies (make them projects)
+                    for (var i = 0; i < data.studies.edges.length; i++) {
+                        var entry = data.studies.edges[i].node;
+                        results.push({
+                            "project": {
+                                "name": entry.title + " (" + entry.name + ")",
+                                "description": typeof entry.description != "undefined" ? entry.description : "",
+                                "version": "",
+                                "instruments": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no"
+                            }
+                        });
+                    }
+                    parentPort.postMessage([req, results]);
+                }
+            });
+        });
+        request.on('error', (e) => {
+            console.log("error");
+        });
+        request.write(postDataJSON);
+        request.end();
+
+    }); // should cleanup the downloaded file
+}
+
+function downloadHUNTVariables(req) {
+    var uri = "hunt://hunt?release=hunt-db.medisin.ntnu.no";
+
+    // download the list of instruments first
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("hunt_variables", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        console.log("In downloadCollection... ");
+        var postData = {
+            "query": "query variablepaginationQuery(\n  $variableCount: Int!\n  $after: String!\n  $surveyFilter: [String]\n  $studyFilter: [String]\n  $studyPartFilter: [String]\n  $instrumentFilter: [String]\n  $variableGroupFilter: [String]\n  $search: String\n  $orderBy: OrderBy\n  $orderDirection: OrderDirection\n) {\n  ...variablepagination_viewer\n}\n\nfragment variablepagination_viewer on Viewer {\n  variables(first: $variableCount, after: $after, surveyFilter: $surveyFilter, studyFilter: $studyFilter, studyPartFilter: $studyPartFilter, instrumentFilter: $instrumentFilter, variableGroupFilter: $variableGroupFilter, search: $search, orderBy: $orderBy, orderDirection: $orderDirection) {\n    edges {\n      node {\n        __typename\n        id\n        ...variablerow_variable\n      }\n      cursor\n    }\n    variableCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n}\n\nfragment variablerow_variable on Variable {\n  __isVariable: __typename\n  id\n  questionId\n  title\n  questionName\n  variableName\n  text\n  textEnglish\n  clusterVariable {\n    __typename\n    id\n    questionName\n    questionId\n    variableName\n    title\n  }\n  n\n  type\n  instrument {\n    name\n    title\n    id\n  }\n  variableGroup {\n    name\n    title\n    id\n  }\n  groupDefault\n  groupDefaultVariables {\n    edges {\n      node {\n        __typename\n        id\n        variableName\n        title\n        textEnglish\n        n\n      }\n    }\n  }\n  studyPart {\n    id\n    name\n    title\n    description\n    study {\n      id\n      name\n      title\n      description\n      survey {\n        id\n        name\n        title\n        description\n      }\n    }\n  }\n  variableAffiliation {\n    id\n    exclusivityTo\n    variableAffiliate {\n      id\n      email\n      firstName\n      lastName\n    }\n  }\n}\n",
+            "variables": {
+                "variableCount": 100000,
+                "after": "YXJyYXljb25uZWN0aW9uOjE5",
+                "surveyFilter": [],
+                "studyFilter": [],
+                "studyPartFilter": [],
+                "instrumentFilter": [],
+                "variableGroupFilter": [],
+                "search": null,
+                "orderBy": "STUDYPART",
+                "orderDirection": "ASC"
+            }
+        };
+        var postDataJSON = JSON.stringify(postData);
+        var options = {
+            hostname: "hunt-db.medisin.ntnu.no",
+            port: 443,
+            path: '/hunt-db/graphql',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': postDataJSON.length
+            }
+        };
+
+        var request = https.request(options, (response) => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                var contentParsed = JSON.parse(content.toString());
+                if (contentParsed != null && typeof contentParsed.data != 'undefined') {
+                    var data = contentParsed.data;
+                    var results = [];
+                    for (var i = 0; i < data.variables.edges.length; i++) {
+                        var entry = data.variables.edges[i].node;
+                        // we have information about the text, textEnglish, title, type, instrument.name, instrument.title, questionName
+                        results.push({
+                            "field": {
+                                "ElementName": entry.variableName,
+                                "DataType": entry.type,
+                                "Instrument Part": entry.instrument.title,
+                                "ElementDescription": entry.textEnglish.length > 0 ? entry.textEnglish : entry.text,
+                                "FormName": "hunt://hunt?instrument=" + entry.instrument.name,
+                                "fields": "hunt://hunt?instrument=" + entry.instrument.name
+                            }
+                        });
+                    }
+                    parentPort.postMessage([req, results]);
+                }
+            });
+        });
+        request.on('error', (e) => {
+            console.log("error");
+        });
+        request.write(postDataJSON);
+        request.end();
+
+    }); // should cleanup the downloaded file
+
+}
 
 // provide a request and send it back so we know what this responds to
 function downloadREDCapListFromREDCapLoc(req) {

@@ -25,7 +25,7 @@ ipcRenderer.on('message', function (evt, message) {
 
 // receive a message from the main process
 ipcRenderer.on('stats', function (evt, message) {
-  console.log("update the stats on the page: " + JSON.stringify(message));
+  //console.log("update the stats on the page: " + JSON.stringify(message));
   //alert(JSON.stringify(message));
 
   const information = document.getElementById('stats-text');
@@ -77,13 +77,23 @@ ipcRenderer.on('search', function (evt, message) {
     // now we know how to display these
     // we expect a field for search results of these three types 'field', 'instrument', 'project'
     addBox(type, searchResult[type]);
-
   }
-
+  // lets find out if any rows are empty, hide those
+  const row = document.getElementsByClassName("slider");
+  for (var i = 0; i < row.length; i++) {
+    var numEntries = row[i].getElementsByClassName("box").length;
+    if (numEntries == 0) {
+      row[i].parentNode.parentNode.style.display = "none";
+    } else {
+      row[i].parentNode.parentNode.style.display = "block";
+    }
+  }
 
   // in order to draw the results from a search we need to fill in the corresponding rows,
   // we expect a row for each of the returned searches
 });
+
+var colorCache = {}; // memorize the color number if we have seen this variable before
 
 function addBox(type, result) {
   // find a row with that type
@@ -91,18 +101,63 @@ function addBox(type, result) {
 
   // how many elements are already in that list?
   for (var r = 0; r < row.length; r++) {
+
     var numboxes = row[r].getElementsByClassName('box').length;
+    var color = "q" + (numboxes % 8) + "-8";
     if (numboxes < 30) {
       // add the result here, if we never add we will not see the results, so make sure you have sufficient rows available
       if (type == 'project') {
-        row[r].innerHTML += "<div class='box'>" + "<div class='title'>" + result.name + "</div></div>";
+        if (result.name in colorCache) {
+          color = colorCache[result.name];
+        } else {
+          colorCache[result.name] = color;
+        }
+        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result.name + "</div></div>";
       } else if (type == 'field') {
-        row[r].innerHTML += "<div class='box'>" + "<div class='title'>" + result.field_name + "</div>" +
+        s = {
+          project: "",
+          instrument: "",
+          project_version: "",
+          instrument_version: "",
+          instrument_part: ""
+        };
+        if (typeof result.form_name != 'undefined' && result.form_name.length > 0) {
+          s = parseURI(result.form_name);
+        }
+        s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
+        s.project_version = s.project_version == null ? "" : s.project_version;
+
+        if (result.field_name in colorCache) {
+          color = colorCache[result.field_name];
+        } else {
+          colorCache[result.field_name] = color;
+        }
+
+        row[r].innerHTML += "<div class='box Pastel1-" + color + "'>" + "<div class='title'>" + result.field_name + "</div>" +
           "<div class='description'>" + result.field_label + "</div>" +
+          "<div class='project-name'>" + s.project + " " + s.project_version + "</div>" +
+          "<div class='instrument-name'>" + s.instrument + " " + s.instrument_version + "</div>" +
           "</div>";
       } else if (type == 'instrument') {
-        row[r].innerHTML += "<div class='box'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
+        s = {
+          project: "",
+          instrument: "",
+          project_version: "",
+          instrument_version: "",
+          instrument_part: ""
+        };
+        if (typeof result.fields != 'undefined' && result.fields.length > 0) {
+          s = parseURI(result.fields);
+        }
+        if (result["Instrument Title"] in colorCache) {
+          color = colorCache[result["Instrument Title"]];
+        } else {
+          colorCache[result["Instrument Title"]] = color;
+        }
+
+        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
           "<div class='description'>" + result["Description"] + "</div>" +
+          "<div class='project-name'>" + s.project + " " + s.project_version + "</div>" +
           "</div>";
 
       }
@@ -110,4 +165,28 @@ function addBox(type, result) {
     }
   }
 
+}
+
+function parseURI(str) {
+  // couple of things in here, project name
+  var s = {
+    protocol: "nda:",
+    project: "",
+    project_version: "",
+    instrument: "",
+    instrument_version: "",
+    instrument_part: ""
+  };
+  // example: "redcap://ABCD?instrument=abcd_asrs&release=v4.0&version=v01", 
+  var parsed = new URL(str);
+  s.project = parsed.pathname.slice(2);
+  s.protocol = parsed.protocol;
+  if (typeof parsed.searchParams == "object") {
+    s.instrument = decodeURIComponent(parsed.searchParams.get("instrument"));
+    s.instrument_version = decodeURIComponent(parsed.searchParams.get("version"));
+    s.instrument_part = decodeURIComponent(parsed.searchParams.get("part"));
+    s.project_version = decodeURIComponent(parsed.searchParams.get("release"));
+  }
+
+  return s;
 }
