@@ -44,6 +44,12 @@ window.onresize = function() {
     document.getElementsByClassName('middle')[0].style.height = (window.innerHeight-50) + "px";
 }
 
+// add a dialog if user wants to change settings
+document.getElementById("settings").addEventListener('click', function (e) {
+    console.log("click on settings");
+    window.electronAPI.openSettings();
+});
+
 // we should react to what is visible on the page (based on scroll events)
 function isScrolledIntoView(el) {
     var rect = el.getBoundingClientRect();
@@ -69,7 +75,7 @@ middle_scroll_window.addEventListener("scroll", function () {
     for (var i = 0; i < wlist.length; i++) {
         if (isScrolledIntoView(wlist[i])) {
             // check if we need to update the list with values
-            console.log("scrolled into view!");
+            //console.log("scrolled into view!");
         }
     }
 });

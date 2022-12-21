@@ -29,7 +29,8 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      contextIsolation: true
+      contextIsolation: true,
+      titleBarStyle: 'customButtonsOnHover'
     }
   })
   mainWindow.webContents.openDevTools();
@@ -59,6 +60,20 @@ function createWindow() {
 
   ipcMain.handle('stats', function (stats) {
     console.log("got some stats: " + JSON.stringify(stats));
+  });
+
+  ipcMain.handle('openSettings', function () {
+    console.log("open the settings dialog");
+
+    const child = new BrowserWindow({ parent: mainWindow, modal: true, show: false });
+    child.loadFile('dialogSettings.html');
+    child.once('ready-to-show', function () {
+      child.show();
+    });
+    child.whenReady().then(function () {
+      // react to any events from the page
+
+    });
   });
 
 //  ipcMain.handle('search:string', function (searchString) {

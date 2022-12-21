@@ -58,8 +58,7 @@ var lastIDfields = -1;
 
 // we need to cache for fields the field_name and the form_name
 var cacheInitialized = false;
-var cacheFieldName = {};
-var cacheFormName = {}; // if they are empty add
+var cacheFieldFormName = {};
 
 /**
  * This function checks for duplicates in fields, instruments and projects. What is considered a duplicate depends on the 
@@ -75,16 +74,14 @@ function checkForDuplicates(entry, what) {
         if (!cacheInitialized) {
             // check if the field name with the instrument and project and version is unique
             for (var i = 0; i < fields.length; i++) {
-                cacheFieldName[fields[i].field_name] = 1;
-                cacheFormName[fields[i].form_name] = 1;
+                cacheFieldFormName[fields[i].field_name + fields[i].form_name] = 1;
             }
             cacheInitialized = true;;
         }
-        if (typeof cacheFieldName[entry.field_name] != 'undefined' && typeof cacheFormName[entry.form_name] != 'undefined') { // its already in there
+        if (typeof cacheFieldFormName[entry.field_name + entry.form_name] != 'undefined') { // its already in there
             return false;
         } else { // if not put it in - we assume here that its actually getting added to db - might not be the case!
-            cacheFieldName[entry.field_name] = 1;
-            cacheFormName[entry.form_name] = 1;
+            cacheFieldFormName[entry.field_name + entry.form_name] = 1;
         }
     } else if (what == "instrument") {
         for (var i = 0; i < instruments.length; i++) {
@@ -258,7 +255,13 @@ function search(options) {
     // unqualified search
     if (typeof options == "string") {
         // we assume that string is a regular expression
-        var regexp = new RegExp(options, 'i');
+        var regexp = null;
+        try {
+            regexp = new RegExp(options, 'i');
+        } catch (e) {
+            // we should do something here
+            return [];
+        }
         var resultsF = [];
         for (var i = 0; i < fields.length; i++) {
             if (resultsF.length > 200)

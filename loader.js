@@ -317,42 +317,46 @@ function downloadREDCapListFromREDCapLoc(req) {
 
     const fs = require("fs");
     const https = require("https");
+    const temp = require("temp");
 
-    var fname = "redcap_library_instruments.csv";
-    const file = fs.createWriteStream(fname);
-    console.log("In downloadREDCapListFromREDCapLoc... ");
-    https.get(url, response => {
-        var stream = response.pipe(file);
+    temp.open("redcap_library_instruments", function (err, info) {
+        var fname = info.path;
 
-        file.on("finish", () => {
-            file.close();
-        });
+        const file = fs.createWriteStream(fname);
+        console.log("In downloadREDCapListFromREDCapLoc... ");
+        https.get(url, response => {
+            var stream = response.pipe(file);
 
-        stream.on("finish", function () {
-            // what is the string in this stream?
-            // read the data from the file again
+            file.on("finish", () => {
+                file.close();
+            });
 
-            // parse the received csv file
-            const parser = parse({
-                delimiter: ','
+            stream.on("finish", function () {
+                // what is the string in this stream?
+                // read the data from the file again
+
+                // parse the received csv file
+                const parser = parse({
+                    delimiter: ','
+                });
+                var records = [];
+                parser.on('readable', function () {
+                    let record;
+                    while ((record = parser.read()) !== null) {
+                        records.push(record);
+                    }
+                });
+                // Catch any error
+                parser.on('error', function (err) {
+                    console.error(err.message);
+                });
+                parser.on('end', function () {
+                    parentPort.postMessage([req, records]);
+                });
+                const content = fs.readFileSync(fname);
+                parser.write(content.toString());
+                parser.end();
             });
-            var records = [];
-            parser.on('readable', function () {
-                let record;
-                while ((record = parser.read()) !== null) {
-                    records.push(record);
-                }
-            });
-            // Catch any error
-            parser.on('error', function (err) {
-                console.error(err.message);
-            });
-            parser.on('end', function () {
-                parentPort.postMessage([req, records]);
-            });
-            const content = fs.readFileSync(fname);
-            parser.write(content.toString());
-            parser.end();
         });
     });
 }

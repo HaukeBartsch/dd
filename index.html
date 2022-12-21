@@ -13,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Data dictionary commentary</title>
     <link rel="stylesheet" type="text/css" href="./styles.css">
-  </head>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   </head>
   <body>
@@ -21,8 +20,11 @@
         <div class="header">
             <!-- search field -->
             <a href="#titleName">DD</a>
+            <div style="float: right;">
+                <a href="#settings" id="settings" style="display: none;">settings</a>
+            </div>
             <div id="search_container">
-            <input type="text" value="" placeholder="What are you searching for?" id="search" />
+            <input type="text" value="" placeholder="search" id="search" />
                <img src="hand-point-right.svg" id="search_img"/>
             </div>
         </div>
@@ -30,12 +32,13 @@
     <div class="content">
         <div class="column left">
             <div style="margin: 5px;  clear: both; ">
+                <div style="display: none;">
                 <div class="side-header">Settings</div>
                 <button id="toggle-dark-mode">Toggle Dark Mode</button>
                 <button id="reset-to-system">Reset to System Theme</button>
                 <p>Current theme source: <strong id="theme-source">System</strong></p>
                 <hr>
-                <span>Stats:</span>
+            </div>
                 <div id="stats-text"></div>
             </div>
         </div>
