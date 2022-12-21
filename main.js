@@ -79,7 +79,11 @@ app.whenReady().then(() => {
   ipcMain.handle('search:string', function (ev, searchString) {
     //console.log("HI");
     //mainWindow.webContents.send('message', { "Info": "search message in main.js on way to db" });
-    db.postMessage(["search", searchString]);
+    if (searchString == "") {
+      db.postMessage(["searchRandom", searchString]);
+    } else {
+      db.postMessage(["search", searchString]);
+    }
   });
 
   mainWindow = createWindow();
@@ -126,13 +130,7 @@ app.whenReady().then(() => {
       update();
     } else if (msg[0] == "search") {
       // got  a search result back from db
-      //console.log("search results returned : " + msg[1].length);
-      if (typeof msg[1] == "string" && msg[1] == "") {
-        // instead of a normal search, search random
-        db.postMessage(["searchRandom", "*"]);
-      } else {
-        mainWindow.webContents.send('search', msg[1]);
-      }
+      mainWindow.webContents.send('search', msg[1]);
     } else if (msg[0] == "stats") {
       // update these fields in the renderer
       mainWindow.webContents.send('stats', msg[1]);

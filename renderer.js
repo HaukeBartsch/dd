@@ -19,10 +19,26 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
     document.getElementById('theme-source').innerHTML = 'System'
 })
 
-document.getElementById('search').addEventListener("keyup", function (e) {
+/**
+ * delay will wait with the execution until the user has stopped typing
+ * @param {callback} callback function to execute
+ * @param {*} ms waiting time
+ * @returns 
+ */
+function delay(fn, ms) {
+    let timer = 0
+    return function (...args) {
+        clearTimeout(timer)
+        timer = setTimeout(fn.bind(this, ...args), ms || 0)
+    }
+}
+
+// someone typed something into the search field
+// we should wait a bit before sending it off, user might keep entering characters
+document.getElementById('search').addEventListener("keyup", delay(function (e) {
     //ipcRenderer.send('search', e.target.value);
     window.search.string(e.target.value);
-});
+}, 500));
 
 window.onresize = function() {
     document.getElementsByClassName('middle')[0].style.height = (window.innerHeight-50) + "px";

@@ -7,7 +7,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 contextBridge.exposeInMainWorld('search', {
   string: function (arg) {
-    //ipcRenderer.send('string', arg);
     ipcRenderer.invoke('search:string', arg);
   }
 });
@@ -118,7 +117,10 @@ function addBox(type, result) {
         } else {
           colorCache[result.name] = color;
         }
-        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result.name + "</div></div>";
+        s = parseURI(result.instruments);
+        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result.name + "</div>" +
+          "<div class='project-name'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
+          "</div>";
       } else if (type == 'field') {
         s = {
           project: "",
@@ -132,6 +134,7 @@ function addBox(type, result) {
         }
         s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
         s.project_version = s.project_version == null ? "" : s.project_version;
+        result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
 
         if (result.field_name in colorCache) {
           color = colorCache[result.field_name];
@@ -141,8 +144,8 @@ function addBox(type, result) {
 
         row[r].innerHTML += "<div class='box Pastel1-" + color + "'>" + "<div class='title'>" + result.field_name + "</div>" +
           "<div class='description'>" + result.field_label + "</div>" +
-          "<div class='project-name'>" + s.project + " " + s.project_version + "</div>" +
-          "<div class='instrument-name'>" + s.instrument + " " + s.instrument_version + "</div>" +
+          "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+          "<div class='instrument-name'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
           "</div>";
       } else if (type == 'instrument') {
         s = {
@@ -163,7 +166,7 @@ function addBox(type, result) {
 
         row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
           "<div class='description'>" + result["Description"] + "</div>" +
-          "<div class='project-name'>" + s.project + " " + s.project_version + "</div>" +
+          "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
           "</div>";
 
       }
@@ -193,6 +196,10 @@ function parseURI(str) {
     s.instrument_part = decodeURIComponent(parsed.searchParams.get("part"));
     s.project_version = decodeURIComponent(parsed.searchParams.get("release"));
   }
+  s.instrument = s.instrument != "null" ? s.instrument : "";
+  s.instrument_version = s.instrument_version != "null" ? s.instrument_version : "";
+  s.instrument_part = s.instrument_part != "null" ? s.instrument_part : "";
+  s.project_version = s.project_version != "null" ? s.project_version : "";
 
   return s;
 }

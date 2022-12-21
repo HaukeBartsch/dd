@@ -16,6 +16,7 @@ parentPort.on('message', function (a) {
     //parentPort.postMessage(["PPPP", a]);
 })
 
+// todo: add the left side variables: https://helsedata.no/no/variabler/?page=search
 function downloadHelseData(req, page) {
     if (typeof page == "undefined") {
         page = 1;
@@ -48,19 +49,59 @@ function downloadHelseData(req, page) {
                 //console.log("hi there");
                 var data = contentJSON.payload.result;
                 var results = [];
+                var projs = {};
+                var insts = {};
                 for (var i = 0; i < data.length; i++) {
                     var entry = data[i];
+                    var description = typeof entry.descriptionEnglish != 'undefined' ? entry.descriptionEnglish : entry.description;
+                    if (description == null && (entry.name != null || entry.nameEnglish != null)) {
+                        description = entry.nameEnglish != null ? entry.nameEnglish : entry.name;
+                    }
+                    // the project name (a register for example)
+                    var p = entry.parentRegisterName.toLowerCase().replace(/ /g, "_");
+                    var uri = "helsedata://" + p + "?instrument=";
+                    projs[p] = {
+                        "project": {
+                            "name": p,
+                            "description": "",
+                            "version": "",
+                            "instruments": uri
+                        }
+                    };
+                    if (entry.theme != null) {
+                        // add as an instrument
+                        insts[entry.theme] = {
+                            "instrument": {
+                                "Instrument Title": entry.theme,
+                                "Instrument Version": "",
+                                "Description": "",
+                                "Instrument Part": "",
+                                "fields": uri + "&instrument=" + encodeURI(entry.theme)
+                            }
+                        };
+                    }
+
                     results.push({
                         "field": {
                             "ElementName": entry.code,
                             "DataType": entry.dataType,
                             "Instrument Part": entry.code,
-                            "ElementDescription": typeof entry.descriptionEnglish != 'undefined' ? entry.descriptionEnglish : entry.description,
-                            "FormName": "helsedata://helsedata.no?instrument=" + entry.parentRegisterName.toLowerCase().replace(/ /g, "_"),
-                            "fields": "helsedata://helsedata.no?instrument=" + entry.parentRegisterName.toLowerCase().replace(/ /g, "_")
+                            "ElementDescription": description,
+                            "FormName": uri,
+                            "fields": uri
                         }
                     });
                 }
+                // if we have projects send those
+                var pro = Object.keys(projs);
+                for (var i = 0; i < pro.length; i++) {
+                    results.push(projs[pro[i]]);
+                }
+                var ins = Object.keys(insts);
+                for (var i = 0; i < ins.length; i++) {
+                    results.push(insts[ins[i]]);
+                }
+
                 parentPort.postMessage([req, results]);
                 if (results.length > 0) {
                     // request another page

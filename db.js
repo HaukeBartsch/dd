@@ -56,6 +56,11 @@ var lastIDprojects = -1;
 var lastIDinstruments = -1;
 var lastIDfields = -1;
 
+// we need to cache for fields the field_name and the form_name
+var cacheInitialized = false;
+var cacheFieldName = {};
+var cacheFormName = {}; // if they are empty add
+
 /**
  * This function checks for duplicates in fields, instruments and projects. What is considered a duplicate depends on the 
  * type of field. This function specifically does not test using the 'id' field. It is safe to create a new id first before
@@ -66,7 +71,21 @@ var lastIDfields = -1;
  */
 function checkForDuplicates(entry, what) {
     if (what == "field") {
-        // check if the field name with the instrument and project and version is unique
+        // this is performance critical, so we will try to get the keys without enumerating them or without Object.keys()
+        if (!cacheInitialized) {
+            // check if the field name with the instrument and project and version is unique
+            for (var i = 0; i < fields.length; i++) {
+                cacheFieldName[fields[i].field_name] = 1;
+                cacheFormName[fields[i].form_name] = 1;
+            }
+            cacheInitialized = true;;
+        }
+        if (typeof cacheFieldName[entry.field_name] != 'undefined' && typeof cacheFormName[entry.form_name] != 'undefined') { // its already in there
+            return false;
+        } else { // if not put it in - we assume here that its actually getting added to db - might not be the case!
+            cacheFieldName[entry.field_name] = 1;
+            cacheFormName[entry.form_name] = 1;
+        }
     } else if (what == "instrument") {
         for (var i = 0; i < instruments.length; i++) {
             if (entry["Instrument Title"] == instruments[i]["Instrument Title"]) {
@@ -154,7 +173,7 @@ function addToDatabase(options) {
                 newField.field_label = entry.ElementDescription;
                 newField.form_name = entry.FormName;
                 if (checkForDuplicates(newField, "field")) {
-                    newField.longDesc = JSON.stringify(newField);
+                    newField.longDesc = Object.values(newField).toString().replace(/,/g, " ");
                     fields.push(newField);
                 }
             } else if (typeof options[1][j].instrument != "undefined") {
@@ -167,7 +186,7 @@ function addToDatabase(options) {
                 newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
                 if (checkForDuplicates(newInstrument, "instrument")) {
-                    newInstrument.longDesc = JSON.stringify(newInstrument);
+                    newInstrument.longDesc = Object.values(newInstrument).toString().replace(/,/g, " ")
                     instruments.push(newInstrument);
                 }
             } else if (typeof options[1][j].project != "undefined") {
@@ -180,7 +199,7 @@ function addToDatabase(options) {
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
                 if (checkForDuplicates(newProject, "project")) {
-                    newProject.longDesc = JSON.stringify(newProject);
+                    newProject.longDesc = Object.values(newProject).toString().replace(/,/g, " ")
                     projects.push(newProject);
                 }
             }
