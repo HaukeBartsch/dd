@@ -13,7 +13,6 @@ parentPort.on('message', function (a) {
         downloadHUNTVariables(a[0]);
         downloadHelseData(a[0]);
     }
-    //parentPort.postMessage(["PPPP", a]);
 })
 
 // todo: add the left side variables: https://helsedata.no/no/variabler/?page=search

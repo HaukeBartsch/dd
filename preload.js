@@ -3,7 +3,8 @@ const { contextBridge, ipcRenderer } = require('electron')
 contextBridge.exposeInMainWorld('electronAPI', {
   setTitle: (title) => ipcRenderer.send('set-title', title),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  openSettings: () => ipcRenderer.invoke('openSettings')
+  openSettings: () => ipcRenderer.invoke('openSettings'),
+  openSave: (arg) => ipcRenderer.invoke('openSave', arg),
 });
 
 contextBridge.exposeInMainWorld('search', {
@@ -40,13 +41,13 @@ ipcRenderer.on('stats', function (evt, message) {
     + "<button class='btn btn-info'>fields: " + numberWithCommas(message["fields"]) + "</button>";
 });
 
-// receive a message from the main process with a finished search
-// the search results should be displayed on screen next
+/**
+ * receive a message from the main process with a finished search
+ */
 ipcRenderer.on('search', function (evt, message) {
-  // get a search result back and populate the views
-  // alert("got search result!" + JSON.stringify(message));
-
+  //
   // make space for new boxes
+  //
   var rows = document.getElementsByClassName("field");
   // how many elements are already in that list?
   for (var r = 0; r < rows.length; r++) {
@@ -76,6 +77,8 @@ ipcRenderer.on('search', function (evt, message) {
       type = 'instrument';
     } else if (typeof searchResult.project != 'undefined') {
       type = 'project';
+    } else if (typeof searchResult.search != 'undefined') {
+      type = 'search';
     } else {
       console.log("unknown type in search result: " + JSON.stringify(Object.keys(searchResult)));
       continue;
@@ -103,7 +106,10 @@ var colorCache = {}; // memorize the color number if we have seen this variable 
 
 function addBox(type, result) {
   // find a row with that type
-  const row = document.getElementsByClassName(type);
+  let row = document.getElementsByClassName(type);
+  if (type == "search") { // add to instrument rows
+    row = document.getElementsByClassName("instrument");
+  }
 
   // how many elements are already in that list?
   for (var r = 0; r < row.length; r++) {
@@ -119,7 +125,7 @@ function addBox(type, result) {
           colorCache[result.name] = color;
         }
         s = parseURI(result.instruments);
-        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result.name + "</div>" +
+        row[r].innerHTML += "<div class='box Pastel2-" + color + "' type='project' typeid='" + result.id + "'>" + "<div class='title'>" + result.name + "</div>" +
           "<div class='project-name'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
           "</div>";
       } else if (type == 'field') {
@@ -143,7 +149,7 @@ function addBox(type, result) {
           colorCache[result.field_name] = color;
         }
 
-        row[r].innerHTML += "<div class='box Pastel1-" + color + "'>" + "<div class='title'>" + result.field_name + "</div>" +
+        row[r].innerHTML += "<div class='box Pastel1-" + color + "' type='field' typeid='" + result.id + "'>" + "<div class='title'>" + result.field_name + "</div>" +
           "<div class='description'>" + result.field_label + "</div>" +
           "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
           "<div class='instrument-name'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
@@ -165,9 +171,14 @@ function addBox(type, result) {
           colorCache[result["Instrument Title"]] = color;
         }
 
-        row[r].innerHTML += "<div class='box Pastel2-" + color + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
+        row[r].innerHTML += "<div class='box Pastel2-" + color + "' type='instrument' typeid='" + result.id + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
           "<div class='description'>" + result["Description"] + "</div>" +
           "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+          "</div>";
+
+      } else if (type == "search") {
+        row[r].innerHTML += "<div class='box search-card' type='search' typeid='" + result.id + "'>" + "<div class='title'>" + result["name"] + "</div>" +
+          "<div class='description'>" + result["description"] + "</div>" +
           "</div>";
 
       }
@@ -188,7 +199,13 @@ function parseURI(str) {
     instrument_part: ""
   };
   // example: "redcap://ABCD?instrument=abcd_asrs&release=v4.0&version=v01", 
-  var parsed = new URL(str);
+  var parsed = null;
+  try {
+    parsed = new URL(str);
+  } catch (e) {
+    // something went wrong
+    return s;
+  }
   s.project = parsed.pathname.slice(2);
   s.protocol = parsed.protocol;
   if (typeof parsed.searchParams == "object") {

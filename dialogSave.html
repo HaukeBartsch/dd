@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+    <div style="padding: 10px;">
+        <p>Specify a name for this group of variables:</p>
+        <form>
+            <div class="form-group">
+                <label for="#saveName">Name your search</label>
+                <input type="text" id="saveName" />
+            </div>
+            <div class="form-group">
+                <label for="#saveDescription">Describe</label><br>
+                <textarea rows="20" cols="80" id="saveDescription"></textarea>
+            </div>
+        </form>
+        <input type="text" id="pattern" style="display: none;" />
+        <button class="btn btn-primary" id="save-dialog-save">Save</button>
+        <button class="btn btn-primary" id="close-save-dialog">Close</button>
+    </div>
+</body>
+<script src="./rendererSaveDialog.js"></script>
+
+</html>

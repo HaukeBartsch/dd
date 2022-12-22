@@ -37,7 +37,15 @@ function delay(fn, ms) {
 // we should wait a bit before sending it off, user might keep entering characters
 document.getElementById('search').addEventListener("keyup", delay(function (e) {
     //ipcRenderer.send('search', e.target.value);
-    window.search.string(e.target.value);
+    // each time we have a string that has length > 0 we want to be able to save that
+    var v = e.target.value;
+    if (typeof v != "undefined" && v.length > 0) {
+        document.getElementById('save-search').style.display = 'block';
+    } else {
+        document.getElementById('save-search').style.display = 'none';
+    }
+    window.search.string(v);
+
 }, 500));
 
 window.onresize = function() {
@@ -49,6 +57,16 @@ document.getElementById("settings").addEventListener('click', function (e) {
     console.log("click on settings");
     window.electronAPI.openSettings();
 });
+
+document.getElementById("save-search").addEventListener('click', function (e) {
+    var pattern = document.getElementById('search').value;
+    if (pattern.length > 0) {// ignore if this is no search
+        // console.log("click on save search");
+        window.electronAPI.openSave(pattern); // open the save search dialog
+    } else {
+        console.log("click on save search - but no openSave, search field is empty " + JSON.stringify(pattern));
+    }
+})
 
 // we should react to what is visible on the page (based on scroll events)
 function isScrolledIntoView(el) {

@@ -3,6 +3,7 @@ const path = require('path');
 var loader = null; // background worker to load dd
 var db = null; // worker: nothing setup yet
 var mainWindow = null;
+var saveWindow = null;
 
 const {
   Worker,
@@ -35,14 +36,6 @@ function createWindow() {
   })
   mainWindow.webContents.openDevTools();
 
-  /*  ipcMain.on('set-title', (event, title) => {
-      const webContents = event.sender
-      const win = BrowserWindow.fromWebContents(webContents)
-      win.setTitle(title)
-    }) */
-  //    ipcMain.on('open-file', (event) => {
-  //      return handleFileOpen();
-  //})
   mainWindow.loadFile('index.html')
 
   ipcMain.handle('dark-mode:toggle', () => {
@@ -56,10 +49,43 @@ function createWindow() {
 
   ipcMain.handle('dark-mode:system', () => {
     nativeTheme.themeSource = 'system'
-  })
+  });
+
+  /*ipcMain.handle('save-dialog:close', () => {
+    if (saveWindow != null) {
+      saveWindow.close();
+    }
+  }); */
 
   ipcMain.handle('stats', function (stats) {
     console.log("got some stats: " + JSON.stringify(stats));
+  });
+
+  // specify the pattern we are searching for right now
+  ipcMain.handle("openSave", function (ev, ...args) {
+    // open the dialog for getting save values
+    console.log("open the settings dialog: " + JSON.stringify(args));
+    var pattern = args[0]; // the search pattern
+
+    saveWindow = new BrowserWindow({
+      title: 'Save',
+      parent: mainWindow,
+      modal: true,
+      show: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'preloadSaveDialog.js'),
+        nodeIntegration: true,
+        nodeIntegrationInWorker: true,
+        contextIsolation: true,
+        titleBarStyle: 'customButtonsOnHover'
+      }
+    });
+    saveWindow.loadFile('dialogSave.html');
+    saveWindow.once('ready-to-show', function () {
+      // set the pattern as a field value
+      saveWindow.webContents.send('pattern', pattern);
+      saveWindow.show();
+    });
   });
 
   ipcMain.handle('openSettings', function () {
@@ -86,9 +112,12 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  //ipcMain.on('set-title', handleSetTitle)
-  //ipcMain.removeHandler('dialog:openFile'); // in case window gets opened again
-  //ipcMain.handle('dialog:openFile', handleFileOpen);
+
+  ipcMain.removeHandler('save:search');
+  ipcMain.handle('save:search', function (ev, data) {
+    mainWindow.webContents.send('message', { "Info": "got a save:save with some values: " + data[0] + " " + data[1] + " pattern: " + data[2] });
+    db.postMessage(["saveSearch", { name: data[0], description: data[1], pattern: data[2] }]);
+  }); 
 
   ipcMain.removeHandler('search:string');
   ipcMain.handle('search:string', function (ev, searchString) {

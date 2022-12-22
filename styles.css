@@ -1,103 +1,127 @@
 @media (prefers-color-scheme: dark) {
-    body { background: #333; color: white; }
-    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .row-list {
-        background: rgba(87,87,87,1);
-    }    
-    
+    body {
+        background: #333;
+        color: white;
+    }
+
+    .row-list {
+        background: rgba(87, 87, 87, 1);
+    }
+
     .row-list .row-bar {
         border-bottom: 0px solid darkgray;
         text-transform: uppercase;
-            letter-spacing: .2em;
+        letter-spacing: .2em;
     }
-    
+
     .p-muted {
         color: lightgray;
     }
-    
+
     .header a {
         color: white;
     }
-        .middle-scroll {
-            background: linear-gradient(180deg, rgba(179, 179, 179, 1) 0%, rgba(70, 70, 70, 1) 25%, rgba(27, 27, 27, 1) 100%);
-        }
-    
-        .box {
+
+    .middle-scroll {
+        background: linear-gradient(180deg, rgba(179, 179, 179, 1) 0%, rgba(70, 70, 70, 1) 25%, rgba(27, 27, 27, 1) 100%);
+    }
+
+    .box {
         color: black;
         border: 0px solid white;
-            background: rgba(20, 20, 20, 1);
+        background: rgba(20, 20, 20, 1);
         background-blend-mode: darken;
-        }
-    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .box:hover {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: rgba(40, 40, 40, 1);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    animation: fadeIn 1.5s;
-            color: white;
-        }
+    }
+
+    .box:hover {
+        background: rgba(40, 40, 40, 1);
+        animation: fadeIn 1.5s;
+        color: white;
+    }
+
+    .search-card {
+        color: black;
+        background-color: rgba(240, 240, 240, 1);
+    }
+
+    .search-card:hover {
+        background: rgba(40, 40, 40, 1);
+        animation: fadeIn 1.5s;
+        color: white;
+    }
 }
 
 @media (prefers-color-scheme: light) {
-    body { background: #fff; color: black; }
-    
+    body {
+        background: #fff;
+        color: black;
+    }
+
     .row-list {
         border-top: 1px solid darkgrey;
-        background: rgba(200,200,200,1);
+        background: rgba(200, 200, 200, 1);
     }
-    
-    
+
     .row-list .row-bar {
-        background: rgb(255,255,255);
+        background: rgb(255, 255, 255);
         border-bottom: 1px solid darkgray;
         text-transform: uppercase;
-            letter-spacing: .2em;
+        letter-spacing: .2em;
     }
-    
+
     .p-muted {
         color: darkgray;
     }
+
     .header a {
         color: black;
     }
-    
-        .middle-scroll {
-            background: "white";
-        }
-    
-        .box {
-            border: 0px solid white;
+
+    .middle-scroll {
+        background: "white";
+    }
+
+    .box {
+        border: 0px solid white;
         background: rgba(240, 240, 240, 1);
-        }
-    
-        .box div.title {
-            color: black;
-        }
-    
-        .box div.description {
-            color: black;
-        }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .box:hover {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: rgba(179, 179, 179, 1);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    animation: fadeIn 1.5s;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+    }
+
+    .box div.title {
+        color: black;
+    }
+
+    .box div.description {
+        color: black;
+    }
+
+    .box:hover {
+        background: rgba(179, 179, 179, 1);
+        animation: fadeIn 1.5s;
+    }
+
+    .box .search-card {
+        background-color: rgba(20, 20, 20, 0.8);
+    }
 }
 
 .slider {
     min-width: 100%;
-        height: 100%;
-    }
-    
-    .slide-right {
-        overflow-x: scroll;
-        overflow-y: hidden;
-        height: 270px;
+    height: 100%;
+}
+
+.slide-right {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 270px;
 }
 
 * {
     box-sizing: border-box;
 }
+
 body {
     margin: 0px;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     overflow-y: hidden;
 }
 
@@ -122,7 +146,8 @@ body {
     }
 }
 
-.left, .right {
+.left,
+.right {
     width: 300px;
     min-width: 300px;
     padding: 10px;
@@ -173,8 +198,8 @@ body {
 
 #search_container {
     position: relative;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
     width: 300px;
     height: 40px;
     float: auto;
@@ -192,14 +217,17 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-    .header a, .header input[type=text] {
+
+    .header a,
+    .header input[type=text] {
         float: none;
         display: block;
         text-align: left;
-            width: 100%;
-            margin: 0;
-            padding: 14px;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
     }
+
     .header input[type=text] {
         border: 1px solid #ccc;
     }
@@ -254,7 +282,7 @@ html {
 .box {
     width: 180px;
     height: 245px;
-        margin-right: 10px;
+    margin-right: 10px;
     border-radius: 4px;
     padding: 5px;
     overflow: hidden;
@@ -269,9 +297,9 @@ html {
 
 .box div.description {
     font-size: 0.6em;
-        max-height: 100px;
-        overflow-x: hidden;
-        overflow-y: auto;
+    max-height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .box div.project-name {
@@ -287,6 +315,7 @@ html {
     left: 2px;
     font-size: 0.8em;
 }
+
 .slider {
     display: inline-flex;
     padding: 5px;
@@ -296,11 +325,12 @@ html {
 #stats-text button.btn-info {
     width: 100%;
 }
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
     }
-    
+
     100% {
         opacity: 1;
     }
@@ -310,7 +340,7 @@ html {
     0% {
         opacity: 0;
     }
-    
+
     100% {
         opacity: 1;
     }
@@ -320,7 +350,7 @@ html {
     0% {
         opacity: 0;
     }
-    
+
     100% {
         opacity: 1;
     }
@@ -330,7 +360,7 @@ html {
     0% {
         opacity: 0;
     }
-    
+
     100% {
         opacity: 1;
     }
@@ -340,11 +370,12 @@ html {
     0% {
         opacity: 0;
     }
-    
+
     100% {
         opacity: 1;
     }
 }
+
 .Pastel1-q0-3 {
     background: rgb(251, 180, 174)
 }

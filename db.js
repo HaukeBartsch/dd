@@ -3,58 +3,75 @@ const { Worker, isMainThread, parentPort } = require('worker_threads');
 // the database thread, all search requests would come here
 // all data dictionary information should be collected here
 
+function createSearchStruct() {
+    return {
+        name: "",
+        description: "",
+        author: "",
+        pattern: ""
+    };
+}
+
 // internal structure is list of instruments with
-var project = {
-    "name": "",
-    "description": "",
-    "version": "",
-    "date": "",
-    "instruments": [], // list of instrument ids
-};
+function createProjectStruct() {
+    return {
+        "name": "",
+        "description": "",
+        "version": "",
+        "date": "",
+        "instruments": [], // list of instrument ids
+    };
+}
 
-var instrument = {
-    "id": "",
-    "Instrument Title": "",
-    "Date Added": "",
-    "Download Count": "",
-    "Description": "",
-    "Acknowledgement": "",
-    "Terms of Use": "",
-    "Type": "",
-    "Language": "",
-    "fields": []
-};
+function createInstrumentStruct() {
+    return {
+        "id": "",
+        "Instrument Title": "",
+        "Date Added": "",
+        "Download Count": "",
+        "Description": "",
+        "Acknowledgement": "",
+        "Terms of Use": "",
+        "Type": "",
+        "Language": "",
+        "fields": []
+    };
+}
 
-var field = {
-    "id": "", // use a uuid?
-    "field_name": "",
-    "form_name": "",
-    "section_header": "",
-    "field_type": "",
-    "field_label": "",
-    "select_choices_or_calculations": "",
-    "field_note": "",
-    "text_validation_type_or_show_slider_number": "",
-    "text_validation_min": "",
-    "text_validation_max": "",
-    "identifier": "",
-    "branching_logic": "",
-    "required_field": "",
-    "custom_alignment": "",
-    "question_number": "",
-    "matrix_group_name": "",
-    "matrix_ranking": "",
-    "field_annotation": ""
-};
+function createFieldStruct() {
+    return {
+        "id": "", // use a uuid?
+        "field_name": "",
+        "form_name": "",
+        "section_header": "",
+        "field_type": "",
+        "field_label": "",
+        "select_choices_or_calculations": "",
+        "field_note": "",
+        "text_validation_type_or_show_slider_number": "",
+        "text_validation_min": "",
+        "text_validation_max": "",
+        "identifier": "",
+        "branching_logic": "",
+        "required_field": "",
+        "custom_alignment": "",
+        "question_number": "",
+        "matrix_group_name": "",
+        "matrix_ranking": "",
+        "field_annotation": ""
+    };
+}
 
 var projects = [];
 var instruments = [];
 var fields = [];
+var searches = [];
 
 // we just increment this id if we need one
 var lastIDprojects = -1;
 var lastIDinstruments = -1;
 var lastIDfields = -1;
+var lastIDsearches = -1;
 
 // we need to cache for fields the field_name and the form_name
 var cacheInitialized = false;
@@ -94,6 +111,11 @@ function checkForDuplicates(entry, what) {
             if (entry.name == projects[i].name)
                 return false;
         }
+    } else if (what == "search") {
+        for (var i = 0; i < searches.length; i++) {
+            if (entry.name == searches[i].name)
+                return false;
+        }
     }
 
     return true;
@@ -101,7 +123,8 @@ function checkForDuplicates(entry, what) {
 
 /**
  * This function returns a new ID for fields, instruments and projects. 
- * The function uses a global object to cache the largest ID.
+ * The function uses a global object to cache the largest ID. ID's are 
+ * immutable but only valid for one run of the program (depend on load order).
  * @param {string} what either "fields", "instruments", or "projects"
  * @returns {number} next free id (one larger than previous ids)
  */
@@ -136,6 +159,16 @@ function getNewID(what) {
             lastIDinstruments = id;
         }
         return ++lastIDinstruments;
+    } else if (what == "searches") {
+        if (lastIDsearches == -1) {
+            var id = -1; // optimize this if we have more than one field in the list
+            for (var i = 0; i < searches.length; i++) {
+                if (searches[i].id > id)
+                    id = searches[i].id;
+            }
+            lastIDsearches = id;
+        }
+        return ++lastIDsearches;
     } else {
         console.log("Error: unknown ID type requested (fields, projects, instruments): " + what);
     }
@@ -152,7 +185,7 @@ function addToDatabase(options) {
         parentPort.postMessage(["haveSomething", {}]);
     }
 
-    if (options[0] == "loadDefaults" && options[1].length > 0 && (typeof options[1][0].field != "undefined" || typeof options[1][0].instrument != "undefined" || typeof options[1][0].project != "undefined")) {
+    if (options[0] == "loadDefaults" && options[1].length > 0 && (typeof options[1][0].field != "undefined" || typeof options[1][0].instrument != "undefined" || typeof options[1][0].project != "undefined" || typeof options[1][0].search != "undefined")) {
         // read this as a field or instrument or project
         // go through each entry
         for (var j = 0; j < options[1].length; j++) {
@@ -163,7 +196,7 @@ function addToDatabase(options) {
                 // the field values are in:
                 var entry = options[1][j].field; // add this to the field in the database.. what about the keys?
                 //console.log(entry);
-                var newField = { ...field }; // copy of the type
+                var newField = createFieldStruct(); // copy of the type
                 newField.id = id;
                 newField.field_name = entry.ElementName;
                 newField.field_type = entry.DataType;
@@ -177,7 +210,7 @@ function addToDatabase(options) {
                 // append an entry to the instrument list
                 var id = getNewID("instruments");
                 var entry = options[1][j].instrument; // add this to the field in the database.. what about the keys?
-                var newInstrument = { ...instrument };
+                var newInstrument = createInstrumentStruct();
                 newInstrument.id = id;
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
                 newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
@@ -191,7 +224,7 @@ function addToDatabase(options) {
                 // append an entry to the instrument list
                 var id = getNewID("projects");
                 var entry = options[1][j].project; // add this to the field in the database.. what about the keys?
-                var newProject = { ...project };
+                var newProject = createProjectStruct();
                 newProject.id = id;
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
@@ -199,6 +232,20 @@ function addToDatabase(options) {
                     newProject.longDesc = Object.values(newProject).toString().replace(/,/g, " ")
                     projects.push(newProject);
                 }
+            } else if (typeof options[1][j].search != "undefined") {
+                var id = getNewID("searches");
+                var entry = options[1][j].search; // add this to the field in the database.. what about the keys?
+                var newSearch = createSearchStruct();
+                newSearch.id = id;
+                newSearch.name = entry["name"];
+                newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
+                newSearch.pattern = entry["pattern"];
+                if (checkForDuplicates(newSearch, "search")) {
+                    newSearch.longDesc = Object.values(newSearch).toString().replace(/,/g, " ")
+                    searches.push(newSearch);
+                }
+            } else {
+                console.log("Error: unknown type of object discovered, should be field, or search, instrument, project.");
             }
         }
         return;
@@ -217,7 +264,7 @@ function addToDatabase(options) {
     }
     id++;  // make the new ID one larger
     // find the entries in the table that correspond to our keys
-    var mapToColumn = instrument;
+    var mapToColumn = createInstrumentStruct();
     var keys = options[1][0];
     for (var i = 0; i < keys.length; i++) {
         if (keys[i] in mapToColumn) {
@@ -228,7 +275,7 @@ function addToDatabase(options) {
     for (var i = 1; i < options[1].length; i++) { // ignore the first row, its the header
         // should we sanitize the fields?
         var entry = { ...options[1][i] };
-        var inst = { ...instrument };
+        var inst = createInstrumentStruct();
         var instKeys = Object.keys(mapToColumn);
         for (var j = 0; j < instKeys.length; j++) {
             if (typeof mapToColumn[instKeys[j]] != 'undefined') {
@@ -247,10 +294,13 @@ function addToDatabase(options) {
     }
 }
 
+/**
+ * Full text searches through everything.
+ * @param {options} options 
+ * @returns list of result structures
+ */
 function search(options) {
     // full text search support
-    //console.log("Search found: " + JSON.stringify(options));
-    // we should mark our search results by type and by search
 
     // unqualified search
     if (typeof options == "string") {
@@ -295,7 +345,19 @@ function search(options) {
                 resultsP.push([options, { project: ne }]);
             }
         }
-        return [...resultsF, ...resultsI, ...resultsP]
+        var resultsS = [];
+        for (var i = 0; i < searches.length; i++) {
+            if (resultsS.length > 200)
+                break;
+            var m = searches[i].longDesc.match(regexp);
+            if (m != null && m.length > 0) {
+                // push a copy
+                var ne = Object.assign({}, searches[i]);
+                resultsS.push([options, { search: ne }]);
+            }
+        }
+
+        return [...resultsF, ...resultsI, ...resultsP, ...resultsS]
     }
 
     // here we need to respond with some JSON as a result
@@ -322,15 +384,18 @@ parentPort.on('message', function (a) {
         parentPort.postMessage(["search", results]);
     } else if (func == "stats") {
         // send back some basic stats 
-        parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length }]);
+        parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length, "searches": searches.length }]);
+    } else if (func == "saveSearch") {
+        // create a search entry
+        var s = createSearchStruct();
+        s.name = options.name;
+        s.description = options.description;
+        s.pattern = options.pattern;
+
+        addToDatabase(["loadDefaults", [{ "search": s }]]);
     } else {
         parentPort.postMessage(["Error", "option is neither announce nor search"]);
     }
-
-    //console.log('Message received from main script');
-    //const workerResult = `Result: ${e.data[0] * e.data[1]}`;
-    //console.log('Posting message back to main script');
-    //postMessage(workerResult);
 });
 
 function searchRandom() {
@@ -372,5 +437,17 @@ function searchRandom() {
         resultsP.push(["search", { project: ne }]);
     }
 
-    return [...resultsF, ...resultsI, ...resultsP];
+    var resultsS = [];
+    // randomize order
+    var order = [...Array(searches.length).keys()];
+    var shuffled = order.sort((a, b) => 0.5 - Math.random());
+    for (var i = 0; i < shuffled.length; i++) {
+        if (resultsS.length > 100)
+            break;
+        // push a copy
+        var ne = Object.assign({}, searches[shuffled[i]]);
+        resultsP.push(["search", { search: ne }]);
+    }
+
+    return [...resultsF, ...resultsI, ...resultsP, ...resultsS];
 }
