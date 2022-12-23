@@ -24,7 +24,12 @@ contextBridge.exposeInMainWorld('leftSelect', {
       document.getElementById('left-side-box-drop').removeChild(c);
       c = document.getElementById('left-side-box-drop').lastElementChild;
     }
-    document.getElementById('left-side-box-drop').appendChild(elem[0].cloneNode(true));
+    var newbox = elem[0].cloneNode(true);
+    document.getElementById('left-side-box-drop').appendChild(newbox);
+    // if we start dragging we should destroy this box
+    newbox.ondragend = function () {
+      document.getElementById('left-side-box-drop').lastElementChild.remove();
+    }
   }
 });
 
