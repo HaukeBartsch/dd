@@ -72,15 +72,18 @@ function createWindow() {
       parent: mainWindow,
       modal: true,
       show: false,
+      frame: true,
+      titleBarStyle: 'hidden',
+      trafficLightPosition: { x: 10, y: 10 },
       webPreferences: {
         preload: path.join(__dirname, 'preloadSaveDialog.js'),
         nodeIntegration: true,
         nodeIntegrationInWorker: true,
-        contextIsolation: true,
-        titleBarStyle: 'customButtonsOnHover'
+        contextIsolation: true
       }
     });
     saveWindow.loadFile('dialogSave.html');
+    saveWindow.setWindowButtonVisibility(true);
     saveWindow.once('ready-to-show', function () {
       // set the pattern as a field value
       saveWindow.webContents.send('pattern', pattern);
@@ -115,7 +118,7 @@ app.whenReady().then(() => {
 
   ipcMain.removeHandler('save:search');
   ipcMain.handle('save:search', function (ev, data) {
-    mainWindow.webContents.send('message', { "Info": "got a save:save with some values: " + data[0] + " " + data[1] + " pattern: " + data[2] });
+    //mainWindow.webContents.send('message', { "Info": "got a save:save with some values: " + data[0] + " " + data[1] + " pattern: " + data[2] });
     db.postMessage(["saveSearch", { name: data[0], description: data[1], pattern: data[2] }]);
   }); 
 
@@ -128,6 +131,12 @@ app.whenReady().then(() => {
     } else {
       db.postMessage(["search", searchString]);
     }
+  });
+
+  ipcMain.removeHandler('leftSelect:drop');
+  ipcMain.handle('leftSelect:drop', function (ev, type, id, color) {
+    // we know now that we have dropped something on the left, we should render that box first
+    console.log("react to a drop event... at least do something here " + type + " " + id + " " + color);
   });
 
   mainWindow = createWindow();
@@ -180,6 +189,7 @@ app.whenReady().then(() => {
       mainWindow.webContents.send('stats', msg[1]);
     } else if (msg[0] == "haveSomething") { // as soon as we have some values, do a random list of results, need to do the same if search field is empty
       db.postMessage(["searchRandom", "*"]);
+      db.postMessage(["loadSearchesFromDisk", ""]); // ask the database to load all previously cached searches, should happen only once.
     } else {
       mainWindow.webContents.send('message', { "Error, unknown msg received (should be stats or update)": msg[0] });
     }

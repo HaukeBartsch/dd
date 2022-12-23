@@ -19,6 +19,24 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
     document.getElementById('theme-source').innerHTML = 'System'
 })
 
+document.getElementById('left-side-box-drop').ondrop = function (ev) {
+    ev.preventDefault();
+    console.log("started ondrop");
+    // add this as a box here.. 
+    var type = ev.dataTransfer.getData("boxType");
+    var id = ev.dataTransfer.getData("boxId");
+    var color = ev.dataTransfer.getData("boxColor");
+
+    // tell main about this drop, should tell the preloader about this event, but we need to do something in main anyway
+    window.leftSelect.drop(type, id, color);
+};
+
+document.getElementById('left-side-box-drop').ondragover = function (ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "link";
+    console.log("started ondragover");
+}
+
 /**
  * delay will wait with the execution until the user has stopped typing
  * @param {callback} callback function to execute
@@ -96,4 +114,16 @@ middle_scroll_window.addEventListener("scroll", function () {
             //console.log("scrolled into view!");
         }
     }
+});
+
+document.addEventListener("dragstart", function (ev) {
+    // only valid for class box
+    // todo: check and return if not
+
+    var boxType = ev.target.getAttribute("type");
+    var boxId = ev.target.getAttribute("typeid");
+    var color = ev.target.getAttribute("color");
+    ev.dataTransfer.setData("boxId", boxId);
+    ev.dataTransfer.setData("boxType", boxType);
+    ev.dataTransfer.setData("boxColor", color);
 });

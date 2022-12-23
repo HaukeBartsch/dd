@@ -25,7 +25,9 @@
             </div>
             <!-- should open a dialog -->
             <div id="save-search-button" style="float: right;">
-                <a href="#save-search" id="save-search">save</a>
+                <a href="#save-search" id="save-search" title="Save this search by a new name" style="display: none;">
+                    <img src="search.svg" class="icon" />
+                </a>
             </div>
             <div id="search_container">
             <input type="text" value="" placeholder="search" id="search" />
@@ -36,14 +38,17 @@
     <div class="content">
         <div class="column left">
             <div style="margin: 5px;  clear: both; ">
-                <div style="display: none;">
-                <div class="side-header">Settings</div>
-                <button id="toggle-dark-mode">Toggle Dark Mode</button>
-                <button id="reset-to-system">Reset to System Theme</button>
-                <p>Current theme source: <strong id="theme-source">System</strong></p>
-                <hr>
-            </div>
+                <div>
+                    <div class="side-header">Settings</div>
+                    <button id="toggle-dark-mode">Toggle Dark Mode</button>
+                    <button id="reset-to-system">Reset to System Theme</button>
+                    <p>Current theme source: <strong id="theme-source">System</strong></p>
+                    <hr>
+                </div>
                 <div id="stats-text"></div>
+                <div style="margin-top: 30px;justify-content: center;">
+                    <div class="box-drop" id="left-side-box-drop"></div>
+                </div>
             </div>
         </div>
         <div class="column middle" id="middle-scroll-window">

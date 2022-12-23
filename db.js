@@ -241,6 +241,7 @@ function addToDatabase(options) {
                 newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
                 newSearch.pattern = entry["pattern"];
                 if (checkForDuplicates(newSearch, "search")) {
+                    // should we find the long description for a search?? maybe only the title is sufficient?
                     newSearch.longDesc = Object.values(newSearch).toString().replace(/,/g, " ")
                     searches.push(newSearch);
                 }
@@ -296,11 +297,21 @@ function addToDatabase(options) {
 
 /**
  * Full text searches through everything.
+ * @param {array} array of previous search results, should be empty the first time
  * @param {options} options 
+ * @param {ids} object (can be empty) used as cache the ids of already added structured to speed up duplicate detection
  * @returns list of result structures
  */
-function search(options) {
+function search(erg, options, ids) {
     // full text search support
+    if (typeof ids.fields == 'undefined')
+        ids.fields = {};
+    if (typeof ids.instruments == 'undefined')
+        ids.instruments = {};
+    if (typeof ids.projects == 'undefined')
+        ids.projects = {};
+    if (typeof ids.searches == 'undefined')
+        ids.searches = {};
 
     // unqualified search
     if (typeof options == "string") {
@@ -318,9 +329,12 @@ function search(options) {
                 break;
             var m = fields[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
-                // push a copy
-                var ne = Object.assign({}, fields[i]);
-                resultsF.push([options, { field: ne }]);
+                if (typeof ids.fields[fields[i].id] == 'undefined') {
+                    // push a copy
+                    var ne = Object.assign({}, fields[i]);
+                    erg.push([options, { field: ne }]);
+                    ids.fields[fields[i].id] = true; // remember that we added that id to results already
+                }
             }
         }
         var resultsI = [];
@@ -329,9 +343,13 @@ function search(options) {
                 break;
             var m = instruments[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
-                // push a copy
-                var ne = Object.assign({}, instruments[i]);
-                resultsI.push([options, { instrument: ne }]);
+                if (typeof ids.instruments[instruments[i].id] == 'undefined') {
+                    // push a copy
+                    var ne = Object.assign({}, instruments[i]);
+                    //resultsI.push([options, { instrument: ne }]);
+                    erg.push([options, { instrument: ne }]);
+                    ids.instruments[instruments[i].id] = true;
+                }
             }
         }
         var resultsP = [];
@@ -340,24 +358,48 @@ function search(options) {
                 break;
             var m = projects[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
-                // push a copy
-                var ne = Object.assign({}, projects[i]);
-                resultsP.push([options, { project: ne }]);
+                if (typeof ids.projects[projects[i].id] == 'undefined') {
+                    // push a copy
+                    var ne = Object.assign({}, projects[i]);
+                    //resultsP.push([options, { project: ne }]);
+                    erg.push([options, { project: ne }]);
+                    ids.projects[projects[i].id] = true;
+                }
             }
         }
+        // any search that results in a search will include that searches results as well (track duplicates to not do this forever)
         var resultsS = [];
         for (var i = 0; i < searches.length; i++) {
             if (resultsS.length > 200)
                 break;
             var m = searches[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
-                // push a copy
-                var ne = Object.assign({}, searches[i]);
-                resultsS.push([options, { search: ne }]);
+                if (typeof ids.searches[searches[i].id] == 'undefined') {
+                    // push a copy
+                    var ne = Object.assign({}, searches[i]);
+                    //resultsS.push([options, { search: ne }]);
+                    erg.push([options, { search: ne }]);
+                    ids.searches[searches[i].id] = true;
+                }
             }
         }
 
-        return [...resultsF, ...resultsI, ...resultsP, ...resultsS]
+        // if we still have space we can try to resolve searches
+        if (erg.length < 4 * 200) {
+            // add some more resolved searches
+            // we need to mark searches as resolved do we don't always do the same one (the first)
+            for (var i = 0; i < erg.length; i++) {
+                if (typeof erg[i][1].search == 'undefined')
+                    continue; // skip this, not a search
+                // recurse
+                var pattern = erg[i][1].search.pattern;
+                if (typeof erg[i][1].search.resolved == 'undefined') {
+                    erg[i][1].search.resolved = true; // mark this as already resolved for the next iteration
+                    search(erg, pattern, ids);
+                }
+            }
+        }
+        return;
     }
 
     // here we need to respond with some JSON as a result
@@ -377,7 +419,8 @@ parentPort.on('message', function (a) {
             parentPort.postMessage(["update", {}]);
         }
     } else if (func == "search") {
-        results = search(options);
+        var results = [];
+        search(results, options, {});
         parentPort.postMessage(["search", results]);
     } else if (func == "searchRandom") {
         results = searchRandom();
@@ -386,17 +429,49 @@ parentPort.on('message', function (a) {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length, "searches": searches.length }]);
     } else if (func == "saveSearch") {
-        // create a search entry
+        // create a search entry and add it to the database in memory
         var s = createSearchStruct();
         s.name = options.name;
         s.description = options.description;
         s.pattern = options.pattern;
 
         addToDatabase(["loadDefaults", [{ "search": s }]]);
+        // we should cache searches across the lifetime of the project so we should write them to disk every time we get a new one
+        writeAllSearches();
+    } else if (func == "loadSearchesFromDisk") {
+        importAllSearchesFromDisk();
     } else {
         parentPort.postMessage(["Error", "option is neither announce nor search"]);
     }
 });
+
+/**
+ * Export all searches to disk so we can load them again when we start the program.
+ */
+function writeAllSearches() {
+    const fs = require('fs');
+    const path = require('path');
+    const p = path.join(__dirname, 'searches_cache.json');
+    fs.writeFileSync(p, JSON.stringify(searches));
+}
+
+/**
+ * Import all searches back from disk. This will overwrite existing searches in memory.
+ */
+function importAllSearchesFromDisk() {
+    // merges with all searches already in searches?
+    const fs = require('fs');
+    const path = require('path');
+    const p = path.join(__dirname, 'searches_cache.json');
+    if (fs.existsSync(p)) {
+        let rawdata = fs.readFileSync(p);
+        try {
+            searches = JSON.parse(rawdata);
+        } catch (e) {
+            // got an error reading the searches_cache file as json
+        }
+    }
+}
 
 function searchRandom() {
     var results = [];

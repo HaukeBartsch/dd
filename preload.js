@@ -13,6 +13,21 @@ contextBridge.exposeInMainWorld('search', {
   }
 });
 
+contextBridge.exposeInMainWorld('leftSelect', {
+  drop: function (type, id, color) {
+    ipcRenderer.invoke('leftSelect:drop', type, id, color);
+    // just get a copy of this box (ignore all the special info)
+    var elem = document.querySelectorAll('div.box[type="' + type + '"][typeid="' + id + '"]');
+    // remove all old children
+    var c = document.getElementById('left-side-box-drop').lastElementChild;
+    while (c != null) {
+      document.getElementById('left-side-box-drop').removeChild(c);
+      c = document.getElementById('left-side-box-drop').lastElementChild;
+    }
+    document.getElementById('left-side-box-drop').appendChild(elem[0].cloneNode(true));
+  }
+});
+
 contextBridge.exposeInMainWorld('darkMode', {
   toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
   system: () => ipcRenderer.invoke('dark-mode:system')
@@ -39,6 +54,11 @@ ipcRenderer.on('stats', function (evt, message) {
   information.innerHTML = "<button class='btn btn-info'>instruments " + numberWithCommas(message["instruments"]) + "</button>"
     + "<button class='btn btn-info'>projects: " + numberWithCommas(message["projects"]) + "</button>"
     + "<button class='btn btn-info'>fields: " + numberWithCommas(message["fields"]) + "</button>";
+});
+
+ipcRenderer.on('left-drop', function (evt, message) {
+  // lookup the 
+  console.log("got a left-drop " + JSON.stringify(message));
 });
 
 /**
@@ -84,7 +104,7 @@ ipcRenderer.on('search', function (evt, message) {
       continue;
     }
     // now we know how to display these
-    // we expect a field for search results of these three types 'field', 'instrument', 'project'
+    // we expect a field for search results of these three types 'field', 'instrument', 'project', 'search'
     addBox(type, searchResult[type]);
   }
   // lets find out if any rows are empty, hide those
@@ -104,6 +124,75 @@ ipcRenderer.on('search', function (evt, message) {
 
 var colorCache = {}; // memorize the color number if we have seen this variable before
 
+/**
+ * return the html text for a box of a given type
+ */
+function createBox(type, result, numboxes) {
+  var color = "q" + (numboxes % 8) + "-8";
+  if (type == "project") {
+    if (result.name in colorCache) {
+      color = colorCache[result.name];
+    } else {
+      colorCache[result.name] = color;
+    }
+    s = parseURI(result.instruments);
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true'>" + "<div class='title'>" + result.name + "</div>" +
+      "<div class='project-name'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
+      "</div>";
+  } else if (type == "field") {
+    s = {
+      project: "",
+      instrument: "",
+      project_version: "",
+      instrument_version: "",
+      instrument_part: ""
+    };
+    if (typeof result.form_name != 'undefined' && result.form_name.length > 0) {
+      s = parseURI(result.form_name);
+    }
+    s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
+    s.project_version = s.project_version == null ? "" : s.project_version;
+    result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
+
+    if (result.field_name in colorCache) {
+      color = colorCache[result.field_name];
+    } else {
+      colorCache[result.field_name] = color;
+    }
+    return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result.field_name + "</div>" +
+      "<div class='description'>" + result.field_label + "</div>" +
+      "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='instrument-name'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
+      "</div>";
+  } else if (type == "instrument") {
+    s = {
+      project: "",
+      instrument: "",
+      project_version: "",
+      instrument_version: "",
+      instrument_part: ""
+    };
+    if (typeof result.fields != 'undefined' && result.fields.length > 0) {
+      s = parseURI(result.fields);
+    }
+    if (result["Instrument Title"] in colorCache) {
+      color = colorCache[result["Instrument Title"]];
+    } else {
+      colorCache[result["Instrument Title"]] = color;
+    }
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
+      "<div class='description'>" + result["Description"] + "</div>" +
+      "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "</div>";
+  } else if (type == "search") {
+    return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["name"] + "</div>" +
+      "<div class='description'>" + result["description"] + "</div>" +
+      "<div class='pattern'>/" + result["pattern"] + "/i</div>" +
+      "</div>";
+  }
+}
+
+
 function addBox(type, result) {
   // find a row with that type
   let row = document.getElementsByClassName(type);
@@ -113,74 +202,21 @@ function addBox(type, result) {
 
   // how many elements are already in that list?
   for (var r = 0; r < row.length; r++) {
-
     var numboxes = row[r].getElementsByClassName('box').length;
-    var color = "q" + (numboxes % 8) + "-8";
     if (numboxes < 30) {
       // add the result here, if we never add we will not see the results, so make sure you have sufficient rows available
       if (type == 'project') {
-        if (result.name in colorCache) {
-          color = colorCache[result.name];
-        } else {
-          colorCache[result.name] = color;
-        }
-        s = parseURI(result.instruments);
-        row[r].innerHTML += "<div class='box Pastel2-" + color + "' type='project' typeid='" + result.id + "'>" + "<div class='title'>" + result.name + "</div>" +
-          "<div class='project-name'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
-          "</div>";
+        var b = createBox(type, result, numboxes);
+        row[r].innerHTML += b;
       } else if (type == 'field') {
-        s = {
-          project: "",
-          instrument: "",
-          project_version: "",
-          instrument_version: "",
-          instrument_part: ""
-        };
-        if (typeof result.form_name != 'undefined' && result.form_name.length > 0) {
-          s = parseURI(result.form_name);
-        }
-        s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
-        s.project_version = s.project_version == null ? "" : s.project_version;
-        result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
-
-        if (result.field_name in colorCache) {
-          color = colorCache[result.field_name];
-        } else {
-          colorCache[result.field_name] = color;
-        }
-
-        row[r].innerHTML += "<div class='box Pastel1-" + color + "' type='field' typeid='" + result.id + "'>" + "<div class='title'>" + result.field_name + "</div>" +
-          "<div class='description'>" + result.field_label + "</div>" +
-          "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
-          "<div class='instrument-name'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
-          "</div>";
+        var b = createBox(type, result, numboxes);
+        row[r].innerHTML += b;
       } else if (type == 'instrument') {
-        s = {
-          project: "",
-          instrument: "",
-          project_version: "",
-          instrument_version: "",
-          instrument_part: ""
-        };
-        if (typeof result.fields != 'undefined' && result.fields.length > 0) {
-          s = parseURI(result.fields);
-        }
-        if (result["Instrument Title"] in colorCache) {
-          color = colorCache[result["Instrument Title"]];
-        } else {
-          colorCache[result["Instrument Title"]] = color;
-        }
-
-        row[r].innerHTML += "<div class='box Pastel2-" + color + "' type='instrument' typeid='" + result.id + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
-          "<div class='description'>" + result["Description"] + "</div>" +
-          "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
-          "</div>";
-
+        var b = createBox(type, result, numboxes);
+        row[r].innerHTML += b;
       } else if (type == "search") {
-        row[r].innerHTML += "<div class='box search-card' type='search' typeid='" + result.id + "'>" + "<div class='title'>" + result["name"] + "</div>" +
-          "<div class='description'>" + result["description"] + "</div>" +
-          "</div>";
-
+        var b = createBox(type, result, numboxes);
+        row[r].innerHTML += b;
       }
       break; // done entering this field
     }
