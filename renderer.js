@@ -21,7 +21,7 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
 
 document.getElementById('left-side-box-drop').ondrop = function (ev) {
     ev.preventDefault();
-    console.log("started ondrop");
+    //console.log("started ondrop");
     // add this as a box here.. 
     var type = ev.dataTransfer.getData("boxType");
     var id = ev.dataTransfer.getData("boxId");
@@ -34,7 +34,7 @@ document.getElementById('left-side-box-drop').ondrop = function (ev) {
 document.getElementById('left-side-box-drop').ondragover = function (ev) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "link";
-    console.log("started ondragover");
+    //console.log("started ondragover");
 }
 
 /**
