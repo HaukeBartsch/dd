@@ -89,7 +89,6 @@ ipcRenderer.on('search', function (evt, message) {
     rows[r].innerHTML = "";
   }
 
-
   // message is array of [ 'search string', { field: [{},...] } ]
   for (var i = 0; i < message.length; i++) {
     // we will get only about 300 entries back
@@ -133,6 +132,20 @@ var colorCache = {}; // memorize the color number if we have seen this variable 
  * return the html text for a box of a given type
  */
 function createBox(type, result, numboxes) {
+  s = {
+    project: "",
+    instrument: "",
+    project_version: "",
+    instrument_version: "",
+    instrument_part: ""
+  };
+  if (typeof result.uri != 'undefined' && result.uri.length > 0) {
+    s = parseURI(result.uri);
+  }
+  s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
+  s.project_version = s.project_version == null ? "" : s.project_version;
+  result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
+
   var color = "q" + (numboxes % 8) + "-8";
   if (type == "project") {
     if (result.name in colorCache) {
@@ -140,25 +153,11 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result.name] = color;
     }
-    s = parseURI(result.instruments);
     return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true'>" + "<div class='title'>" + result.name + "</div>" +
-      "<div class='project-name'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
+      "<div class='project-name' title='Protocol name and project'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
+      "<div class='instrument-name' title='Instrument and version'> " + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div > " +
       "</div>";
   } else if (type == "field") {
-    s = {
-      project: "",
-      instrument: "",
-      project_version: "",
-      instrument_version: "",
-      instrument_part: ""
-    };
-    if (typeof result.form_name != 'undefined' && result.form_name.length > 0) {
-      s = parseURI(result.form_name);
-    }
-    s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
-    s.project_version = s.project_version == null ? "" : s.project_version;
-    result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
-
     if (result.field_name in colorCache) {
       color = colorCache[result.field_name];
     } else {
@@ -166,20 +165,10 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result.field_name + "</div>" +
       "<div class='description'>" + result.field_label + "</div>" +
-      "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
-      "<div class='instrument-name'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
+      "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   } else if (type == "instrument") {
-    s = {
-      project: "",
-      instrument: "",
-      project_version: "",
-      instrument_version: "",
-      instrument_part: ""
-    };
-    if (typeof result.fields != 'undefined' && result.fields.length > 0) {
-      s = parseURI(result.fields);
-    }
     if (result["Instrument Title"] in colorCache) {
       color = colorCache[result["Instrument Title"]];
     } else {
@@ -187,12 +176,15 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
       "<div class='description'>" + result["Description"] + "</div>" +
-      "<div class='project-name'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   } else if (type == "search") {
     return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["name"] + "</div>" +
       "<div class='description'>" + result["description"] + "</div>" +
       "<div class='pattern'>/" + result["pattern"] + "/i</div>" +
+      "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   }
 }

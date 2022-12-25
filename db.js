@@ -198,6 +198,7 @@ function addToDatabase(options) {
                 //console.log(entry);
                 var newField = createFieldStruct(); // copy of the type
                 newField.id = id;
+                newField.uri = entry.uri;
                 newField.field_name = entry.ElementName;
                 newField.field_type = entry.DataType;
                 newField.field_label = entry.ElementDescription;
@@ -212,6 +213,7 @@ function addToDatabase(options) {
                 var entry = options[1][j].instrument; // add this to the field in the database.. what about the keys?
                 var newInstrument = createInstrumentStruct();
                 newInstrument.id = id;
+                newInstrument.uri = entry.uri;
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
                 newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
@@ -226,6 +228,7 @@ function addToDatabase(options) {
                 var entry = options[1][j].project; // add this to the field in the database.. what about the keys?
                 var newProject = createProjectStruct();
                 newProject.id = id;
+                newProject.uri = entry.uri;
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
                 if (checkForDuplicates(newProject, "project")) {
@@ -237,6 +240,7 @@ function addToDatabase(options) {
                 var entry = options[1][j].search; // add this to the field in the database.. what about the keys?
                 var newSearch = createSearchStruct();
                 newSearch.id = id;
+                newSearch.uid = entry.uri;
                 newSearch.name = entry["name"];
                 newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
                 newSearch.pattern = entry["pattern"];

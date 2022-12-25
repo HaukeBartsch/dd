@@ -142,7 +142,12 @@ app.whenReady().then(() => {
   mainWindow = createWindow();
 
   app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit()
+    if (process.platform !== 'darwin') {
+      // close the workers as  well
+      db.terminate();
+      loader.terminate();
+      app.quit();
+    }
   })
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

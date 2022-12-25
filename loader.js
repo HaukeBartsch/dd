@@ -64,7 +64,8 @@ function downloadHelseData(req, page) {
                             "name": p,
                             "description": "",
                             "version": "",
-                            "instruments": uri
+                            "instruments": uri,
+                            "uri": uri
                         }
                     };
                     if (entry.theme != null) {
@@ -75,7 +76,8 @@ function downloadHelseData(req, page) {
                                 "Instrument Version": "",
                                 "Description": "",
                                 "Instrument Part": "",
-                                "fields": uri + "&instrument=" + encodeURI(entry.theme)
+                                "uri": uri + encodeURI(entry.theme),
+                                "fields": uri + encodeURI(entry.theme)
                             }
                         };
                     }
@@ -87,6 +89,7 @@ function downloadHelseData(req, page) {
                             "Instrument Part": entry.code,
                             "ElementDescription": description,
                             "FormName": uri,
+                            "uri": uri,
                             "fields": uri
                         }
                     });
@@ -198,7 +201,8 @@ function downloadHUNT(req) {
                                 "Instrument Version": entry.id,
                                 "Description": entry.description,
                                 "Instrument Part": entry.id,
-                                "fields": uri + "&instrument=" + entry.name
+                                "fields": uri + "&instrument=" + entry.name,
+                                "uri": uri + "&instrument=" + entry.name
                             }
                         });
                         // we should have a list of instruments now
@@ -212,7 +216,8 @@ function downloadHUNT(req) {
                                 "name": entry.title + " (" + entry.name + ")",
                                 "description": typeof entry.description != "undefined" ? entry.description : "",
                                 "version": "",
-                                "instruments": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no"
+                                "instruments": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no",
+                                "uri": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no"
                             }
                         });
                     }
@@ -292,7 +297,8 @@ function downloadHUNTVariables(req) {
                                 "Instrument Part": entry.instrument.title,
                                 "ElementDescription": entry.textEnglish.length > 0 ? entry.textEnglish : entry.text,
                                 "FormName": "hunt://hunt?instrument=" + entry.instrument.name,
-                                "fields": "hunt://hunt?instrument=" + entry.instrument.name
+                                "fields": "hunt://hunt?instrument=" + entry.instrument.name + "&release=hunt-db.medisin.ntnu.no",
+                                "uri": "hunt://hunt?instrument=" + entry.instrument.name + "&release=hunt-db.medisin.ntnu.no"
                             }
                         });
                     }
@@ -458,6 +464,7 @@ function downloadAndParse(req, url, uri, parser) {
                     // add to each entry the FormName
                     for (var i = 0; i < ergs.length; i++) {
                         ergs[i].field.FormName = uri;
+                        ergs[i].field.uri = uri;
                     }
                     // we could analyze the uri here to extract the info we need
                     s = parseURI(uri);
@@ -469,14 +476,16 @@ function downloadAndParse(req, url, uri, parser) {
                             "Instrument Title": s.instrument,
                             "Instrument Version": s.instrument_version,
                             "Instrument Part": s.instrument_part,
-                            "fields": uri
+                            "fields": uri,
+                            "uri": uri
                         }
                     }]]);
                     parentPort.postMessage([req, [{
                         "project": {
                             "name": s.project,
                             "version": s.project_version,
-                            "instruments": uri
+                            "instruments": uri,
+                            "uri": uri
                         }
                     }]]);
                 });
