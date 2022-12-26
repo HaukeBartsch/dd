@@ -26,10 +26,31 @@ document.getElementById('left-side-box-drop').ondrop = function (ev) {
     var type = ev.dataTransfer.getData("boxType");
     var id = ev.dataTransfer.getData("boxId");
     var color = ev.dataTransfer.getData("boxColor");
+    var content = ev.dataTransfer.getData("boxContent");
 
     // tell main about this drop, should tell the preloader about this event, but we need to do something in main anyway
-    window.leftSelect.drop(type, id, color);
+    window.leftSelect.drop(type, id, color, content);
 };
+
+document.getElementById('search').ondrop = function (ev) {
+    ev.preventDefault();
+    var type = ev.dataTransfer.getData("boxType");
+    var id = ev.dataTransfer.getData("boxId");
+    var color = ev.dataTransfer.getData("boxColor");
+    var content = ev.dataTransfer.getData("boxContent");
+    // enter a search value and search
+    var elem = document.querySelectorAll('div.box[type="' + type + '"][typeid="' + id + '"]');
+    var uri = elem[0].getAttribute("uri");
+    document.getElementById("search").value = uri;
+    console.log("set value of search box to " + uri);
+    // we need to trigger a change event
+    document.getElementById("search").dispatchEvent(new Event('keyup', { 'bubbles': true }));
+}
+
+document.getElementById('search').ondragover = function (ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "link";
+}
 
 document.getElementById('left-side-box-drop').ondragover = function (ev) {
     ev.preventDefault();
@@ -126,4 +147,14 @@ document.addEventListener("dragstart", function (ev) {
     ev.dataTransfer.setData("boxId", boxId);
     ev.dataTransfer.setData("boxType", boxType);
     ev.dataTransfer.setData("boxColor", color);
+    ev.dataTransfer.setData("boxContent", ""); //  a json version of the data
+
+    // add a highlight to the drop region
+    document.getElementById("left-side-box-drop").classList.remove("box-drop-normal");
+    document.getElementById("left-side-box-drop").classList.add("box-drop-highlight");
 });
+
+document.addEventListener("dragend", function (ev) {
+    document.getElementById("left-side-box-drop").classList.remove("box-drop-highlight");
+    document.getElementById("left-side-box-drop").classList.add("box-drop-normal");
+})

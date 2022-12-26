@@ -134,9 +134,9 @@ app.whenReady().then(() => {
   });
 
   ipcMain.removeHandler('leftSelect:drop');
-  ipcMain.handle('leftSelect:drop', function (ev, type, id, color) {
+  ipcMain.handle('leftSelect:drop', function (ev, type, id, color, content) {
     // we know now that we have dropped something on the left, we should render that box first
-    console.log("react to a drop event... at least do something here " + type + " " + id + " " + color);
+    console.log("react to a drop event... at least do something here " + type + " " + id + " " + color + " " + content);
   });
 
   mainWindow = createWindow();

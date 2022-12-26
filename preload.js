@@ -14,8 +14,8 @@ contextBridge.exposeInMainWorld('search', {
 });
 
 contextBridge.exposeInMainWorld('leftSelect', {
-  drop: function (type, id, color) {
-    ipcRenderer.invoke('leftSelect:drop', type, id, color);
+  drop: function (type, id, color, content) {
+    ipcRenderer.invoke('leftSelect:drop', type, id, color, content);
     // just get a copy of this box (ignore all the special info)
     var elem = document.querySelectorAll('div.box[type="' + type + '"][typeid="' + id + '"]');
     // remove all old children
@@ -24,12 +24,18 @@ contextBridge.exposeInMainWorld('leftSelect', {
       document.getElementById('left-side-box-drop').removeChild(c);
       c = document.getElementById('left-side-box-drop').lastElementChild;
     }
+    // make a copy and set as new content
     var newbox = elem[0].cloneNode(true);
     document.getElementById('left-side-box-drop').appendChild(newbox);
     // if we start dragging we should destroy this box
     newbox.ondragend = function () {
       document.getElementById('left-side-box-drop').lastElementChild.remove();
+      // reset the highlight
+      document.getElementById("left-side-box-drop").classList.remove("box-drop-highlight");
+      document.getElementById("left-side-box-drop").classList.add("box-drop-normal");
     }
+    // we should ask for the content from content  from the database... otherwise we don't have something to show here
+
   }
 });
 
@@ -153,7 +159,7 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result.name] = color;
     }
-    return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true'>" + "<div class='title'>" + result.name + "</div>" +
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true' uri='" + result.uri + "'>" + "<div class='title'>" + result.name + "</div>" +
       "<div class='project-name' title='Protocol name and project'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'> " + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div > " +
       "</div>";
@@ -163,7 +169,7 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result.field_name] = color;
     }
-    return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result.field_name + "</div>" +
+    return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result.field_name + "</div>" +
       "<div class='description'>" + result.field_label + "</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
@@ -174,13 +180,13 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result["Instrument Title"]] = color;
     }
-    return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
       "<div class='description'>" + result["Description"] + "</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   } else if (type == "search") {
-    return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true'>" + "<div class='title'>" + result["name"] + "</div>" +
+    return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result["name"] + "</div>" +
       "<div class='description'>" + result["description"] + "</div>" +
       "<div class='pattern'>/" + result["pattern"] + "/i</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
