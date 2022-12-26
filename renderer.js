@@ -41,7 +41,7 @@ document.getElementById('search').ondrop = function (ev) {
     // enter a search value and search
     var elem = document.querySelectorAll('div.box[type="' + type + '"][typeid="' + id + '"]');
     var uri = elem[0].getAttribute("uri");
-    if (typeof uri != 'undefined' && uri != null) {
+    if (typeof uri != 'undefined' && uri != null && uri != 'undefined') {
         // instead of putting the uri in here directly we need to make sure that its not interpreted as a regexp, should be a literal search
         uri = uri.replace(/\?/g, "\\?");
         document.getElementById("search").value = uri;

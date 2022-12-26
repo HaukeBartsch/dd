@@ -438,6 +438,8 @@ parentPort.on('message', function (a) {
         s.name = options.name;
         s.description = options.description;
         s.pattern = options.pattern;
+        var username = require("os").userInfo().username;
+        s.uri = "search://" + username + "?instrument=JustASearch"; // create an uri for this novel search
 
         addToDatabase(["loadDefaults", [{ "search": s }]]);
         // we should cache searches across the lifetime of the project so we should write them to disk every time we get a new one
