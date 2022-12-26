@@ -240,7 +240,7 @@ function addToDatabase(options) {
                 var entry = options[1][j].search; // add this to the field in the database.. what about the keys?
                 var newSearch = createSearchStruct();
                 newSearch.id = id;
-                newSearch.uid = entry.uri;
+                newSearch.uri = entry.uri;
                 newSearch.name = entry["name"];
                 newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
                 newSearch.pattern = entry["pattern"];

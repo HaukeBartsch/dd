@@ -41,10 +41,16 @@ document.getElementById('search').ondrop = function (ev) {
     // enter a search value and search
     var elem = document.querySelectorAll('div.box[type="' + type + '"][typeid="' + id + '"]');
     var uri = elem[0].getAttribute("uri");
-    document.getElementById("search").value = uri;
-    console.log("set value of search box to " + uri);
-    // we need to trigger a change event
-    document.getElementById("search").dispatchEvent(new Event('keyup', { 'bubbles': true }));
+    if (typeof uri != 'undefined' && uri != null) {
+        // instead of putting the uri in here directly we need to make sure that its not interpreted as a regexp, should be a literal search
+        uri = uri.replace(/\?/g, "\\?");
+        document.getElementById("search").value = uri;
+        console.log("set value of search box to " + uri);
+        // we need to trigger a change event
+        document.getElementById("search").dispatchEvent(new Event('keyup', { 'bubbles': true }));
+    } else {
+        console.log("Error: this element does not have a uri - but it should have, please fix loader for: " + JSON.stringify(elem));
+    }
 }
 
 document.getElementById('search').ondragover = function (ev) {
