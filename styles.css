@@ -128,6 +128,10 @@
     }
 }
 
+.middle-scroll {
+    min-height: 100%;
+}
+
 .slider {
     min-width: 100%;
     height: 100%;
@@ -359,6 +363,7 @@ div.box-drop-highlight .box {
     max-height: 50%;
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .box div.project-name {
@@ -373,6 +378,7 @@ div.box-drop-highlight .box {
     bottom: 1.2em;
     left: 2px;
     font-size: 0.8em;
+    z-index: 2;
 }
 
 .box div.pattern {

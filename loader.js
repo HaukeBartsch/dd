@@ -12,8 +12,362 @@ parentPort.on('message', function (a) {
         downloadHUNT(a[0]);
         downloadHUNTVariables(a[0]);
         downloadHelseData(a[0]);
+        // the next section requires a key from bioportals (added to .env)
+        require("dotenv").config();
+        if (typeof process.env.BIOONTOLOGY_API_KEY != "undefined") {
+            downloadBioOntologyProjects(a[0]);
+            // seeding ontologies, we will download them as projects + we will download the root for each of them
+            downloadBioOntologyOntologies(a[0]);
+            // downloadBioOntologyClasses(a[0], "SNOMEDCT", 1); // too many
+            //downloadBioOntologyRoots(a[0], "SNOMEDCT");
+            //downloadBioOntologyRoots(a[0], "RXNORM");
+            //downloadBioOntologyRoots(a[0], "MDDB");
+        }
     }
 })
+
+// /ontologies/:ontology/classes/roots
+function downloadBioOntologyRoots(req, ontology) {
+    require("dotenv").config();
+    // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+    // we could have a list of ontologies in the second argument as well, use up the first and loop until list is empty
+    var ontology_short = "";
+    var page = 1;
+    var max_pages = 1;
+    if (Array.isArray(ontology)) {
+        if (ontology.length == 0)
+            return; // we are done
+        var elem = ontology.shift();
+        ontology_short = elem.name;
+        page = elem.page;
+        max_pages = elem.max_pages;
+    } else {
+        ontology_short = ontology;
+    }
+
+    // get the projects from BioOntology  http://data.bioontology.org/projects
+    var uri = "bioontologies://" + ontology_short;
+    var url = "https://data.bioontology.org/ontologies/" + ontology_short + "/classes/roots_paged?apikey=" + process.env.BIOONTOLOGY_API_KEY + "&page=" + page;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("bioontology_roots", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                try {
+                    contentJSON = JSON.parse(content);
+                } catch (e) {
+                    // if we cannot receive roots we should skip here
+                    return;
+                }
+                // we might be rejected due to access limitations, lets ignore these requests
+                if (typeof contentJSON.errors != "undefined") {
+                    contentJSON.collection = [];
+                }
+
+                //console.log("got some data :  " + content);
+                var proj = [];
+                for (var i = 0; i < contentJSON.collection.length; i++) {
+                    var entry = contentJSON.collection[i];
+                    if (entry.obsolete)
+                        continue;
+                    var instrument_str = "";
+                    if (entry['cui'].length > 0) {
+                        instrument_str = "?instrument=" + entry["cui"][0];
+                    }
+                    proj.push({
+                        "field": {
+                            "ElementName": entry.prefLabel + " [" + entry['cui'].join(",") + "]",
+                            "descendants_link": entry["links"].descendants,
+                            "DataType": "class",
+                            "Instrument Part": ontology_short,
+                            "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", ") + "</br>" + entry.definition.join(", "),
+                            "FormName": uri,
+                            "uri": uri + instrument_str,
+                            "fields": uri
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+                // for each class we should download decendences
+                var descendants_links = [];
+                for (var c = 0; c < proj.length; c++) {
+                    var descendants_link = proj[c].field.descendants_link;
+                    if (typeof descendants_link != "undefined" && descendants_link.length > 0 && ontology_short == "SNOMEDCT") {
+                        descendants_links.push([proj[c].field.ElementName, descendants_link]);
+                    }
+                }
+                downloadBioOntologyDecendants(req, ontology_short, descendants_links);
+
+                // if we got something for this ontology and our page is not max_pages yet lets add another page to download
+                if (proj.length > 0 && (elem.page + 1) <= elem.max_page) {
+                    elem.page = elem.page + 1;
+                    ontology.push(elem);
+                }
+
+                if (ontology.length > 0) { // still something to do here
+                    setTimeout(function () {
+                        downloadBioOntologyRoots(req, ontology); // is called with array once smaller
+                    }, 200);
+                }
+            });
+        });
+    });
+}
+
+// /ontologies/:ontology/classes/:cls/descendants
+function downloadBioOntologyDecendants(req, ontology, descendants_links) {
+    require("dotenv").config();
+    // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+    var descendants_link = "";
+    var parent = "";
+    if (descendants_links.length > 0) {
+        var a = descendants_links.shift();
+        descendants_link = a[1];
+        parent = a[0];
+    } else {
+        return; // nothing else to do
+    }
+
+    // get the projects from BioOntology  http://data.bioontology.org/projects
+    var uri = "bioontologies://" + ontology + "?instrument=" + encodeURIComponent(parent);
+    var url = descendants_link + "?apikey=" + process.env.BIOONTOLOGY_API_KEY;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("bioontology_decendants_classes", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                try {
+                    contentJSON = JSON.parse(content);
+                } catch (e) {
+                    return; // if we don't get good JSON do nothing
+                }
+                //console.log("got some data :  " + content);
+                var proj = [];
+                if (typeof contentJSON.collection == 'undefined') {
+                    return;
+                }
+                for (var i = 0; i < contentJSON.collection.length; i++) {
+                    var entry = contentJSON.collection[i];
+                    if (entry.obsolete)
+                        continue;
+                    proj.push({
+                        "field": {
+                            "ElementName": entry.prefLabel + " [" + entry["@id"].split("/").slice(-1)[0] + "]",
+                            "DataType": "class",
+                            "Instrument Part": ontology,
+                            "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", "),
+                            "FormName": uri,
+                            "uri": uri,
+                            "fields": uri
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+                if (proj.length > 0) {
+                    // request another page
+                    setTimeout(function () { // try to get the next one in the list
+                        downloadBioOntologyDecendants(req, ontology, descendants_links);
+                    }, 100);
+                }
+            });
+        });
+    });
+}
+
+
+
+// this has many pages (potentially)
+function downloadBioOntologyClasses(req, ontology, page) {
+    require("dotenv").config();
+    // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+
+    // get the projects from BioOntology  http://data.bioontology.org/projects
+    var uri = "bioontologies://" + ontology;
+    var url = "https://data.bioontology.org/ontologies/" + ontology + "/classes?apikey=" + process.env.BIOONTOLOGY_API_KEY + "&page=" + page;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("bioontology_classes", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                contentJSON = JSON.parse(content);
+                //console.log("got some data :  " + content);
+                var proj = [];
+                for (var i = 0; i < contentJSON.collection.length; i++) {
+                    var entry = contentJSON.collection[i];
+                    if (entry.obsolete)
+                        continue;
+                    proj.push({
+                        "field": {
+                            "ElementName": entry.prefLabel,
+                            "DataType": "class",
+                            "Instrument Part": ontology,
+                            "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", "),
+                            "FormName": uri,
+                            "uri": uri + "?instrument=" + entry["cui"][0],
+                            "fields": uri
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+                if (proj.length > 0) {
+                    // request another page
+                    setTimeout(function () {
+                        downloadBioOntologyClasses(req, ontology, ++page);
+                    }, 10);
+                }
+            });
+        });
+    });
+}
+
+function downloadBioOntologyOntologies(req) {
+    require("dotenv").config();
+    // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+
+    // get the projects from BioOntology  http://data.bioontology.org/projects
+    var uri = "bioontologies://ontology";
+    var url = "https://data.bioontology.org/ontologies_full?apikey=" + process.env.BIOONTOLOGY_API_KEY;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("bioontology_ontologies", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                contentJSON = JSON.parse(content);
+                //console.log("got some data :  " + content);
+                var proj = [];
+                for (var i = 0; i < contentJSON.length; i++) {
+                    var entry = contentJSON[i].ontology;
+                    proj.push({
+                        "project": {
+                            "name": entry.acronym,
+                            "description": entry.name + ".</br></br>" + entry["@id"],
+                            "version": entry["@type"],
+                            "instruments": uri,
+                            "uri": uri + "?instrument=" + entry.acronym
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+                // for each ontology we can download the root list by
+                var projList = proj.map(function (a) { return a.project.name; });
+                // reorder to get some standard ontologies downloaded first
+                var putUpFront = ["SNOMEDCT", "RXNORM", "MDDB", "DCM", "SEDI", "LOINC"];
+                for (var i = 0; i < putUpFront.length; i++) {
+                    var idx = projList.indexOf(putUpFront[i]);
+                    if (idx != null) {
+                        projList.splice(idx, 1); // delete that element
+                        projList.unshift(putUpFront[i]);
+                    }
+                }
+                // lets download 2 pages for each of the projects
+                projList = projList.map(function (a) { return { name: a, page: 1, max_page: 10 }; });
+                setTimeout(function () {
+                    downloadBioOntologyRoots(req, projList);
+                }, 10);
+            });
+        });
+    });
+}
+
+
+function downloadBioOntologyProjects(req) {
+    require("dotenv").config();
+    // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+
+    // get the projects from BioOntology  http://data.bioontology.org/projects
+    var uri = "bioontologies://projects";
+    var url = "https://data.bioontology.org/projects?apikey=" + process.env.BIOONTOLOGY_API_KEY;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("bioontology_projects", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                contentJSON = JSON.parse(content);
+                console.log("got some data :  " + content);
+                var proj = [];
+                for (var i = 0; i < contentJSON.length; i++) {
+                    var entry = contentJSON[i];
+                    proj.push({
+                        "project": {
+                            "name": entry.name,
+                            "description": entry.description,
+                            "version": entry["@type"],
+                            "instruments": uri,
+                            "uri": uri
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+            });
+        });
+    });
+}
+
 
 // todo: add the left side variables: https://helsedata.no/no/variabler/?page=search
 function downloadHelseData(req, page) {

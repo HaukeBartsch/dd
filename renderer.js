@@ -78,6 +78,8 @@ function delay(fn, ms) {
     }
 }
 
+var lastSearchString = "";
+
 // someone typed something into the search field
 // we should wait a bit before sending it off, user might keep entering characters
 document.getElementById('search').addEventListener("keyup", delay(function (e) {
@@ -89,7 +91,12 @@ document.getElementById('search').addEventListener("keyup", delay(function (e) {
     } else {
         document.getElementById('save-search').style.display = 'none';
     }
-    window.search.string(v);
+    // we should check if we really got a new string here, only if we have a new string we should 
+    // search again
+    if (v != lastSearchString) {
+        window.search.string(v);
+        lastSearchString = v;
+    }
 
 }, 500));
 

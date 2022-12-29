@@ -160,6 +160,7 @@ function createBox(type, result, numboxes) {
       colorCache[result.name] = color;
     }
     return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true' uri='" + result.uri + "'>" + "<div class='title'>" + result.name + "</div>" +
+      "<div class='description'>" + (typeof result.description != 'undefined' ? result.description : "") + "</div>" +
       "<div class='project-name' title='Protocol name and project'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'> " + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div > " +
       "</div>";

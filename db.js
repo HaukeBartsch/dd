@@ -211,6 +211,10 @@ function addToDatabase(options) {
                 // append an entry to the instrument list
                 var id = getNewID("instruments");
                 var entry = options[1][j].instrument; // add this to the field in the database.. what about the keys?
+                if (typeof entry.uri == "undefined" || entry.uri == "undefined") {
+                    console.log("Error: found entry to add without a uri");
+                }
+
                 var newInstrument = createInstrumentStruct();
                 newInstrument.id = id;
                 newInstrument.uri = entry.uri;
@@ -228,6 +232,7 @@ function addToDatabase(options) {
                 var entry = options[1][j].project; // add this to the field in the database.. what about the keys?
                 var newProject = createProjectStruct();
                 newProject.id = id;
+                newProject.description = (typeof entry.description != 'undefined' ? entry.description : ""),
                 newProject.uri = entry.uri;
                 newProject.name = entry["name"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
@@ -290,7 +295,8 @@ function addToDatabase(options) {
         inst.id = id++;
         if (typeof inst["Instrument Title"] != "undefined") {
             var t = inst["Instrument Title"].replace(/ /g, "_").toLowerCase();
-            inst.fields = uri_prefix + t;
+            inst.fields = uri_prefix + "instrument=" + t;
+            inst.uri = uri_prefix + "instrument=" + t;
         }
         if (checkForDuplicates(inst, "instrument")) {
             inst.longDesc = JSON.stringify(inst);
