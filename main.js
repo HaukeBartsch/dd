@@ -119,7 +119,7 @@ app.whenReady().then(() => {
   ipcMain.removeHandler('save:search');
   ipcMain.handle('save:search', function (ev, data) {
     //mainWindow.webContents.send('message', { "Info": "got a save:save with some values: " + data[0] + " " + data[1] + " pattern: " + data[2] });
-    db.postMessage(["saveSearch", { name: data[0], description: data[1], pattern: data[2] }]);
+    db.postMessage(["saveSearch", { name: data[0], description: data[1], pattern: data[2], "@id": require("os").userInfo().username + ":" + data[2] + ":" + encodeURIComponent(data[0]) }]);
   }); 
 
   ipcMain.removeHandler('search:string');

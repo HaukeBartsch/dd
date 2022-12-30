@@ -2,6 +2,8 @@
 const { Worker, isMainThread, parentPort } = require('worker_threads');
 const { parse } = require("csv-parse");
 
+// TODO: we need a unique ID for each entry that is valid across instances
+//       Those ids would be needed for recommendations as well as comments.
 
 parentPort.on('message', function (a) {
     if (a[0] == "loadDefaults") {
@@ -96,6 +98,7 @@ function downloadBioOntologyRoots(req, ontology) {
                             "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", ") + "</br>" + entry.definition.join(", "),
                             "FormName": uri,
                             "uri": uri + instrument_str,
+                            "@id": entry["@id"], // a unique identifier 
                             "fields": uri
                         }
                     });
@@ -105,7 +108,7 @@ function downloadBioOntologyRoots(req, ontology) {
                 var descendants_links = [];
                 for (var c = 0; c < proj.length; c++) {
                     var descendants_link = proj[c].field.descendants_link;
-                    if (typeof descendants_link != "undefined" && descendants_link.length > 0 && ontology_short == "SNOMEDCT") {
+                    if (typeof descendants_link != "undefined" && descendants_link.length > 0) {
                         descendants_links.push([proj[c].field.ElementName, descendants_link]);
                     }
                 }
@@ -176,14 +179,16 @@ function downloadBioOntologyDecendants(req, ontology, descendants_links) {
                     var entry = contentJSON.collection[i];
                     if (entry.obsolete)
                         continue;
+                    var id_str = (entry["@id"].length > 0) ? " [" + entry["@id"].split("/").slice(-1)[0] + "]" : "";
                     proj.push({
                         "field": {
-                            "ElementName": entry.prefLabel + " [" + entry["@id"].split("/").slice(-1)[0] + "]",
+                            "ElementName": entry.prefLabel + id_str,
                             "DataType": "class",
                             "Instrument Part": ontology,
                             "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", "),
                             "FormName": uri,
                             "uri": uri,
+                            "@id": entry["@id"],
                             "fields": uri
                         }
                     });
@@ -243,6 +248,7 @@ function downloadBioOntologyClasses(req, ontology, page) {
                             "ElementDescription": entry["@id"] + "</br>" + entry.synonym.join(", "),
                             "FormName": uri,
                             "uri": uri + "?instrument=" + entry["cui"][0],
+                            "@id": entry["@id"],
                             "fields": uri
                         }
                     });
@@ -295,6 +301,7 @@ function downloadBioOntologyOntologies(req) {
                             "description": entry.name + ".</br></br>" + entry["@id"],
                             "version": entry["@type"],
                             "instruments": uri,
+                            "@id": entry["@id"],
                             "uri": uri + "?instrument=" + entry.acronym
                         }
                     });
@@ -311,7 +318,7 @@ function downloadBioOntologyOntologies(req) {
                         projList.unshift(putUpFront[i]);
                     }
                 }
-                // lets download 2 pages for each of the projects
+                // lets download a number of pages for each of the projects
                 projList = projList.map(function (a) { return { name: a, page: 1, max_page: 10 }; });
                 setTimeout(function () {
                     downloadBioOntologyRoots(req, projList);
@@ -358,6 +365,7 @@ function downloadBioOntologyProjects(req) {
                             "description": entry.description,
                             "version": entry["@type"],
                             "instruments": uri,
+                            "@id": entry["@id"],
                             "uri": uri
                         }
                     });
@@ -419,6 +427,7 @@ function downloadHelseData(req, page) {
                             "description": "",
                             "version": "",
                             "instruments": uri,
+                            "@id": "project:" + entry["internalLink"],
                             "uri": uri
                         }
                     };
@@ -431,6 +440,7 @@ function downloadHelseData(req, page) {
                                 "Description": "",
                                 "Instrument Part": "",
                                 "uri": uri + encodeURI(entry.theme),
+                                "@id": "instrument:" + entry["internalLink"],
                                 "fields": uri + encodeURI(entry.theme)
                             }
                         };
@@ -444,6 +454,7 @@ function downloadHelseData(req, page) {
                             "ElementDescription": description,
                             "FormName": uri,
                             "uri": uri,
+                            "@id": "field:" + entry["internalLink"],
                             "fields": uri
                         }
                     });
@@ -531,6 +542,7 @@ function downloadHUNT(req) {
                 'Content-Length': postDataJSON.length
             }
         };
+        var id_piece = options.hostname + options.path;
 
         var request = https.request(options, (response) => {
             var stream = response.pipe(file);
@@ -556,6 +568,7 @@ function downloadHUNT(req) {
                                 "Description": entry.description,
                                 "Instrument Part": entry.id,
                                 "fields": uri + "&instrument=" + entry.name,
+                                "@id": id_piece + "/" + entry.id,
                                 "uri": uri + "&instrument=" + entry.name
                             }
                         });
@@ -571,6 +584,7 @@ function downloadHUNT(req) {
                                 "description": typeof entry.description != "undefined" ? entry.description : "",
                                 "version": "",
                                 "instruments": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no",
+                                "@id": "project:" + id_piece + "/" + entry.id,
                                 "uri": "hunt://" + entry.name + "?release=hunt-db.medisin.ntnu.no"
                             }
                         });
@@ -627,6 +641,7 @@ function downloadHUNTVariables(req) {
                 'Content-Length': postDataJSON.length
             }
         };
+        var id_piece = options.hostname + options.path;
 
         var request = https.request(options, (response) => {
             var stream = response.pipe(file);
@@ -652,7 +667,8 @@ function downloadHUNTVariables(req) {
                                 "ElementDescription": entry.textEnglish.length > 0 ? entry.textEnglish : entry.text,
                                 "FormName": "hunt://hunt?instrument=" + entry.instrument.name,
                                 "fields": "hunt://hunt?instrument=" + entry.instrument.name + "&release=hunt-db.medisin.ntnu.no",
-                                "uri": "hunt://hunt?instrument=" + entry.instrument.name + "&release=hunt-db.medisin.ntnu.no"
+                                "uri": "hunt://hunt?instrument=" + entry.instrument.name + "&release=hunt-db.medisin.ntnu.no",
+                                "@id": id_piece + "/" + entry.id
                             }
                         });
                     }
@@ -702,7 +718,7 @@ function downloadREDCapListFromREDCapLoc(req) {
                 parser.on('readable', function () {
                     let record;
                     while ((record = parser.read()) !== null) {
-                        records.push(record);
+                        records.push(record); // real entries are created in db.js
                     }
                 });
                 // Catch any error
@@ -831,7 +847,8 @@ function downloadAndParse(req, url, uri, parser) {
                             "Instrument Version": s.instrument_version,
                             "Instrument Part": s.instrument_part,
                             "fields": uri,
-                            "uri": uri
+                            "uri": uri,
+                            "@id": url
                         }
                     }]]);
                     parentPort.postMessage([req, [{
@@ -839,7 +856,8 @@ function downloadAndParse(req, url, uri, parser) {
                             "name": s.project,
                             "version": s.project_version,
                             "instruments": uri,
-                            "uri": uri
+                            "uri": uri,
+                            "@id": "project:" + uri
                         }
                     }]]);
                 });

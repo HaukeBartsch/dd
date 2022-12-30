@@ -203,6 +203,7 @@ function addToDatabase(options) {
                 newField.field_type = entry.DataType;
                 newField.field_label = entry.ElementDescription;
                 newField.form_name = entry.FormName;
+                newField.uid = entry["@id"];
                 if (checkForDuplicates(newField, "field")) {
                     newField.longDesc = Object.values(newField).toString().replace(/,/g, " ");
                     fields.push(newField);
@@ -218,6 +219,7 @@ function addToDatabase(options) {
                 var newInstrument = createInstrumentStruct();
                 newInstrument.id = id;
                 newInstrument.uri = entry.uri;
+                newInstrument.uid = entry["@id"];
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
                 newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
@@ -235,6 +237,7 @@ function addToDatabase(options) {
                 newProject.description = (typeof entry.description != 'undefined' ? entry.description : ""),
                 newProject.uri = entry.uri;
                 newProject.name = entry["name"];
+                newProject.uid = entry["@id"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
                 if (checkForDuplicates(newProject, "project")) {
                     newProject.longDesc = Object.values(newProject).toString().replace(/,/g, " ")
@@ -246,6 +249,7 @@ function addToDatabase(options) {
                 var newSearch = createSearchStruct();
                 newSearch.id = id;
                 newSearch.uri = entry.uri;
+                newSearch.uid = entry["@id"];
                 newSearch.name = entry["name"];
                 newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
                 newSearch.pattern = entry["pattern"];
@@ -265,6 +269,7 @@ function addToDatabase(options) {
 
     // this is an instrument list so we need to fill out the fields variable
     var uri_prefix = "redcap://REDLoc?release=2022&";
+    var id_prefix = "https://redcap.vanderbilt.edu/consortium/library/instrument_download.php";
 
     // what is the last id we can use?
     var id = -1;
@@ -294,9 +299,10 @@ function addToDatabase(options) {
         }
         inst.id = id++;
         if (typeof inst["Instrument Title"] != "undefined") {
-            var t = inst["Instrument Title"].replace(/ /g, "_").toLowerCase();
+            var t = inst["Instrument Title"].replace(/ /g, "_").replace(/[\(\)]+/g, "_").toLowerCase();
             inst.fields = uri_prefix + "instrument=" + t;
             inst.uri = uri_prefix + "instrument=" + t;
+            inst["@id"] = id_prefix + "/" + t
         }
         if (checkForDuplicates(inst, "instrument")) {
             inst.longDesc = JSON.stringify(inst);
@@ -446,6 +452,7 @@ parentPort.on('message', function (a) {
         s.pattern = options.pattern;
         var username = require("os").userInfo().username;
         s.uri = "search://" + username + "?instrument=JustASearch"; // create an uri for this novel search
+        s["@id"] = options["@id"];
 
         addToDatabase(["loadDefaults", [{ "search": s }]]);
         // we should cache searches across the lifetime of the project so we should write them to disk every time we get a new one
