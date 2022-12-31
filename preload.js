@@ -159,7 +159,7 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result.name] = color;
     }
-    return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true' uri='" + result.uri + "'>" + "<div class='title'>" + result.name + "</div>" +
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result.name + "</div>" +
       "<div class='description'>" + (typeof result.description != 'undefined' ? result.description : "") + "</div>" +
       "<div class='project-name' title='Protocol name and project'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'> " + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div > " +
@@ -170,7 +170,7 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result.field_name] = color;
     }
-    return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result.field_name + "</div>" +
+    return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result.field_name + "</div>" +
       "<div class='description'>" + result.field_label + "</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
@@ -181,13 +181,13 @@ function createBox(type, result, numboxes) {
     } else {
       colorCache[result["Instrument Title"]] = color;
     }
-    return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
+    return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
       "<div class='description'>" + result["Description"] + "</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   } else if (type == "search") {
-    return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "'>" + "<div class='title'>" + result["name"] + "</div>" +
+    return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result["name"] + "</div>" +
       "<div class='description'>" + result["description"] + "</div>" +
       "<div class='pattern'>/" + result["pattern"] + "/i</div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
@@ -209,20 +209,28 @@ function addBox(type, result) {
     var numboxes = row[r].getElementsByClassName('box').length;
     if (numboxes < 30) {
       // add the result here, if we never add we will not see the results, so make sure you have sufficient rows available
+      var b = createBox(type, result, numboxes);
+      var div = document.createElement('div');
+      div.innerHTML = b.trim();
+      var bb = div.firstChild;
       if (type == 'project') {
-        var b = createBox(type, result, numboxes);
-        row[r].innerHTML += b;
+        row[r].appendChild(bb); //  .innerHTML += b;
       } else if (type == 'field') {
-        var b = createBox(type, result, numboxes);
-        row[r].innerHTML += b;
+        row[r].appendChild(bb);  // innerHTML += b;
       } else if (type == 'instrument') {
-        var b = createBox(type, result, numboxes);
-        row[r].innerHTML += b;
+        row[r].appendChild(bb);  // innerHTML += b;
       } else if (type == "search") {
-        var b = createBox(type, result, numboxes);
-        row[r].innerHTML += b;
+        row[r].appendChild(bb);  //innerHTML += b;
       }
-      break; // done entering this field
+      var d = document.createElement("div");
+      d.classList.add("select-button");
+      d.style.opacity = 0;
+      bb.appendChild(d);
+      setTimeout((function (dd) {
+        return function () {
+          dd.style.opacity = .2;
+        };
+      })(d), 500);
     }
   }
 

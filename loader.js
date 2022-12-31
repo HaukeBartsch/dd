@@ -302,6 +302,10 @@ function downloadBioOntologyOntologies(req) {
                             "version": entry["@type"],
                             "instruments": uri,
                             "@id": entry["@id"],
+                            "links": {
+                                "antecedents": [],
+                                "descendants": []
+                            },
                             "uri": uri + "?instrument=" + entry.acronym
                         }
                     });

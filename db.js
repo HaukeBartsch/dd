@@ -38,6 +38,17 @@ function createInstrumentStruct() {
     };
 }
 
+function createMessageStruct() {
+    return {
+        "id": "",
+        "name": "",
+        "description": "",
+        "uid": "",
+        "link": ""
+    };
+}
+
+
 function createFieldStruct() {
     return {
         "id": "", // use a uuid?
@@ -66,12 +77,14 @@ var projects = [];
 var instruments = [];
 var fields = [];
 var searches = [];
+var messages = [];
 
 // we just increment this id if we need one
 var lastIDprojects = -1;
 var lastIDinstruments = -1;
 var lastIDfields = -1;
 var lastIDsearches = -1;
+var lastIDmessages = -1;
 
 // we need to cache for fields the field_name and the form_name
 var cacheInitialized = false;
@@ -114,6 +127,11 @@ function checkForDuplicates(entry, what) {
     } else if (what == "search") {
         for (var i = 0; i < searches.length; i++) {
             if (entry.name == searches[i].name)
+                return false;
+        }
+    } else if (what == "message") {
+        for (var i = 0; i < messages.length; i++) {
+            if (entry.uid == messages[i].uid)
                 return false;
         }
     }
@@ -169,6 +187,16 @@ function getNewID(what) {
             lastIDsearches = id;
         }
         return ++lastIDsearches;
+    } else if (what == "messages") {
+        if (lastIDmessages == -1) {
+            var id = -1; // optimize this if we have more than one field in the list
+            for (var i = 0; i < messages.length; i++) {
+                if (messages[i].id > id)
+                    id = messages[i].id;
+            }
+            lastIDmessages = id;
+        }
+        return ++lastIDmessages;
     } else {
         console.log("Error: unknown ID type requested (fields, projects, instruments): " + what);
     }
@@ -235,7 +263,7 @@ function addToDatabase(options) {
                 var newProject = createProjectStruct();
                 newProject.id = id;
                 newProject.description = (typeof entry.description != 'undefined' ? entry.description : ""),
-                newProject.uri = entry.uri;
+                    newProject.uri = entry.uri;
                 newProject.name = entry["name"];
                 newProject.uid = entry["@id"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
@@ -257,6 +285,21 @@ function addToDatabase(options) {
                     // should we find the long description for a search?? maybe only the title is sufficient?
                     newSearch.longDesc = Object.values(newSearch).toString().replace(/,/g, " ")
                     searches.push(newSearch);
+                }
+            } else if (typeof options[1][j].message != "undefined") {
+                var id = getNewID("messages");
+                var entry = options[1][j].message; // add this to the field in the database.. what about the keys?
+                var newMessage = createMessageStruct();
+                newMessage.id = id;
+                newMessage.uri = entry.uri;
+                newMessage.uid = entry["@id"];
+                newMessage.name = entry["name"];
+                newMessage.description = entry["description"]; // id of the field with this FormName, actually its the uri
+                newMessage.pattern = entry["pattern"];
+                if (checkForDuplicates(newMessage, "message")) {
+                    // should we find the long description for a search?? maybe only the title is sufficient?
+                    newMessage.longDesc = Object.values(newMessage).toString().replace(/,/g, " ")
+                    messages.push(newMessage);
                 }
             } else {
                 console.log("Error: unknown type of object discovered, should be field, or search, instrument, project.");
@@ -328,6 +371,8 @@ function search(erg, options, ids) {
         ids.projects = {};
     if (typeof ids.searches == 'undefined')
         ids.searches = {};
+    if (typeof ids.messages == 'undefined')
+        ids.messages = {};
 
     // unqualified search
     if (typeof options == "string") {
@@ -339,9 +384,9 @@ function search(erg, options, ids) {
             // we should do something here
             return [];
         }
-        var resultsF = [];
+        var resultsFCounter = 0;
         for (var i = 0; i < fields.length; i++) {
-            if (resultsF.length > 200)
+            if (resultsFCounter > 200)
                 break;
             var m = fields[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -350,12 +395,13 @@ function search(erg, options, ids) {
                     var ne = Object.assign({}, fields[i]);
                     erg.push([options, { field: ne }]);
                     ids.fields[fields[i].id] = true; // remember that we added that id to results already
+                    resultsFCounter++;
                 }
             }
         }
-        var resultsI = [];
+        var resultsICounter = 0;
         for (var i = 0; i < instruments.length; i++) {
-            if (resultsI.length > 200)
+            if (resultsICounter > 200)
                 break;
             var m = instruments[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -365,12 +411,14 @@ function search(erg, options, ids) {
                     //resultsI.push([options, { instrument: ne }]);
                     erg.push([options, { instrument: ne }]);
                     ids.instruments[instruments[i].id] = true;
+                    resultsICounter++;
                 }
             }
         }
-        var resultsP = [];
+
+        var resultsPCounter = 0;
         for (var i = 0; i < projects.length; i++) {
-            if (resultsP.length > 200)
+            if (resultsPCounter > 200)
                 break;
             var m = projects[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -380,13 +428,14 @@ function search(erg, options, ids) {
                     //resultsP.push([options, { project: ne }]);
                     erg.push([options, { project: ne }]);
                     ids.projects[projects[i].id] = true;
+                    resultsPCounter++;
                 }
             }
         }
         // any search that results in a search will include that searches results as well (track duplicates to not do this forever)
-        var resultsS = [];
+        var resultsSCounter = 0;
         for (var i = 0; i < searches.length; i++) {
-            if (resultsS.length > 200)
+            if (resultsSCounter > 200)
                 break;
             var m = searches[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -396,8 +445,49 @@ function search(erg, options, ids) {
                     //resultsS.push([options, { search: ne }]);
                     erg.push([options, { search: ne }]);
                     ids.searches[searches[i].id] = true;
+                    resultsSCounter++;
                 }
             }
+        }
+
+        // any search that results in a search will include that searches results as well (track duplicates to not do this forever)
+        var resultsMCounter = 0;
+        var messagePointers = [];
+        for (var i = 0; i < messages.length; i++) {
+            if (resultsMCounter > 200)
+                break;
+            var m = messages[i].longDesc.match(regexp);
+            if (m != null && m.length > 0) {
+                if (typeof ids.messages[messages[i].id] == 'undefined') {
+                    // push a copy
+                    var ne = Object.assign({}, messages[i]);
+                    //resultsS.push([options, { search: ne }]);
+                    erg.push([options, { message: ne }]);
+                    ids.messages[messages[i].id] = true;
+                    messagePointers.push(ne.uid);
+                    resultsMCounter++;
+                }
+            }
+        }
+        // if we have any messages we should get the objects they point to as well
+        for (var i = 0; i < messagePointers.length; i++) {
+            // we should add the objects the messages point to
+            var uid = messagePointers[i];
+            for (var i = 0; i < projects.length; i++) {
+                if (projects[i].uid == uid) {
+                    var ne = Object.assign({}, projects[i]);
+                    //resultsS.push([options, { search: ne }]);
+                    erg.push([options, { project: ne }]); // we might get a copy here!!
+                }
+            }
+            for (var i = 0; i < instruments.length; i++) {
+                if (instruments[i].uid == uid) {
+                    var ne = Object.assign({}, instruments[i]);
+                    //resultsS.push([options, { search: ne }]);
+                    erg.push([options, { instrument: ne }]); // we might get a copy here!!
+                }
+            }
+
         }
 
         // if we still have space we can try to resolve searches
@@ -415,6 +505,7 @@ function search(erg, options, ids) {
                 }
             }
         }
+
         return;
     }
 
