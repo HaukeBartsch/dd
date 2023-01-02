@@ -231,6 +231,8 @@ function addBox(type, result) {
           dd.style.opacity = .2;
         };
       })(d), 500);
+      // if we could add the result break here, otherwise continue searching
+      break;
     }
   }
 
