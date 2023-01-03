@@ -14,6 +14,7 @@ parentPort.on('message', function (a) {
         downloadHUNT(a[0]);
         downloadHUNTVariables(a[0]);
         downloadHelseData(a[0]);
+        downloadCristinProjects(a[0], 1, 10);
         // the next section requires a key from bioportals (added to .env)
         require("dotenv").config();
         if (typeof process.env.BIOONTOLOGY_API_KEY != "undefined") {
@@ -27,6 +28,119 @@ parentPort.on('message', function (a) {
         }
     }
 })
+
+function downloadCristinProjects(req, page, max_pages) {
+
+    if (page > max_pages)
+        return; // end here
+
+    var uri = "cristin://cristin.no/";
+    var url = "https://api.cristin.no/v2/projects?page=" + page;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("cristin_projects", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                try {
+                    contentJSON = JSON.parse(content);
+                } catch (e) {
+                    // if we cannot receive roots we should skip here
+                    return;
+                }
+                var proj = [];
+                for (var i = 0; i < contentJSON.length; i++) {
+                    var entry = contentJSON[i];
+                    // if we would call again using the cristin_project_id we would get the popular science description for each project
+                    proj.push(entry.cristin_project_id);
+                }
+                if (proj.length > 0)
+                    downloadCristinProjectsDescription(req, proj); // download all the descriptions
+                // for each class we should download decendences
+                downloadCristinProjects(req, ++page, max_pages);
+            });
+        });
+    });
+}
+
+function downloadCristinProjectsDescription(req, entries) {
+
+    var uri = "cristin://cristin.no/";
+    var cristin_id = entries.shift();
+    var url = "https://api.cristin.no/v2/projects/" + cristin_id;
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("cristin_descriptions", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                try {
+                    entry = JSON.parse(content);
+                } catch (e) {
+                    // if we cannot receive roots we should skip here
+                    return;
+                }
+                var title = "";
+                if (typeof entry.title != "undefined") {
+                    if (typeof entry.title.en != "undefined")
+                        title = entry.title.en;
+                    if (title == "" && typeof entry.title.no != "undefined")
+                        title = entry.title.no;
+                }
+                var description = "";
+                if (typeof entry.academic_summary != "undefined") {
+                    if (typeof entry.academic_summary.en != "undefined")
+                        description = entry.academic_summary.en;
+                    if (description == "" && typeof entry.academic_summary.no != "undefined")
+                        description = entry.academic_summary.no;
+                }
+
+                if (title.length > 0) {
+                    var proj = [];
+                    // if we would call again using the cristin_project_id we would get the popular science description for each project
+                    proj.push({
+                        "project": {
+                            "name": title,
+                            "description": description,
+                            "version": "",
+                            "instruments": uri,
+                            "@id": "cristin-id" + entry.cristin_project_id,
+                            "uri": uri
+                        }
+                    });
+                    parentPort.postMessage([req, proj]);
+                }
+                // for each class we should download decendences
+                downloadCristinProjectsDescription(req, entries);
+            });
+        });
+    });
+}
+
 
 // /ontologies/:ontology/classes/roots
 function downloadBioOntologyRoots(req, ontology) {
@@ -359,7 +473,7 @@ function downloadBioOntologyProjects(req) {
             stream.on("finish", function () {
                 const content = fs.readFileSync(fname);
                 contentJSON = JSON.parse(content);
-                console.log("got some data :  " + content);
+                //console.log("got some data :  " + content);
                 var proj = [];
                 for (var i = 0; i < contentJSON.length; i++) {
                     var entry = contentJSON[i];

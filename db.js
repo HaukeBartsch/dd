@@ -527,6 +527,17 @@ parentPort.on('message', function (a) {
         }
     } else if (func == "search") {
         var results = [];
+        var regex = new RegExp("save database \"([^\"]+)\"", "i");
+        var m = options.match(regex);
+        if (m != null && m.length == 2) {
+            // save the database here
+            console.log("save database: \"" + m[1] + "\"");
+            const fs = require('fs');
+            const path = require('path');
+            const p = path.join(__dirname, m[1]);
+            fs.writeFileSync(p, JSON.stringify([...fields, ...instruments, ...projects, ...searches]));
+            console.log("wrote all data to :" + p);
+        }
         search(results, options, {});
         parentPort.postMessage(["search", results]);
     } else if (func == "searchRandom") {

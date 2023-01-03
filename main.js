@@ -34,7 +34,7 @@ function createWindow() {
       titleBarStyle: 'customButtonsOnHover'
     }
   })
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   mainWindow.loadFile('index.html')
 
@@ -145,7 +145,7 @@ app.whenReady().then(() => {
       applicationName: 'Data Dictionary Commentary',
       applicationVersion: '0.0.1',
       copyright: 'Free as in Beer',
-      credits: '',
+      credits: 'A hi to all the people putting out cool data!',
       authors: ['Hauke Bartsch'],
       website: 'https://www.github.com/MMIV-center/dd',
       iconPath: path.join(__dirname, 'images/logo_white.png'),
@@ -153,7 +153,6 @@ app.whenReady().then(() => {
 
     app.showAboutPanel();
   });
-
 
 
   mainWindow = createWindow();
