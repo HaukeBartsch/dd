@@ -323,6 +323,7 @@ html {
     overflow: hidden;
     animation: fadeIn 0.5s;
     position: relative;
+    clip-path: inset(0px 0px 0px 0px);
 }
 
 .box-drop-normal {
