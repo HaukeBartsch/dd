@@ -139,6 +139,23 @@ app.whenReady().then(() => {
     console.log("react to a drop event... at least do something here " + type + " " + id + " " + color + " " + content);
   });
 
+  ipcMain.removeHandler('show-about');
+  ipcMain.handle('show-about', function (ev, ...args) {
+    app.setAboutPanelOptions({
+      applicationName: 'Data Dictionary Commentary',
+      applicationVersion: '0.0.1',
+      copyright: 'Free as in Beer',
+      credits: '',
+      authors: ['Hauke Bartsch'],
+      website: 'https://www.github.com/MMIV-center/dd',
+      iconPath: path.join(__dirname, 'images/logo_white.png'),
+    });
+
+    app.showAboutPanel();
+  });
+
+
+
   mainWindow = createWindow();
 
   app.on('window-all-closed', function () {

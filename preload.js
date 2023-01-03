@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
   openSettings: () => ipcRenderer.invoke('openSettings'),
   openSave: (arg) => ipcRenderer.invoke('openSave', arg),
+  showAbout: () => ipcRenderer.invoke('show-about'),
 });
 
 contextBridge.exposeInMainWorld('search', {
@@ -61,15 +62,34 @@ ipcRenderer.on('stats', function (evt, message) {
   //console.log("update the stats on the page: " + JSON.stringify(message));
   //alert(JSON.stringify(message));
 
-  const information = document.getElementById('stats-text'); 
-  information.innerHTML = "<button class='btn btn-info'>instruments " + numberWithCommas(message["instruments"]) + "</button>"
+  const information = document.getElementById('stats-text');
+  var information_1 = document.getElementById('info1');
+  var information_2 = document.getElementById('info2');
+  var information_3 = document.getElementById('info3');
+  if (information_1 == null) {
+    information.innerHTML += "<button class='btn btn-info' id='info1'>instruments " + numberWithCommas(message["instruments"]) + "</button>";
+  }
+  if (information_2 == null) {
+    information.innerHTML += "<button class='btn btn-info' id='info2'>projects: " + numberWithCommas(message["projects"]) + "</button>";
+  }
+  if (information_3 == null) {
+    information.innerHTML += "<button class='btn btn-info' id='info3'>fields: " + numberWithCommas(message["fields"]) + "</button>";
+  }
+  document.getElementById('info1').innerHTML = "instruments " + numberWithCommas(message["instruments"]);
+  document.getElementById('info2').innerHTML = "projects: " + numberWithCommas(message["projects"]);
+  document.getElementById('info3').innerHTML = "fields: " + numberWithCommas(message["fields"]);
+
+/*  information.innerHTML = "<button class='btn btn-info'>instruments " + numberWithCommas(message["instruments"]) + "</button>"
     + "<button class='btn btn-info'>projects: " + numberWithCommas(message["projects"]) + "</button>"
-    + "<button class='btn btn-info'>fields: " + numberWithCommas(message["fields"]) + "</button>";
+    + "<button class='btn btn-info'>fields: " + numberWithCommas(message["fields"]) + "</button>"; */
 });
 
 ipcRenderer.on('left-drop', function (evt, message) {
   // lookup the 
   console.log("got a left-drop " + JSON.stringify(message));
+
+  // lookup some messages for this drop
+  ipcRenderer.invoke('message:lookup', message.uid);
 });
 
 /**

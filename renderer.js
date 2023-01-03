@@ -64,6 +64,12 @@ document.getElementById('left-side-box-drop').ondragover = function (ev) {
     //console.log("started ondragover");
 }
 
+document.getElementById('logo').onclick = function (ev) {
+    // show the about box
+    ev.preventDefault();
+    window.electronAPI.showAbout();
+}
+
 /**
  * delay will wait with the execution until the user has stopped typing
  * @param {callback} callback function to execute

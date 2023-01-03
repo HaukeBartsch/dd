@@ -532,6 +532,9 @@ parentPort.on('message', function (a) {
     } else if (func == "searchRandom") {
         results = searchRandom();
         parentPort.postMessage(["search", results]);
+    } else if (func == "getMessage") { // if we receive the request to lookup some message, lets do that
+        results = getMessages(func, options);
+        parentPort.postMessage(["searchMessage", results]);
     } else if (func == "stats") {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length, "searches": searches.length }]);
@@ -554,6 +557,19 @@ parentPort.on('message', function (a) {
         parentPort.postMessage(["Error", "option is neither announce nor search"]);
     }
 });
+
+function getMessage(req, options) {
+    // we should look for a message attached to this guid
+    var results = [];
+    console.log("find message for this guid and return");
+    for (var i = 0; i < messages.length; i++) {
+        if (messages[i].message.uid == options) {
+            var ne = Object.assign({}, messages[i]);
+            results.push([req, ne]);
+        }
+    }
+    return results;
+}
 
 /**
  * Export all searches to disk so we can load them again when we start the program.

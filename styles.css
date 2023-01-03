@@ -405,7 +405,7 @@ div.box-drop-highlight .box {
 }
 
 div.select-button {
-    animation-duration: .5s;
+    animation-duration: .3s;
     animation-name: decrease;
     animation-iteration-count: once;
     animation-fill-mode: both;
@@ -414,15 +414,15 @@ div.select-button {
     bottom: -200px;
     fill: red;
     background-color: black;
-    border-radius: 5px;
-    width: 10px;
-    height: 10px;
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
     box-shadow: 0 0 10px black;
     z-index: 1;
 }
 
 .box:hover>div.select-button {
-    animation-duration: .5s;
+    animation-duration: .3s;
     animation-name: increase;
     animation-iteration-count: once;
     animation-fill-mode: both;
@@ -434,9 +434,9 @@ div.select-button {
 
 @keyframes increase {
     0% {
-        width: 10px;
-        height: 10px;
-        border-radius: 5px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
     }
 
     100% {
@@ -454,9 +454,9 @@ div.select-button {
     }
 
     100% {
-        width: 10px;
-        height: 10px;
-        border-radius: 5px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
     }
 }
 
