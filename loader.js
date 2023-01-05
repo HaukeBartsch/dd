@@ -15,6 +15,7 @@ parentPort.on('message', function (a) {
         downloadHUNTVariables(a[0]);
         downloadHelseData(a[0]);
         downloadCristinProjects(a[0], 1, 10);
+        downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json")
         // the next section requires a key from bioportals (added to .env)
         require("dotenv").config();
         if (typeof process.env.BIOONTOLOGY_API_KEY != "undefined") {
@@ -29,10 +30,18 @@ parentPort.on('message', function (a) {
     }
 })
 
-function downloadCristinProjects(req, page, max_pages) {
+function downloadCristinProjects(req, page, max_pages, proj) {
 
-    if (page > max_pages)
+    if (typeof proj == "undefined")
+        proj = [];
+    if (page > max_pages) { // only at the very end do this and only once
+        if (proj.length > 0) {
+            setTimeout(function () {
+                downloadCristinProjectsDescription(req, proj); // download all the descriptions
+            }, 200);
+        }
         return; // end here
+    }
 
     var uri = "cristin://cristin.no/";
     var url = "https://api.cristin.no/v2/projects?page=" + page;
@@ -60,16 +69,15 @@ function downloadCristinProjects(req, page, max_pages) {
                     // if we cannot receive roots we should skip here
                     return;
                 }
-                var proj = [];
                 for (var i = 0; i < contentJSON.length; i++) {
                     var entry = contentJSON[i];
                     // if we would call again using the cristin_project_id we would get the popular science description for each project
                     proj.push(entry.cristin_project_id);
                 }
-                if (proj.length > 0)
-                    downloadCristinProjectsDescription(req, proj); // download all the descriptions
                 // for each class we should download decendences
-                downloadCristinProjects(req, ++page, max_pages);
+                setTimeout(function () {
+                    downloadCristinProjects(req, ++page, max_pages, proj);
+                }, 10);
             });
         });
     });
@@ -135,7 +143,9 @@ function downloadCristinProjectsDescription(req, entries) {
                     parentPort.postMessage([req, proj]);
                 }
                 // for each class we should download decendences
-                downloadCristinProjectsDescription(req, entries);
+                setTimeout(function () {
+                    downloadCristinProjectsDescription(req, entries);
+                }, 100);
             });
         });
     });
@@ -852,6 +862,70 @@ function downloadREDCapListFromREDCapLoc(req) {
             });
         });
     });
+}
+
+function downloadCDEs(req, url) {
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("cdes_download", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        console.log("In downloadCDEs... ");
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                // content.toString());
+                contentParsed = JSON.parse(content.toString());
+                results = [];
+                for (var i = 0; i < contentParsed.length; i++) {
+                    // lets download this resource's URL (use the parser from the uri)
+                    var entry = contentParsed[i];
+                    var title = "";
+                    var title2 = "";
+                    if (typeof entry.designations != "undefined" && entry.designations.length > 0) {
+                        title = entry.designations[0].designation;
+                        for (var j = 1; j < entry.designations.length; j++) {
+                            title2 += entry.designations[j].designation;
+                            if (j < entry.designations.length - 1)
+                                title2 += " / ";
+                        }
+                    }
+                    var description = "";
+                    if (typeof entry.definitions != "undefined") {
+                        for (var j = 0; j < entry.definitions.length; j++) {
+                            description += entry.definitions[j].definition;
+                            if (j < entry.definitions.length - 1)
+                                description += " / ";
+                        }
+                    }
+                    var instrument = entry.steward;
+                    results.push({
+                        "field": {
+                            "ElementName": title,
+                            "DataType": entry.elementType,
+                            "Instrument Part": instrument,
+                            "ElementDescription": description + "</br></br>" + title2,
+                            "FormName": "cde://cde?instrument=" + instrument,
+                            "fields": "cde://cde?instrument=" + instrument + "&release=cde",
+                            "uri": "cde://cde?instrument=" + instrument + "&release=cde",
+                            "@id": "cde:" + entry.tinyId
+                        }
+                    });
+                }
+                if (results.length > 0)
+                    parentPort.postMessage([req, results]);
+            });
+        });
+    }); // should cleanup the downloaded file
 }
 
 // download all data dictionaries mentioned in this collection
