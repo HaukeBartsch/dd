@@ -43,6 +43,10 @@ contextBridge.exposeInMainWorld('leftSelect', {
     var uid = elem[0].getAttribute("uid");
     if (uid != "undefined")
       document.getElementById("new-message-box").setAttribute("uid", uid);
+
+    // maybe we should add type and the id as well?
+    document.getElementById("new-message-box").setAttribute("card_type", type);
+    document.getElementById("new-message-box").setAttribute("card_id", id);
   }
 });
 
@@ -198,6 +202,10 @@ function createBox(type, result, numboxes) {
   s.instrument_version = s.instrument_version == null ? "" : s.instrument_version;
   s.project_version = s.project_version == null ? "" : s.project_version;
   result.field_label = result.field_label != null ? result.field_label : ""; // are we changing the data in place?
+
+  if (typeof result.uid == "undefined") {
+    console.log("ERROR: we have a result that does not have a uid> " + result.field_label);
+  }
 
   var color = "q" + (numboxes % 8) + "-8";
   if (type == "project") {

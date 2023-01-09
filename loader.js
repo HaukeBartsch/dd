@@ -1023,13 +1023,15 @@ function downloadAndParse(req, url, uri, parser) {
             stream.on("finish", function () {
                 const content = fs.readFileSync(fname);
                 var c = parser(content.toString()).then(function (ergs) {
+                    // we could analyze the uri here to extract the info we need
+                    s = parseURI(uri);
                     // add to each entry the FormName
                     for (var i = 0; i < ergs.length; i++) {
                         ergs[i].field.FormName = uri;
                         ergs[i].field.uri = uri;
+                        // generate a unique ID for this variable
+                        ergs[i].field["@id"] = "field:" + ergs[i].field["ElementName"] + ":" + uri
                     }
-                    // we could analyze the uri here to extract the info we need
-                    s = parseURI(uri);
 
                     parentPort.postMessage([req, ergs]);
                     // we should add a message for the instrument here as well
@@ -1040,7 +1042,7 @@ function downloadAndParse(req, url, uri, parser) {
                             "Instrument Part": s.instrument_part,
                             "fields": uri,
                             "uri": uri,
-                            "@id": url
+                            "@id": "instrument:" + url
                         }
                     }]]);
                     parentPort.postMessage([req, [{

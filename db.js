@@ -345,7 +345,8 @@ function addToDatabase(options) {
             var t = inst["Instrument Title"].replace(/ /g, "_").replace(/[\(\)]+/g, "_").toLowerCase();
             inst.fields = uri_prefix + "instrument=" + t;
             inst.uri = uri_prefix + "instrument=" + t;
-            inst["@id"] = id_prefix + "/" + t
+            inst["@id"] = id_prefix + "/" + t;
+            inst["uid"] = inst["@id"];
         }
         if (checkForDuplicates(inst, "instrument")) {
             inst.longDesc = JSON.stringify(inst);
