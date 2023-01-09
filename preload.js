@@ -36,7 +36,13 @@ contextBridge.exposeInMainWorld('leftSelect', {
       document.getElementById("left-side-box-drop").classList.add("box-drop-normal");
     }
     // we should ask for the content from content  from the database... otherwise we don't have something to show here
+    // add the info for this card to the message box as well
+    var title = elem[0].getElementsByClassName("title")[0].innerHTML;
+    document.getElementById("new-message-box").getElementsByClassName("message-box-title")[0].innerHTML = title;
 
+    var uid = elem[0].getAttribute("uid");
+    if (uid != "undefined")
+      document.getElementById("new-message-box").setAttribute("uid", uid);
   }
 });
 
@@ -56,6 +62,27 @@ function numberWithCommas(x) {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
 }
+
+ipcRenderer.on('populateMessages', function (evt, messages) {
+  // we got some messages to display, show them and activate a new message box
+  document.getElementById('new-message-box').style.display = "";
+  var message_list = document.getElementById('message-list');
+  for (var i = 0; i < message_list.childNodes.length; i++) {
+    if (typeof message_list.childNodes[i].classList != "undefined" && !message_list.childNodes[i].classList.contains("keep")) {
+      message_list.removeChild(message_list.childNodes[i]);
+    }
+  }
+
+  for (var i = 0; i < messages.length; i++) {
+    // create a new message box and add
+    var txt = "<div class='message-box' message_id='" + messages[i].uid + "'>" +
+      "<div class='message-title'>" + messages[i].title + "</div>" +
+      "<div class='message-description'>" + messages[i].description + "</div>" +
+      "</div>";
+    document.getElementById('message-list').innerHMTL += txt;
+  }
+});
+
 
 // receive a message from the main process
 ipcRenderer.on('stats', function (evt, message) {

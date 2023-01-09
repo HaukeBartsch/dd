@@ -543,7 +543,7 @@ parentPort.on('message', function (a) {
     } else if (func == "searchRandom") {
         results = searchRandom();
         parentPort.postMessage(["search", results]);
-    } else if (func == "getMessage") { // if we receive the request to lookup some message, lets do that
+    } else if (func == "getMessages") { // if we receive the request to lookup some message, lets do that
         results = getMessages(func, options);
         parentPort.postMessage(["searchMessage", results]);
     } else if (func == "stats") {
@@ -569,12 +569,25 @@ parentPort.on('message', function (a) {
     }
 });
 
-function getMessage(req, options) {
+function getMessages(req, options) {
     // we should look for a message attached to this guid
     var results = [];
+    var type = options[0];
+    var id = options[1];
+    // what is the uid for this type and id?
+    var uid = "";
+    if (type == "instrument") {
+        for (var i = 0; i < instruments.length; i++) {
+            if (instruments[i].id == id) {
+                uid = instruments[i].uid;
+                break;
+            }
+        }
+    }
+
     console.log("find message for this guid and return");
     for (var i = 0; i < messages.length; i++) {
-        if (messages[i].message.uid == options) {
+        if (messages[i].message.type == type && messages[i].message.uid == uid) {
             var ne = Object.assign({}, messages[i]);
             results.push([req, ne]);
         }

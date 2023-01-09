@@ -34,7 +34,7 @@ function createWindow() {
       titleBarStyle: 'customButtonsOnHover'
     }
   })
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   mainWindow.loadFile('index.html')
 
@@ -137,6 +137,13 @@ app.whenReady().then(() => {
   ipcMain.handle('leftSelect:drop', function (ev, type, id, color, content) {
     // we know now that we have dropped something on the left, we should render that box first
     console.log("react to a drop event... at least do something here " + type + " " + id + " " + color + " " + content);
+
+    // we should enable the leave message box, but add the information for this card to the
+    // leave message box first (like title)
+
+
+    // we should make sure we show the messages for this card
+    db.postMessage(["getMessages", [type, id, color, content]]);
   });
 
   ipcMain.removeHandler('show-about');
@@ -208,6 +215,8 @@ app.whenReady().then(() => {
     } else if (msg[0] == "stats") {
       // update these fields in the renderer
       mainWindow.webContents.send('stats', msg[1]);
+    } else if (msg[0] == "searchMessage") { // received from db.js a result for a message search, add to interface now
+      mainWindow.webContents.send("populateMessages", msg[1]);
     } else if (msg[0] == "haveSomething") { // as soon as we have some values, do a random list of results, need to do the same if search field is empty
       db.postMessage(["searchRandom", "*"]);
       db.postMessage(["loadSearchesFromDisk", ""]); // ask the database to load all previously cached searches, should happen only once.
