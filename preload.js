@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openSettings: () => ipcRenderer.invoke('openSettings'),
   openSave: (arg) => ipcRenderer.invoke('openSave', arg),
   showAbout: () => ipcRenderer.invoke('show-about'),
+  newMessage: (package) => ipcRenderer.invoke('new-message', package)
 });
 
 contextBridge.exposeInMainWorld('search', {
@@ -47,6 +48,11 @@ contextBridge.exposeInMainWorld('leftSelect', {
     // maybe we should add type and the id as well?
     document.getElementById("new-message-box").setAttribute("card_type", type);
     document.getElementById("new-message-box").setAttribute("card_id", id);
+    // create a unique id for this message
+
+
+    // clear the description, but maybe that is too dangerous
+    // document.getElementById('new-message-box').getElementsByClassName("message-box-content")[0].innerHTML = "new message";
   }
 });
 
@@ -70,6 +76,9 @@ function numberWithCommas(x) {
 ipcRenderer.on('populateMessages', function (evt, messages) {
   // we got some messages to display, show them and activate a new message box
   document.getElementById('new-message-box').style.display = "";
+  // add a unique ID to the new-message-box
+  document.getElementById('new-message-box').setAttribute("uuid", Math.floor(Math.Random() * 100));
+
   var message_list = document.getElementById('message-list');
   for (var i = 0; i < message_list.childNodes.length; i++) {
     if (typeof message_list.childNodes[i].classList != "undefined" && !message_list.childNodes[i].classList.contains("keep")) {

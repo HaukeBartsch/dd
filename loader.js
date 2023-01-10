@@ -15,6 +15,7 @@ parentPort.on('message', function (a) {
         downloadHUNTVariables(a[0]);
         downloadHelseData(a[0]);
         downloadCristinProjects(a[0], 1, 10);
+        downloadIdentifiers(a[0], 1, 100); // download the different pages from Identifiers
         downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json")
         // the next section requires a key from bioportals (added to .env)
         require("dotenv").config();
@@ -29,6 +30,62 @@ parentPort.on('message', function (a) {
         }
     }
 })
+
+function downloadIdentifiers(req, page, max_pages) {
+
+    var uri = "identifiers://identifiers.org/";
+    var url = "https://registry.api.identifiers.org/restApi/namespaces?page=" + page + "&size=20&sort=name%2Casc";
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    temp.open("identifiers_projects", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+                try {
+                    contentJSON = JSON.parse(content);
+                } catch (e) {
+                    // if we cannot receive roots we should skip here
+                    return;
+                }
+                contentJSON = contentJSON["_embedded"]["namespaces"];
+                var proj = [];
+                for (var i = 0; i < contentJSON.length; i++) {
+                    var entry = contentJSON[i];
+                    // if we would call again using the cristin_project_id we would get the popular science description for each project
+                    proj.push({
+                        "project": {
+                            "name": entry.name + " (" + entry.prefix + ")",
+                            "description": entry.description,
+                            "version": "",
+                            "instruments": uri,
+                            "@id": "identifiers-id" + entry.sampleId + "_" + entry.mirId,
+                            "uri": uri
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
+                // for each class we should download decendences
+                setTimeout(function () {
+                    downloadIdentifiers(req, ++page, max_pages);
+                }, 10);
+            });
+        });
+    });
+
+
+}
 
 function downloadCristinProjects(req, page, max_pages, proj) {
 

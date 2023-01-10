@@ -161,6 +161,11 @@ app.whenReady().then(() => {
     app.showAboutPanel();
   });
 
+  ipcMain.removeHandler('new-message');
+  ipcMain.handle('new-message', function (ev, ...args) {
+    // we got a new message and need to save it now in the database
+    db.postMessage(["saveMessages", args[0]]);
+  });
 
   mainWindow = createWindow();
 

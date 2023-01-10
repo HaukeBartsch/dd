@@ -438,6 +438,7 @@ div.box-drop-highlight .box {
     left: 2px;
     height: 75%;
     overflow-y: auto;
+    width: 270px;
 }
 
 div.select-button {

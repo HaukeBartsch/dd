@@ -547,6 +547,10 @@ parentPort.on('message', function (a) {
     } else if (func == "getMessages") { // if we receive the request to lookup some message, lets do that
         results = getMessages(func, options);
         parentPort.postMessage(["searchMessage", results]);
+    } else if (func == "saveMessages") {
+        // check first if we have to update a message
+        console.log(options);
+
     } else if (func == "stats") {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length, "searches": searches.length }]);

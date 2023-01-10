@@ -19,6 +19,18 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
     document.getElementById('theme-source').innerHTML = 'System'
 })
 
+document.getElementById('new-message-box-content').addEventListener('input', delay(function (e) {
+    // lets save this change either as a new message or as a change to an existing message
+    var package = {
+        content: document.getElementById('new-message-box-content').innerHTML,
+        uid: document.getElementById('new-message-box').getAttribute("uid"),
+        variable: document.getElementById('new-message-box-title').innerHTML,
+        card_type: document.getElementById('new-message-box').getAttribute("card_type"),
+        card_id: document.getElementById('new-message-box').getAttribute("card_id"),
+    };
+    window.electronAPI.newMessage(package);
+}, 500));
+
 document.getElementById('left-side-box-drop').ondrop = function (ev) {
     ev.preventDefault();
     //console.log("started ondrop");
