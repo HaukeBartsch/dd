@@ -12,6 +12,8 @@ var cached_model = null; // not yet loaded
 parentPort.on('message', function (a) {
     if (a[0] == "search-similarity") {
         // if we don't have a model yet, load that one first and initialize
+        if (a.length < 1 || a[1] == null || typeof a[1] == "undefined")
+            return; // ignore
         var search_term = a[1].toLowerCase();
         if (cached_model == null) {
             // load model first and afterwards search
