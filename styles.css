@@ -453,6 +453,26 @@ div.box-drop-highlight .box {
     right: 2px;
 }
 
+#space-search-right {
+    position: absolute;
+    left: 105%;
+    width: 300px;
+    overflow-y: auto;
+    height: 50px;
+}
+
+#similar-words {
+    display: inline-table;
+    overflow-y: auto;
+}
+
+#similar-words a.similar-word {
+    font-size: 11px;
+    font-weight: 300;
+    text-decoration: none;
+    margin: 2px 2px 0 0;
+    padding: 0px;
+}
 
 div.select-button {
     animation-duration: .3s;

@@ -645,7 +645,7 @@ function getMessages(req, options) {
         return results;
     }
 
-    console.log("find message for this guid and return");
+    //console.log("find message for this guid and return");
     for (var i = 0; i < messages.length; i++) {
         if (messages[i].referenced_uid == uid) {
             var ne = Object.assign({}, messages[i]);

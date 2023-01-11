@@ -130,13 +130,15 @@ app.whenReady().then(() => {
       db.postMessage(["searchRandom", searchString]);
     } else {
       db.postMessage(["search", searchString]);
+      // also ask for a similar word from w2v, we should hear back from w2v on this and add to interface
+      w2v.postMessage(["search-similarity", searchString]);
     }
   });
 
   ipcMain.removeHandler('leftSelect:drop');
   ipcMain.handle('leftSelect:drop', function (ev, type, id, color, content) {
     // we know now that we have dropped something on the left, we should render that box first
-    console.log("react to a drop event... at least do something here " + type + " " + id + " " + color + " " + content);
+    // console.log("react to a drop event... at least do something here " + type + " " + id + " " + color + " " + content);
 
     // we should enable the leave message box, but add the information for this card to the
     // leave message box first (like title)
@@ -234,7 +236,17 @@ app.whenReady().then(() => {
   loader.postMessage(["loadDefaults", { "description": "initial request to load list of data dictionaries" }]);
   update();
 
+  // create a web-worker for word2vec style similarity values
+  w2v = new Worker(path.resolve(__dirname, 'w2v.js'));
+  w2v.on('message', function (msg) {
+    if (msg[0] == "found-similarity")
+      mainWindow.webContents.send('foundSimilarity', msg[1]); // hope that is an array
+    else {
+      console.log("Error: unknown message from w2v");
+    }
+  });
 
+  // we sometimes get a crash here, just ignore those for now
   process.on('uncaughtException', (error, origin) => {
     if (error?.code === 'ECONNRESET')
       return;

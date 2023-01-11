@@ -118,8 +118,19 @@ document.getElementById('search').addEventListener("keyup", delay(function (e) {
     // we should check if we really got a new string here, only if we have a new string we should 
     // search again
     if (v != lastSearchString) {
-        window.search.string(v);
+        window.search.string(v); // this will also start a search for similar words
         lastSearchString = v;
+        // delete the previous similar words
+        var l = document.getElementById('similar-words');
+        for (var i = 0; i < l.childNodes.length; i++) {
+            l.removeChild(l.childNodes[i]);
+        }
+    }
+    if (v == "") { // remove all similar words if we don't search for something (is a random search)
+        var l = document.getElementById('similar-words');
+        for (var i = 0; i < l.childNodes.length; i++) {
+            l.removeChild(l.childNodes[i]);
+        }
     }
 
 }, 500));
@@ -142,7 +153,16 @@ document.getElementById("save-search").addEventListener('click', function (e) {
     } else {
         console.log("click on save search - but no openSave, search field is empty " + JSON.stringify(pattern));
     }
-})
+});
+
+document.getElementById('similar-words').addEventListener('click', function (e) {
+    // if we have clicked on a similar-word we can copy it to the search field and search again
+    if (e.target.classList.contains("similar-word")) {
+        var txt = e.target.innerHTML;
+        document.getElementById("search").value = txt; // trigger keyup 
+        document.getElementById("search").dispatchEvent(new Event('keyup', { 'bubbles': true }));
+    }
+});
 
 // we should react to what is visible on the page (based on scroll events)
 function isScrolledIntoView(el) {

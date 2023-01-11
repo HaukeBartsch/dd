@@ -88,6 +88,19 @@ function uuidv4() {
   );
 }
 
+ipcRenderer.on('foundSimilarity', function (evt, messages) {
+  if (messages == null)
+    return; // ignore if this fails
+  //console.log("add these similarities to the interface: " + JSON.stringify(messages));
+  var str = "";
+  for (var i = 0; i < messages.length; i++) {
+    if (i > 3 && messages[i].dist < 0.5)
+      break; // end here, hope they are sorted
+    str += "<a class='similar-word'>" + messages[i].word + "</a> ";
+  }
+  document.getElementById('similar-words').innerHTML = str;
+});
+
 ipcRenderer.on('populateMessages', function (evt, messages) {
   // we got some messages to display, show them and activate a new message box
   document.getElementById('new-message-box').style.display = "";
