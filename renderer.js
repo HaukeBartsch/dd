@@ -19,17 +19,22 @@ document.getElementById('reset-to-system').addEventListener('click', async () =>
     document.getElementById('theme-source').innerHTML = 'System'
 })
 
-document.getElementById('new-message-box-content').addEventListener('input', delay(function (e) {
-    // lets save this change either as a new message or as a change to an existing message
-    var package = {
-        content: document.getElementById('new-message-box-content').innerHTML,
-        uid: document.getElementById('new-message-box').getAttribute("uid"),
-        variable: document.getElementById('new-message-box-title').innerHTML,
-        card_type: document.getElementById('new-message-box').getAttribute("card_type"),
-        card_id: document.getElementById('new-message-box').getAttribute("card_id"),
-        box_id: document.getElementById('new-message-box').getAttribute("uuid")
-    };
-    window.electronAPI.newMessage(package);
+// add input event to all message-box-content fields 
+document.addEventListener('input', delay(function (e) {
+    if (e.target.classList.contains("message-box-content")) {
+        var b = e.target.parentNode;
+
+        // lets save this change either as a new message or as a change to an existing message
+        var package = {
+            content: e.target.innerHTML,
+            uid: b.getAttribute("uid"),
+            variable: b.getElementsByClassName('message-box-title')[0].innerHTML,
+            card_type: b.getAttribute("card_type"),
+            card_id: b.getAttribute("card_id"),
+            box_id: b.getAttribute("uuid")
+        };
+        window.electronAPI.newMessage(package);
+    }
 }, 500));
 
 document.getElementById('left-side-box-drop').ondrop = function (ev) {

@@ -35,6 +35,16 @@ contextBridge.exposeInMainWorld('leftSelect', {
       // reset the highlight
       document.getElementById("left-side-box-drop").classList.remove("box-drop-highlight");
       document.getElementById("left-side-box-drop").classList.add("box-drop-normal");
+      // also delete all the messages if this is no longer selected
+      // we should also remove any previous messages, its not selected anymore
+      var message_list = document.getElementById('message-list');
+      for (var i = 0; i < message_list.childNodes.length; i++) {
+        if (typeof message_list.childNodes[i].classList != "undefined" && !message_list.childNodes[i].classList.contains("keep")) {
+          message_list.removeChild(message_list.childNodes[i]);
+        }
+      }
+      // we should hide the add new message box as well
+      document.getElementById('new-message-box').style.display = "none";
     }
     // we should ask for the content from content  from the database... otherwise we don't have something to show here
     // add the info for this card to the message box as well
@@ -50,9 +60,8 @@ contextBridge.exposeInMainWorld('leftSelect', {
     document.getElementById("new-message-box").setAttribute("card_id", id);
     // create a unique id for this message
 
-
     // clear the description, but maybe that is too dangerous
-    // document.getElementById('new-message-box').getElementsByClassName("message-box-content")[0].innerHTML = "new message";
+    document.getElementById('new-message-box').getElementsByClassName("message-box-content")[0].innerHTML = "new message";
   }
 });
 
@@ -97,10 +106,12 @@ ipcRenderer.on('populateMessages', function (evt, messages) {
   for (var i = 0; i < messages.length; i++) {
     // create a new message box and add
     var entry = messages[i][1];
-    var txt = "<div class='message-box' uuid='" + entry.uid + "'>" +
+    var txt = "<div class='message-box' uuid='" + entry.uid + "' uid='" + entry.referenced_uid + "'>" +
       "<div class='message-box-title'>" + entry.name + "</div>" +
       "<div class='message-box-id'>" + entry.uid + "</div>" +
-      "<div class='message-box-content'>" + entry.description + "</div>" +
+      "<div class='message-box-date'>" + entry.date + "</div>" +
+      "<div class='message-box-author'>" + entry.author + "</div>" +
+      "<div class='message-box-content' contenteditable='TRUE'>" + entry.description + "</div>" +
       "</div>";
     document.getElementById('message-list').innerHTML += txt;
   }

@@ -296,14 +296,22 @@ function addToDatabase(options) {
                 var entry = options[1][j].message; // add this to the field in the database.. what about the keys?
                 if (checkForDuplicates(entry, "message")) {
                     // should we find the long description for a search?? maybe only the title is sufficient?
-                    entry.longDesc = Object.values(entry).toString().replace(/,/g, " ");
+                    entry.author = require("os").userInfo().username;
                     entry.id = id;
+                    // we should add a date for when that was added
+                    entry.date = (new Date()).toISOString();
+                    entry.longDesc = Object.values(entry).toString().replace(/,/g, " ");
                     messages.push(entry);
-                } else {
-                    // change the existing field
-                    for (var i = 0; i < messages.length; i++) {
+                } else { // change the existing field
+                    for (var i = 0; i < messages.length; i++) { // find it first
                         if (entry.uid == messages[i].uid) {
                             messages[i].description = entry.description; // and save again
+                            messages[i].date = (new Date()).toISOString();
+                            messages[i].author = require("os").userInfo().username;
+                            // to update the longDesc we need to remove it from the array
+                            var copy_entry = Object.assign({}, messages[i]);
+                            delete copy_entry.longDesc;
+                            messages[i].longDesc = Object.values(copy_entry).toString().replace(/,/g, " ");
                             break;
                         }
                     }

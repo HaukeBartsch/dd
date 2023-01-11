@@ -439,6 +439,21 @@ div.box-drop-highlight .box {
     width: 270px;
 }
 
+.message-box-date {
+    font-size: 8pt;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+.message-box-author {
+    font-size: 8pt;
+    position: absolute;
+    top: 12px;
+    right: 2px;
+}
+
+
 div.select-button {
     animation-duration: .3s;
     animation-name: decrease;
