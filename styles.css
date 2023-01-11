@@ -390,6 +390,7 @@ div.box-drop-highlight .box {
     left: 2px;
     font-size: 0.8em;
     z-index: 2;
+    white-space: nowrap;
 }
 
 .box div.pattern {
@@ -411,31 +412,28 @@ div.box-drop-highlight .box {
 }
 
 .message-box {
-    height: 100px;
+    height: 200px;
     border: 1px solid lightgrey;
     border-radius: 3px;
     position: relative;
+    margin-bottom: 3px;
+    padding: 2px;
 }
 
 .message-box-title {
     font-size: 12pt;
-    position: absolute;
-    top: 2px;
-    left: 2px;
 }
 
 .message-box-id {
     font-size: 9pt;
     position: absolute;
-    top: 5px;
+    bottom: 5px;
     right: 2px;
 }
 
 .message-box-content {
     font-size: 10pt;
-    position: absolute;
-    top: 24px;
-    left: 2px;
+    position: relative;
     height: 75%;
     overflow-y: auto;
     width: 270px;

@@ -66,17 +66,17 @@ function downloadIdentifiers(req, page, max_pages) {
                     // if we would call again using the cristin_project_id we would get the popular science description for each project
                     proj.push({
                         "project": {
-                            "name": entry.name + " (" + entry.prefix + ")",
+                            "name": entry.name,
                             "description": entry.description,
-                            "version": "",
+                            "version": entry.prefix + ":" + entry.sampleId,
                             "instruments": uri,
-                            "@id": "identifiers-id" + entry.sampleId + "_" + entry.mirId,
-                            "uri": uri
+                            "@id": "identifiers-id" + entry.prefix + ":" + entry.sampleId + "-" + entry.mirId,
+                            "uri": uri + "?instrument=" + entry.prefix + ":" + entry.sampleId
                         }
                     });
                 }
                 parentPort.postMessage([req, proj]);
-                // for each class we should download decendences
+                // for each class we should download the variables as well
                 setTimeout(function () {
                     downloadIdentifiers(req, ++page, max_pages);
                 }, 10);

@@ -73,11 +73,19 @@ function numberWithCommas(x) {
   return parts.join(".");
 }
 
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
 ipcRenderer.on('populateMessages', function (evt, messages) {
   // we got some messages to display, show them and activate a new message box
   document.getElementById('new-message-box').style.display = "";
   // add a unique ID to the new-message-box
-  document.getElementById('new-message-box').setAttribute("uuid", Math.floor(Math.Random() * 100));
+  var uuid = uuidv4();
+  document.getElementById('new-message-box').setAttribute("uuid", uuid);
+  document.getElementById('new-message-box-id').innerHTML = uuid;
 
   var message_list = document.getElementById('message-list');
   for (var i = 0; i < message_list.childNodes.length; i++) {
@@ -88,11 +96,13 @@ ipcRenderer.on('populateMessages', function (evt, messages) {
 
   for (var i = 0; i < messages.length; i++) {
     // create a new message box and add
-    var txt = "<div class='message-box' message_id='" + messages[i].uid + "'>" +
-      "<div class='message-title'>" + messages[i].title + "</div>" +
-      "<div class='message-description'>" + messages[i].description + "</div>" +
+    var entry = messages[i][1];
+    var txt = "<div class='message-box' uuid='" + entry.uid + "'>" +
+      "<div class='message-box-title'>" + entry.name + "</div>" +
+      "<div class='message-box-id'>" + entry.uid + "</div>" +
+      "<div class='message-box-content'>" + entry.description + "</div>" +
       "</div>";
-    document.getElementById('message-list').innerHMTL += txt;
+    document.getElementById('message-list').innerHTML += txt;
   }
 });
 
@@ -169,13 +179,19 @@ ipcRenderer.on('search', function (evt, message) {
       type = 'project';
     } else if (typeof searchResult.search != 'undefined') {
       type = 'search';
+    } else if (typeof searchResult.message != 'undefined') {
+      type = 'message';
     } else {
       console.log("unknown type in search result: " + JSON.stringify(Object.keys(searchResult)));
       continue;
     }
     // now we know how to display these
     // we expect a field for search results of these three types 'field', 'instrument', 'project', 'search'
-    addBox(type, searchResult[type]);
+    if (type != "message") {
+      addBox(type, searchResult[type]);
+    } else {
+      console.log("found a search for message, what to do???");
+    }
   }
   // lets find out if any rows are empty, hide those
   const row = document.getElementsByClassName("slider");
@@ -275,6 +291,7 @@ function addBox(type, result) {
       // add the result here, if we never add we will not see the results, so make sure you have sufficient rows available
       var b = createBox(type, result, numboxes);
       var div = document.createElement('div');
+      div.classList.add("slider");
       div.innerHTML = b.trim();
       var bb = div.firstChild;
       if (type == 'project') {
@@ -296,6 +313,19 @@ function addBox(type, result) {
         };
       })(d), 500);
       // if we could add the result break here, otherwise continue searching
+
+      // we should adjust the size of the content in case we are using too much space for the title
+      var title_size = bb.getElementsByClassName("title")[0].offsetHeight;
+      var description_size = bb.getElementsByClassName("description")[0].offsetHeight;
+      //console.log("title_size: " + title_size + " description_size: " + description_size);
+      if (title_size + description_size + 40 > 270) {
+        // make description size smaller
+        var new_size = 270 - 40 - title_size - 20;
+        if (new_size > 10) {
+          bb.getElementsByClassName("description")[0].style.maxHeight = new_size + "px";
+        }
+      }
+
       break;
     }
   }

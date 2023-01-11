@@ -213,7 +213,12 @@ function addToDatabase(options) {
         parentPort.postMessage(["haveSomething", {}]);
     }
 
-    if (options[0] == "loadDefaults" && options[1].length > 0 && (typeof options[1][0].field != "undefined" || typeof options[1][0].instrument != "undefined" || typeof options[1][0].project != "undefined" || typeof options[1][0].search != "undefined")) {
+    if (options[0] == "loadDefaults" && options[1].length > 0
+        && (typeof options[1][0].field != "undefined"
+            || typeof options[1][0].instrument != "undefined"
+            || typeof options[1][0].project != "undefined"
+            || typeof options[1][0].search != "undefined"
+            || typeof options[1][0].message != "undefined")) {
         // read this as a field or instrument or project
         // go through each entry
         for (var j = 0; j < options[1].length; j++) {
@@ -289,17 +294,19 @@ function addToDatabase(options) {
             } else if (typeof options[1][j].message != "undefined") {
                 var id = getNewID("messages");
                 var entry = options[1][j].message; // add this to the field in the database.. what about the keys?
-                var newMessage = createMessageStruct();
-                newMessage.id = id;
-                newMessage.uri = entry.uri;
-                newMessage.uid = entry["@id"];
-                newMessage.name = entry["name"];
-                newMessage.description = entry["description"]; // id of the field with this FormName, actually its the uri
-                newMessage.pattern = entry["pattern"];
-                if (checkForDuplicates(newMessage, "message")) {
+                if (checkForDuplicates(entry, "message")) {
                     // should we find the long description for a search?? maybe only the title is sufficient?
-                    newMessage.longDesc = Object.values(newMessage).toString().replace(/,/g, " ")
-                    messages.push(newMessage);
+                    entry.longDesc = Object.values(entry).toString().replace(/,/g, " ");
+                    entry.id = id;
+                    messages.push(entry);
+                } else {
+                    // change the existing field
+                    for (var i = 0; i < messages.length; i++) {
+                        if (entry.uid == messages[i].uid) {
+                            messages[i].description = entry.description; // and save again
+                            break;
+                        }
+                    }
                 }
             } else {
                 console.log("Error: unknown type of object discovered, should be field, or search, instrument, project.");
@@ -364,6 +371,7 @@ function addToDatabase(options) {
  */
 function search(erg, options, ids) {
     // full text search support
+    var max_piece = 300;
     if (typeof ids.fields == 'undefined')
         ids.fields = {};
     if (typeof ids.instruments == 'undefined')
@@ -387,7 +395,7 @@ function search(erg, options, ids) {
         }
         var resultsFCounter = 0;
         for (var i = 0; i < fields.length; i++) {
-            if (resultsFCounter > 200)
+            if (resultsFCounter > max_piece)
                 break;
             var m = fields[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -402,7 +410,7 @@ function search(erg, options, ids) {
         }
         var resultsICounter = 0;
         for (var i = 0; i < instruments.length; i++) {
-            if (resultsICounter > 200)
+            if (resultsICounter > max_piece)
                 break;
             var m = instruments[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -419,7 +427,7 @@ function search(erg, options, ids) {
 
         var resultsPCounter = 0;
         for (var i = 0; i < projects.length; i++) {
-            if (resultsPCounter > 200)
+            if (resultsPCounter > max_piece)
                 break;
             var m = projects[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -436,7 +444,7 @@ function search(erg, options, ids) {
         // any search that results in a search will include that searches results as well (track duplicates to not do this forever)
         var resultsSCounter = 0;
         for (var i = 0; i < searches.length; i++) {
-            if (resultsSCounter > 200)
+            if (resultsSCounter > max_piece)
                 break;
             var m = searches[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -455,7 +463,7 @@ function search(erg, options, ids) {
         var resultsMCounter = 0;
         var messagePointers = [];
         for (var i = 0; i < messages.length; i++) {
-            if (resultsMCounter > 200)
+            if (resultsMCounter > max_piece)
                 break;
             var m = messages[i].longDesc.match(regexp);
             if (m != null && m.length > 0) {
@@ -492,7 +500,7 @@ function search(erg, options, ids) {
         }
 
         // if we still have space we can try to resolve searches
-        if (erg.length < 4 * 200) {
+        if (erg.length < 4 * max_piece) {
             // add some more resolved searches
             // we need to mark searches as resolved do we don't always do the same one (the first)
             for (var i = 0; i < erg.length; i++) {
@@ -550,7 +558,14 @@ parentPort.on('message', function (a) {
     } else if (func == "saveMessages") {
         // check first if we have to update a message
         console.log(options);
-
+        // the unique key in a message is options.box_id, check that we don't have one of those already
+        var m = createMessageStruct();
+        m.name = options.variable;
+        m.description = options.content;
+        m.uid = options.box_id;
+        m.referenced_uid = options.uid;
+        addToDatabase(["loadDefaults", [{ "message": m }]]);
+        writeAllMessages();
     } else if (func == "stats") {
         // send back some basic stats 
         parentPort.postMessage(["stats", { "instruments": instruments.length, "projects": projects.length, "fields": fields.length, "searches": searches.length }]);
@@ -569,6 +584,7 @@ parentPort.on('message', function (a) {
         writeAllSearches();
     } else if (func == "loadSearchesFromDisk") {
         importAllSearchesFromDisk();
+        importAllMessagesFromDisk();
     } else {
         parentPort.postMessage(["Error", "option is neither announce nor search"]);
     }
@@ -588,11 +604,42 @@ function getMessages(req, options) {
                 break;
             }
         }
+    } else if (type == "field") {
+        //console.log("error: nothing done yet, needs to be implemented");
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].id == id) {
+                uid = fields[i].uid;
+                break;
+            }
+        }
+    } else if (type == "project") {
+        //console.log("error: nothing done yet, needs to be implemented");
+        for (var i = 0; i < projects.length; i++) {
+            if (projects[i].id == id) {
+                uid = projects[i].uid;
+                break;
+            }
+        }
+    } else if (type == "search") {
+        //console.log("error: nothing done yet, needs to be implemented");
+        for (var i = 0; i < searches.length; i++) {
+            if (searches[i].id == id) {
+                uid = searches[i].uid;
+                break;
+            }
+        }
+    } else {
+        console.log("error: unknown type, don't know where to search for this one");
+        return results;
+    }
+    if (uid == "") {
+        console.log("Error: could not find a message, the uid was not found");
+        return results;
     }
 
     console.log("find message for this guid and return");
     for (var i = 0; i < messages.length; i++) {
-        if (messages[i].message.type == type && messages[i].message.uid == uid) {
+        if (messages[i].referenced_uid == uid) {
             var ne = Object.assign({}, messages[i]);
             results.push([req, ne]);
         }
@@ -610,6 +657,14 @@ function writeAllSearches() {
     fs.writeFileSync(p, JSON.stringify(searches));
 }
 
+function writeAllMessages() {
+    const fs = require('fs');
+    const path = require('path');
+    const p = path.join(__dirname, 'messages_cache.json');
+    fs.writeFileSync(p, JSON.stringify(messages));
+}
+
+
 /**
  * Import all searches back from disk. This will overwrite existing searches in memory.
  */
@@ -624,6 +679,21 @@ function importAllSearchesFromDisk() {
             searches = JSON.parse(rawdata);
         } catch (e) {
             // got an error reading the searches_cache file as json
+        }
+    }
+}
+
+function importAllMessagesFromDisk() {
+    // merges with all searches already in searches?
+    const fs = require('fs');
+    const path = require('path');
+    const p = path.join(__dirname, 'messages_cache.json');
+    if (fs.existsSync(p)) {
+        let rawdata = fs.readFileSync(p);
+        try {
+            messages = JSON.parse(rawdata);
+        } catch (e) {
+            // got an error reading the messages_cache file as json
         }
     }
 }

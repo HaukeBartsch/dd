@@ -233,6 +233,16 @@ app.whenReady().then(() => {
   // trigger a load of the basic data dictionaries (will add them to db)
   loader.postMessage(["loadDefaults", { "description": "initial request to load list of data dictionaries" }]);
   update();
+
+
+  process.on('uncaughtException', (error, origin) => {
+    if (error?.code === 'ECONNRESET')
+      return;
+    console.error('UNCAUGHT EXCEPTION');
+    console.error(error);
+    console.error(origin);
+    process.exit(1);
+  });
 })
 
 function update() {

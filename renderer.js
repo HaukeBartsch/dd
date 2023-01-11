@@ -27,6 +27,7 @@ document.getElementById('new-message-box-content').addEventListener('input', del
         variable: document.getElementById('new-message-box-title').innerHTML,
         card_type: document.getElementById('new-message-box').getAttribute("card_type"),
         card_id: document.getElementById('new-message-box').getAttribute("card_id"),
+        box_id: document.getElementById('new-message-box').getAttribute("uuid")
     };
     window.electronAPI.newMessage(package);
 }, 500));
