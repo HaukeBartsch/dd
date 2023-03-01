@@ -23,7 +23,7 @@ parentPort.on('message', function (a) {
             downloadBioOntologyProjects(a[0]);
             // seeding ontologies, we will download them as projects + we will download the root for each of them
             downloadBioOntologyOntologies(a[0]);
-            // downloadBioOntologyClasses(a[0], "SNOMEDCT", 1); // too many
+            downloadBioOntologyClasses(a[0], "SNOMEDCT", 1, 10); // load at most 10 pages of these
             //downloadBioOntologyRoots(a[0], "SNOMEDCT");
             //downloadBioOntologyRoots(a[0], "RXNORM");
             //downloadBioOntologyRoots(a[0], "MDDB");
@@ -389,9 +389,12 @@ function downloadBioOntologyDecendants(req, ontology, descendants_links) {
 
 
 // this has many pages (potentially)
-function downloadBioOntologyClasses(req, ontology, page) {
+function downloadBioOntologyClasses(req, ontology, page, max_pages) {
     require("dotenv").config();
     // key for BioOntology is now process.env.BIOONTOLOGY_API_KEY
+
+    if (page > max_pages)
+        return; // do nothing
 
     // get the projects from BioOntology  http://data.bioontology.org/projects
     var uri = "bioontologies://" + ontology;
@@ -438,7 +441,7 @@ function downloadBioOntologyClasses(req, ontology, page) {
                 if (proj.length > 0) {
                     // request another page
                     setTimeout(function () {
-                        downloadBioOntologyClasses(req, ontology, ++page);
+                        downloadBioOntologyClasses(req, ontology, ++page, max_pages);
                     }, 10);
                 }
             });
@@ -591,7 +594,11 @@ function downloadHelseData(req, page) {
                 // read the data from the file again
 
                 const content = fs.readFileSync(fname);
-                contentJSON = JSON.parse(content);
+                try {
+                    contentJSON = JSON.parse(content);
+                } catch (e) {
+                    return;
+                }
                 //console.log("hi there");
                 var data = contentJSON.payload.result;
                 var results = [];
@@ -604,7 +611,7 @@ function downloadHelseData(req, page) {
                         description = entry.nameEnglish != null ? entry.nameEnglish : entry.name;
                     }
                     // the project name (a register for example)
-                    var p = entry.parentRegisterName.toLowerCase().replace(/ /g, "_");
+                    var p = entry.parentRegisterName.toLowerCase().replace(/ /g, "_").replace(/[\(\)]/g, "");
                     var uri = "helsedata://" + p + "?instrument=";
                     projs[p] = {
                         "project": {
@@ -635,12 +642,12 @@ function downloadHelseData(req, page) {
                         "field": {
                             "ElementName": entry.code,
                             "DataType": entry.dataType,
-                            "Instrument Part": entry.code,
+                            "Instrument Part": (typeof entry.dataCollection != 'undefined' ? entry.dataCollection : entry.code),
                             "ElementDescription": description,
-                            "FormName": uri,
-                            "uri": uri,
+                            "FormName": uri + (typeof entry.dataCollection != 'undefined' ? entry.dataCollection : ""),
+                            "uri": uri + (typeof entry.parentRegisterName != 'undefined' ? entry.parentRegisterName : entry.code),
                             "@id": "field:" + entry["internalLink"],
-                            "fields": uri
+                            "fields": uri + (typeof entry.parentRegisterName != 'undefined' ? entry.parentRegisterName : entry.code)
                         }
                     });
                 }

@@ -276,7 +276,7 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result.field_name + "</div>" +
       "<div class='description'>" + result.field_label + "</div>" +
-      "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
+      "<div class='project-name' title='Project name and version'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   } else if (type == "instrument") {

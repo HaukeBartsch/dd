@@ -18,7 +18,12 @@ parentPort.on('message', function (a) {
         if (cached_model == null) {
             // load model first and afterwards search
             loadModel().then(function () {
-                var result = cached_model.mostSimilar(search_term);
+                var result = "";
+                try {
+                    result = cached_model.mostSimilar(search_term);
+                } catch (e) {
+                    return; // ignore this error
+                }
                 //console.log("start a search for such a word: " + search_term + " got back: " + JSON.stringify(result));
                 // send back to main, add to user interface
                 parentPort.postMessage(["found-similarity", result]);

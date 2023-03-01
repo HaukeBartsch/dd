@@ -382,6 +382,7 @@ div.box-drop-highlight .box {
     left: 2px;
     font-size: 0.8em;
     z-index: 2;
+    white-space: nowrap;
 }
 
 .box div.instrument-name {
@@ -412,12 +413,14 @@ div.box-drop-highlight .box {
 }
 
 .message-box {
-    height: 200px;
+    min-height: 200px;
     border: 1px solid lightgrey;
     border-radius: 3px;
     position: relative;
     margin-bottom: 3px;
     padding: 2px;
+    color: white;
+    background-color: tomato;
 }
 
 .message-box-title {
@@ -434,9 +437,14 @@ div.box-drop-highlight .box {
 .message-box-content {
     font-size: 10pt;
     position: relative;
-    height: 75%;
+    margin-top: 5px;
+    margin-left: 2px;
+    min-height: 200px;
     overflow-y: auto;
     width: 270px;
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 2px;
 }
 
 .message-box-date {

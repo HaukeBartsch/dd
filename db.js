@@ -305,6 +305,12 @@ function addToDatabase(options) {
                 } else { // change the existing field
                     for (var i = 0; i < messages.length; i++) { // find it first
                         if (entry.uid == messages[i].uid) {
+                            // if the description is length == 0 we can delete the message instead of changing them
+                            if (entry.description.length == 0) {
+                                messages.splice(i, 1);
+                                console.log("deleted this message...  ");
+                                break;
+                            }
                             messages[i].description = entry.description; // and save again
                             messages[i].date = (new Date()).toISOString();
                             messages[i].author = require("os").userInfo().username;
@@ -317,7 +323,7 @@ function addToDatabase(options) {
                     }
                 }
             } else {
-                console.log("Error: unknown type of object discovered, should be field, or search, instrument, project.");
+                console.log("Error: unknown type of object discovered, should be field, or search, instrument, project, or message.");
             }
         }
         return;
