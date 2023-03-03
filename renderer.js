@@ -214,4 +214,4 @@ document.addEventListener("dragstart", function (ev) {
 document.addEventListener("dragend", function (ev) {
     document.getElementById("left-side-box-drop").classList.remove("box-drop-highlight");
     document.getElementById("left-side-box-drop").classList.add("box-drop-normal");
-})
+});

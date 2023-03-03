@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
+
 contextBridge.exposeInMainWorld('electronAPI', {
   setTitle: (title) => ipcRenderer.send('set-title', title),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
@@ -212,7 +213,13 @@ ipcRenderer.on('search', function (evt, message) {
     // now we know how to display these
     // we expect a field for search results of these three types 'field', 'instrument', 'project', 'search'
     if (type != "message") {
-      addBox(type, searchResult[type]);
+      let elem = addBox(type, searchResult[type]);
+      if (elem != null) {
+        // trigger an event on the client to react to the insert
+        const event = new CustomEvent("new-box", { bubbles: true, detail: { box: elem } });
+        elem.dispatchEvent(event);
+        //document.getElementById("middle-scroll-window").dispatchEvent(event);
+      }
     } else {
       console.log("found a search for message, what to do???");
     }
@@ -265,6 +272,7 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel2-" + color + "' color='" + color + "' type = 'project' typeid = '" + result.id + "' draggable = 'true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result.name + "</div>" +
       "<div class='description'>" + (typeof result.description != 'undefined' ? result.description : "") + "</div>" +
+      "<div class='logo'></div>" +
       "<div class='project-name' title='Protocol name and project'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'> " + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div > " +
       "</div>";
@@ -276,6 +284,7 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel1-" + color + "' color='" + color + "' type='field' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result.field_name + "</div>" +
       "<div class='description'>" + result.field_label + "</div>" +
+      "<div class='logo'></div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
@@ -287,6 +296,7 @@ function createBox(type, result, numboxes) {
     }
     return "<div class='box Pastel2-" + color + "' color='" + color + "' type='instrument' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result["Instrument Title"] + "</div>" +
       "<div class='description'>" + result["Description"] + "</div>" +
+      "<div class='logo'></div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
@@ -294,12 +304,12 @@ function createBox(type, result, numboxes) {
     return "<div class='box search-card' color='search-card' type='search' typeid='" + result.id + "' draggable='true' uri='" + result.uri + "' uid='" + result.uid + "'>" + "<div class='title'>" + result["name"] + "</div>" +
       "<div class='description'>" + result["description"] + "</div>" +
       "<div class='pattern'>/" + result["pattern"] + "/i</div>" +
+      "<div class='logo'></div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
       "</div>";
   }
 }
-
 
 function addBox(type, result) {
   // find a row with that type
@@ -349,11 +359,12 @@ function addBox(type, result) {
           bb.getElementsByClassName("description")[0].style.maxHeight = new_size + "px";
         }
       }
-
-      break;
+      // done, return the created dom element
+      return bb;
+      //break;
     }
   }
-
+  return null; // don't return anything if nothing was added
 }
 
 function parseURI(str) {

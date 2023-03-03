@@ -367,6 +367,13 @@ div.box-drop-highlight .box {
     z-index: 2;
 }
 
+.box div.logo {
+    position: absolute;
+    bottom: 20px;
+    right: 5px;
+    fill: darksalmon;
+}
+
 .box div.description {
     font-size: 0.6em;
     max-height: 50%;

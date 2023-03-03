@@ -23,7 +23,7 @@ parentPort.on('message', function (a) {
             downloadBioOntologyProjects(a[0]);
             // seeding ontologies, we will download them as projects + we will download the root for each of them
             downloadBioOntologyOntologies(a[0]);
-            downloadBioOntologyClasses(a[0], "SNOMEDCT", 1, 10); // load at most 10 pages of these
+            downloadBioOntologyClasses(a[0], "SNOMEDCT", 1, 100); // load at most 10 pages of these
             //downloadBioOntologyRoots(a[0], "SNOMEDCT");
             //downloadBioOntologyRoots(a[0], "RXNORM");
             //downloadBioOntologyRoots(a[0], "MDDB");
