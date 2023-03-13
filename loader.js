@@ -16,7 +16,8 @@ parentPort.on('message', function (a) {
         downloadHelseData(a[0]);
         downloadCristinProjects(a[0], 1, 10);
         downloadIdentifiers(a[0], 1, 100); // download the different pages from Identifiers
-        downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json")
+        downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json");
+        downloadQualityRegistries(a[0], "https://prod-mong-api.skde.org/info/names"); // https://prod-mong-api.skde.org/info/names
         // the next section requires a key from bioportals (added to .env)
         require("dotenv").config();
         if (typeof process.env.BIOONTOLOGY_API_KEY != "undefined") {
@@ -80,6 +81,55 @@ function downloadIdentifiers(req, page, max_pages) {
                 setTimeout(function () {
                     downloadIdentifiers(req, ++page, max_pages);
                 }, 10);
+            });
+        });
+    });
+
+
+}
+
+function downloadQualityRegistries(req, url) {
+
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    var uri = "skde://kvalitetsregistre.no/";
+
+    temp.open("QualityRegistries", function (err, info) {
+        var fname = info.path;
+
+        const file = fs.createWriteStream(fname);
+        https.get(url, response => {
+            var stream = response.pipe(file);
+
+            file.on("finish", () => {
+                file.close();
+            });
+
+            stream.on("finish", function () {
+                const content = fs.readFileSync(fname);
+
+
+                contentJSON = JSON.parse(content);
+                //console.log("got some data :  " + content);
+                var proj = [];
+                for (var i = 0; i < contentJSON.length; i++) {
+                    var entry = contentJSON[i];
+                    if (entry.obsolete)
+                        continue;
+                    proj.push({
+                        "project": {
+                            "name": entry.full_name,
+                            "description": (entry?.description != undefined ? entry.description : ""),
+                            "version": "",
+                            "instruments": entry.register_name,
+                            "@id": "SKDE:" + url,
+                            "uri": uri + "?instrument=" + entry.register_name
+                        }
+                    });
+                }
+                parentPort.postMessage([req, proj]);
             });
         });
     });
