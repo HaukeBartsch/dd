@@ -287,6 +287,7 @@ function createBox(type, result, numboxes) {
       "<div class='logo'></div>" +
       "<div class='project-name' title='Project name and version'>" + decodeURI(s.protocol) + " " + decodeURI(s.project) + " " + decodeURI(s.project_version) + "</div>" +
       "<div class='instrument-name' title='Instrument and version'>" + decodeURI(s.instrument) + " " + decodeURI(s.instrument_version) + "</div>" +
+      "<div class='choices' title='Coding of choices'> " + decodeURI(result.select_choices_or_calculations) + "</div > " +
       "</div>";
   } else if (type == "instrument") {
     if (result["Instrument Title"] in colorCache) {

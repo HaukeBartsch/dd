@@ -100,43 +100,44 @@ var cacheFieldFormName = {};
  */
 function checkForDuplicates(entry, what) {
     if (what == "field") {
+        var idx = -1;
         // this is performance critical, so we will try to get the keys without enumerating them or without Object.keys()
         if (!cacheInitialized) {
             // check if the field name with the instrument and project and version is unique
             for (var i = 0; i < fields.length; i++) {
-                cacheFieldFormName[fields[i].field_name + fields[i].form_name] = 1;
+                cacheFieldFormName[fields[i].field_name + fields[i].form_name] = i;
             }
-            cacheInitialized = true;;
+            cacheInitialized = true;
         }
         if (typeof cacheFieldFormName[entry.field_name + entry.form_name] != 'undefined') { // its already in there
-            return false;
+            return { ok: false, idx: cacheFieldFormName[entry.field_name + entry.form_name] };
         } else { // if not put it in - we assume here that its actually getting added to db - might not be the case!
-            cacheFieldFormName[entry.field_name + entry.form_name] = 1;
+            cacheFieldFormName[entry.field_name + entry.form_name] = Object.keys(cacheFieldFormName).length;
         }
     } else if (what == "instrument") {
         for (var i = 0; i < instruments.length; i++) {
             if (entry["Instrument Title"] == instruments[i]["Instrument Title"]) {
-                return false;
+                return { ok: false, idx: i };
             }
         }
     } else if (what == "project") {
         for (var i = 0; i < projects.length; i++) {
             if (entry.name == projects[i].name)
-                return false;
+                return { ok: false, idx: i };
         }
     } else if (what == "search") {
         for (var i = 0; i < searches.length; i++) {
             if (entry.name == searches[i].name)
-                return false;
+                return { ok: false, idx: i };
         }
     } else if (what == "message") {
         for (var i = 0; i < messages.length; i++) {
             if (entry.uid == messages[i].uid)
-                return false;
+                return { ok: false, idx: i };
         }
     }
 
-    return true;
+    return { ok: true };
 }
 
 /**
@@ -222,6 +223,9 @@ function addToDatabase(options) {
         // read this as a field or instrument or project
         // go through each entry
         for (var j = 0; j < options[1].length; j++) {
+            if ((j + 1) % 100 == 0)
+                parentPort.postMessage(["update", {}]); // maybe we can more often update the interface?
+
             if (typeof options[1][j].field != "undefined") {
                 // assign to new field id
                 // what is the last id we can use? (should do this only once)
@@ -235,11 +239,22 @@ function addToDatabase(options) {
                 newField.field_name = entry.ElementName;
                 newField.field_type = entry.DataType;
                 newField.field_label = entry.ElementDescription;
+                if (typeof entry.Choices != 'undefined')
+                    newField.select_choices_or_calculations = entry.Choices;
                 newField.form_name = entry.FormName;
                 newField.uid = entry["@id"];
-                if (checkForDuplicates(newField, "field")) {
+                if (erg = checkForDuplicates(newField, "field"), erg.ok) {
                     newField.longDesc = Object.values(newField).toString().replace(/,/g, " ");
                     fields.push(newField);
+                } else {
+                    // maybe we are missing just some values?
+                    if (fields[erg.idx].select_choices_or_calculations.length != newField.select_choices_or_calculations.length) {
+                        // this does not match, but it should
+                        console.log("sorry?");
+                        if (fields[erg.idx].select_choices_or_calculations.length == 0)
+                            fields[erg.idx].select_choices_or_calculations = newField.select_choices_or_calculations;
+                    }
+
                 }
             } else if (typeof options[1][j].instrument != "undefined") {
                 // append an entry to the instrument list
@@ -256,7 +271,7 @@ function addToDatabase(options) {
                 newInstrument['Instrument Title'] = entry["Instrument Title"];
                 newInstrument['Description'] = typeof entry["Description"] != "undefined" ? entry["Description"] : "";
                 newInstrument['fields'] = entry["fields"]; // id of the field with this FormName, actually its the uri
-                if (checkForDuplicates(newInstrument, "instrument")) {
+                if (erg = checkForDuplicates(newInstrument, "instrument"), erg.ok) {
                     newInstrument.longDesc = Object.values(newInstrument).toString().replace(/,/g, " ")
                     instruments.push(newInstrument);
                 }
@@ -272,7 +287,7 @@ function addToDatabase(options) {
                 newProject.name = entry["name"];
                 newProject.uid = entry["@id"];
                 newProject['instruments'] = entry["instruments"]; // id of the field with this FormName, actually its the uri
-                if (checkForDuplicates(newProject, "project")) {
+                if (erg = checkForDuplicates(newProject, "project"), erg.ok) {
                     newProject.longDesc = Object.values(newProject).toString().replace(/,/g, " ")
                     projects.push(newProject);
                 }
@@ -286,7 +301,7 @@ function addToDatabase(options) {
                 newSearch.name = entry["name"];
                 newSearch.description = entry["description"]; // id of the field with this FormName, actually its the uri
                 newSearch.pattern = entry["pattern"];
-                if (checkForDuplicates(newSearch, "search")) {
+                if (erg = checkForDuplicates(newSearch, "search"), erg.ok) {
                     // should we find the long description for a search?? maybe only the title is sufficient?
                     newSearch.longDesc = Object.values(newSearch).toString().replace(/,/g, " ")
                     searches.push(newSearch);
@@ -294,7 +309,7 @@ function addToDatabase(options) {
             } else if (typeof options[1][j].message != "undefined") {
                 var id = getNewID("messages");
                 var entry = options[1][j].message; // add this to the field in the database.. what about the keys?
-                if (checkForDuplicates(entry, "message")) {
+                if (erg = checkForDuplicates(entry, "message"), erg.ok) {
                     // should we find the long description for a search?? maybe only the title is sufficient?
                     entry.author = require("os").userInfo().username;
                     entry.id = id;

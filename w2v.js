@@ -29,7 +29,12 @@ parentPort.on('message', function (a) {
                 parentPort.postMessage(["found-similarity", result]);
             });
         } else {
-            var result = cached_model.mostSimilar(search_term);
+            var result = {};
+            try {
+                result = cached_model.mostSimilar(search_term);
+            } catch (e) {
+                console.log("got an error trying to read the mostSimilar for " + search_term);
+            }
             console.log("start a search for such a word: " + search_term);
             // send back to main, add to user interface
             parentPort.postMessage(["found-similarity", result]);

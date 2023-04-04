@@ -13,7 +13,8 @@ parentPort.on('message', function (a) {
         downloadREDCapListFromREDCapLoc(a[0]);
         downloadHUNT(a[0]);
         downloadHUNTVariables(a[0]);
-        downloadHelseData(a[0]);
+        //console.log("CALL DOWNLOAD HELSEDATA...");
+        downloadHelseData(a[0], 1, 100);
         downloadCristinProjects(a[0], 1, 10);
         downloadIdentifiers(a[0], 1, 100); // download the different pages from Identifiers
         downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json");
@@ -24,7 +25,7 @@ parentPort.on('message', function (a) {
             downloadBioOntologyProjects(a[0]);
             // seeding ontologies, we will download them as projects + we will download the root for each of them
             downloadBioOntologyOntologies(a[0]);
-            downloadBioOntologyClasses(a[0], "SNOMEDCT", 1, 100); // load at most 10 pages of these
+            downloadBioOntologyClasses(a[0], "SNOMEDCT", 1, 100); // load at most 100 pages of these
             //downloadBioOntologyRoots(a[0], "SNOMEDCT");
             //downloadBioOntologyRoots(a[0], "RXNORM");
             //downloadBioOntologyRoots(a[0], "MDDB");
@@ -78,10 +79,14 @@ function downloadIdentifiers(req, page, max_pages) {
                 }
                 parentPort.postMessage([req, proj]);
                 // for each class we should download the variables as well
-                setTimeout(function () {
-                    downloadIdentifiers(req, ++page, max_pages);
-                }, 10);
+                if (page < max_pages) {
+                    setTimeout(function () {
+                        downloadIdentifiers(req, ++page, max_pages);
+                    }, 1000);
+                }
             });
+        }).on('error', function (e) {
+            console.log("Error downloading identifiers: " + JSON.stringify(e) + " for page: " + page + "/" + max_pages);
         });
     });
 
@@ -131,6 +136,8 @@ function downloadQualityRegistries(req, url) {
                 }
                 parentPort.postMessage([req, proj]);
             });
+        }).on('error', function (e) {
+            console.log("Error downloading quality registries: " + JSON.stringify(e));
         });
     });
 
@@ -200,18 +207,19 @@ function downloadCristinProjectsDescription(req, entries) {
     const https = require("https");
     const temp = require("temp");
 
-    temp.open("cristin_descriptions", function (err, info) {
+    temp.open("cristin_descriptions_", function (err, info) {
         var fname = info.path;
 
         const file = fs.createWriteStream(fname);
         https.get(url, response => {
             var stream = response.pipe(file);
 
-            file.on("finish", () => {
-                file.close();
-            });
+            //file.on("finish", () => {
+            //    file.close();
+            //});
 
             stream.on("finish", function () {
+                file.close();
                 const content = fs.readFileSync(fname);
                 try {
                     entry = JSON.parse(content);
@@ -249,7 +257,7 @@ function downloadCristinProjectsDescription(req, entries) {
                     });
                     parentPort.postMessage([req, proj]);
                 }
-                // for each class we should download decendences
+                // for each class we should download descendence
                 setTimeout(function () {
                     downloadCristinProjectsDescription(req, entries);
                 }, 100);
@@ -560,7 +568,7 @@ function downloadBioOntologyOntologies(req) {
                 projList = projList.map(function (a) { return { name: a, page: 1, max_page: 10 }; });
                 setTimeout(function () {
                     downloadBioOntologyRoots(req, projList);
-                }, 10);
+                }, 100);
             });
         });
     });
@@ -614,12 +622,107 @@ function downloadBioOntologyProjects(req) {
     });
 }
 
+function PromiseQueue(tasks = [], concurrentCount = 1) {
+    this.total = tasks.length;
+    this.todo = tasks;
+    this.running = [];
+    this.complete = [];
+    this.count = concurrentCount;
+}
+PromiseQueue.prototype.runNext = function () {
+    return ((this.running.length < this.count) && this.todo.length);
+}
+PromiseQueue.prototype.run = function (atEnd, argument) {
+    while (this.runNext()) {
+        const promise = this.todo.shift();
+        promise.then(() => {
+            this.complete.push(this.running.shift());
+            //this.run(atEnd, argument);
+        });
+        this.running.push(promise);
+    }
+    // we could call something here once we are all done
+    (atEnd)(argument);
+}
+
+// For helsedata we need another call to get the choices for each variable
+// we would like to add those to the dataset.
+let codeSystemVariablesCache = {};
+function addCodingToResults(codeSystemVariables, results, callback) {
+    const fs = require("fs");
+    const https = require("https");
+    const temp = require("temp");
+
+    let tasks = [];
+    // attach info to results for each of the entries in GetCodeSystemVariables
+    for (let i = 0; i < codeSystemVariables.length; i++) {
+        if (typeof codeSystemVariablesCache[codeSystemVariables[i].id] != 'undefined') {
+            // fill in from cache            
+            results[codeSystemVariables[i].idx].field.Choices = codeSystemVariablesCache[codeSystemVariables[i].id];
+            continue;
+        }
+
+        tasks.push(new Promise((resolve, reject) => {
+            // payload/subdefinitions
+            let url = "https://helsedata.no/api/1.0/variable/GetCodeSystem?id=" + codeSystemVariables[i].id;
+
+            temp.open("helsedata_" + codeSystemVariables[i].id + "_coding", function (err, info) {
+                var fname = info.path;
+
+                const file = fs.createWriteStream(fname);
+                https.get(url, response => {
+                    var stream = response.pipe(file);
+
+                    file.on("finish", () => {
+                        file.close();
+                    });
+
+                    stream.on("finish", function () {
+                        // what is the string in this stream?
+                        // read the data from the file again
+
+                        const content = fs.readFileSync(fname);
+                        try {
+                            contentJSON = JSON.parse(content);
+                        } catch (e) {
+                            return;
+                        }
+                        let txt = "";
+                        if (contentJSON?.payload?.SubDefinitions) {
+                            for (let j = 0; j < contentJSON.payload.SubDefinitions.length; j++) {
+                                txt += contentJSON.payload.SubDefinitions[j].localCodeId + ", " + contentJSON.payload.SubDefinitions[j].name.replace(/\|/g, " ");
+                                if (j < contentJSON.payload.SubDefinitions.length - 1)
+                                    txt += " | ";
+                            }
+
+                            results[codeSystemVariables[i].idx].field.Choices = txt;
+                            console.log("add coding to: " + results[codeSystemVariables[i].idx].field.ElementName + " -> " + txt);
+                            codeSystemVariablesCache[codeSystemVariables[i].id] = txt; // cache this, just in case we ask for that multiple times
+                        }
+                        resolve();
+                    });
+
+                    stream.on("error", function () {
+                        reject("Error in getting stream from site...");
+                    })
+                }).on("error", function (e) {
+                    console.log("got an error downloading: " + JSON.stringify(e));
+                });
+            });
+        }));
+    }
+
+    const taskQueue = new PromiseQueue(tasks, 1);
+    taskQueue.run(callback, results);
+}
 
 // todo: add the left side variables: https://helsedata.no/no/variabler/?page=search
-function downloadHelseData(req, page) {
+function downloadHelseData(req, page, pageHelseData) {
     if (typeof page == "undefined") {
         page = 1;
     }
+
+    console.log("downloadHelseData for page: " + page);
     var url = "https://helsedata.no/api/1.0/variable/FullSearch?q=gender&page=1&sort=0";
     url = "https://helsedata.no/api/1.0/variable/FullSearch?q=&page=" + page + "&sort=0"; // this will get us 100 entries, we should page more
 
@@ -627,7 +730,7 @@ function downloadHelseData(req, page) {
     const https = require("https");
     const temp = require("temp");
 
-    temp.open("helseData_variables", function (err, info) {
+    temp.open("helseData_variables_page" + page, function (err, info) {
         var fname = info.path;
 
         const file = fs.createWriteStream(fname);
@@ -639,7 +742,7 @@ function downloadHelseData(req, page) {
                 file.close();
             });
 
-            stream.on("finish", function () {
+            stream.on("finish", () => {
                 // what is the string in this stream?
                 // read the data from the file again
 
@@ -654,6 +757,7 @@ function downloadHelseData(req, page) {
                 var results = [];
                 var projs = {};
                 var insts = {};
+                var codeSystemVariables = [];
                 for (var i = 0; i < data.length; i++) {
                     var entry = data[i];
                     var description = typeof entry.descriptionEnglish != 'undefined' ? entry.descriptionEnglish : entry.description;
@@ -687,6 +791,11 @@ function downloadHelseData(req, page) {
                             }
                         };
                     }
+                    // for each variable we have to ask for the coding system as well with a request like this:
+                    //     GetCodeSystem?id=1600..
+                    // create a task
+                    if (typeof entry.localeCodeSystemId != 'undefined' && entry.localeCodeSystemId != null)
+                        codeSystemVariables.push({ id: entry.localeCodeSystemId, idx: results.length });
 
                     results.push({
                         "field": {
@@ -701,24 +810,43 @@ function downloadHelseData(req, page) {
                         }
                     });
                 }
-                // if we have projects send those
-                var pro = Object.keys(projs);
-                for (var i = 0; i < pro.length; i++) {
-                    results.push(projs[pro[i]]);
-                }
-                var ins = Object.keys(insts);
-                for (var i = 0; i < ins.length; i++) {
-                    results.push(insts[ins[i]]);
-                }
+                // query and attach the CodingSystem information for all measures
+                const doWhenDone = (results) => {
+                    var pro = Object.keys(projs);
+                    for (var i = 0; i < pro.length; i++) {
+                        results.push(projs[pro[i]]);
+                    }
+                    var ins = Object.keys(insts);
+                    for (var i = 0; i < ins.length; i++) {
+                        results.push(insts[ins[i]]);
+                    }
 
-                parentPort.postMessage([req, results]);
-                if (results.length > 0) {
-                    // request another page
-                    setTimeout(function () {
-                        downloadHelseData(req, ++page);
-                    }, 10);
+                    parentPort.postMessage([req, results]);
+                    if (results.length > 0 && page < pageHelseData) {
+                        // request another page
+                        setTimeout(function () {
+                            downloadHelseData(req, ++page, pageHelseData);
+                        }, 1000);
+                    } else {
+                        console.log("downloadHelseData is done, no results from the previous call, should be the last page.")
+                    }
+                }
+                //codeSystemVariables = [];
+                if (codeSystemVariables.length > 0) {
+                    addCodingToResults(codeSystemVariables, results, function (results) {
+                        // if we have projects send those
+                        (doWhenDone)(results);
+                    });
+                } else {
+                    (doWhenDone)(results);
                 }
             });
+
+            stream.on("error", function () {
+                console.log("handle an error");
+            })
+        }).on('error', function (e) {
+            console.log("got a disconnect from helsedata... " + JSON.stringify(e));
         });
     });
 
@@ -974,7 +1102,9 @@ function downloadREDCapListFromREDCapLoc(req) {
                 parser.write(content.toString());
                 parser.end();
             });
-        });
+        }).on('error', function (e) {
+            console.log("Error downloading REDCap List from REDLOC: " + JSON.stringify(e));
+        });;
     });
 }
 
@@ -1038,6 +1168,8 @@ function downloadCDEs(req, url) {
                 if (results.length > 0)
                     parentPort.postMessage([req, results]);
             });
+        }).on('error', function (e) {
+            console.log("Error downloading CDEs: " + JSON.stringify(e));
         });
     }); // should cleanup the downloaded file
 }
@@ -1082,6 +1214,8 @@ function downloadCollection(req, url) {
                     console.log("download " + url + " with resource: " + uri);
                 }
             });
+        }).on('error', function (e) {
+            console.log("Error downloading dd_collection: " + JSON.stringify(e));
         });
     }); // should cleanup the downloaded file
 }
@@ -1174,6 +1308,8 @@ function downloadAndParse(req, url, uri, parser) {
                                         parentPort.postMessage([req, ergs[i]]); // this would be "loadDefaults" with an array of dicts but what is the type?
                                     } */
             });
+        }).on('error', function (e) {
+            console.log("Error downloading dd_temp_file: " + JSON.stringify(e));
         });
     }); // should cleanup the temporary file now
 }

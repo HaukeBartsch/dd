@@ -27,9 +27,10 @@ function getSVGLogo(identifier, f) {
 // let logo = getSVGLogo("DDC");
 
 // comment this out if you want to speed up the display without logos
-document.getElementById("middle-scroll-window").addEventListener("new-box", function (event) {
+/*document.getElementById("middle-scroll-window").addEventListener("new-box", function (event) {
     //console.log(event.target);
     let title = event.target.getElementsByClassName("title");
+    // maybe we should queue these up, instead of doing all of them at the same time
     setTimeout(function () {
         getSVGLogo(title[0].innerHTML, (logo) => {
             if (logo == null) {
@@ -44,4 +45,4 @@ document.getElementById("middle-scroll-window").addEventListener("new-box", func
             event.target.getElementsByClassName("logo")[0].appendChild(l);
         });
     }, 10);
-});
+}); */
