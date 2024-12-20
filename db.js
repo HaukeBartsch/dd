@@ -611,6 +611,21 @@ parentPort.on('message', function (a) {
         addToDatabase(["loadDefaults", [{ "search": s }]]);
         // we should cache searches across the lifetime of the project so we should write them to disk every time we get a new one
         writeAllSearches();
+    } else if (func == "saveDB") {
+        // save the database to disk (in pieces)
+        //parentPort.postMessage(["INFO", "try to save a file..."]);
+        const fs = require('fs');
+        const path = require('path');
+        const p = options.filename;
+        if (options.whatNeedsToBeSaved == "instruments")
+            fs.writeFileSync(p, JSON.stringify(instruments));
+        else if (options.whatNeedsToBeSaved == "fields")
+            fs.writeFileSync(p, JSON.stringify(fields));
+        else if (options.whatNeedsToBeSaved == "projects")
+            fs.writeFileSync(p, JSON.stringify(projects));
+        else {
+            console.log("Error: unknown type of object to save: " + options.whatNeedsToBeSaved);
+        }
     } else if (func == "loadSearchesFromDisk") {
         importAllSearchesFromDisk();
         importAllMessagesFromDisk();

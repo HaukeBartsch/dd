@@ -105,6 +105,15 @@ function createWindow() {
     });
   });
 
+
+  ipcMain.handle('saveDB', async function (ev, whatNeedsToBeSaved) {
+    // save the database to a file
+    console.log("save the database to a file based on what needs to be saved");
+    var erg = await dialog.showSaveDialog(null);
+    if (!erg.canceled) {
+      db.postMessage(["saveDB", { filename: erg.filePath, whatNeedsToBeSaved: whatNeedsToBeSaved }]);
+    }
+  });
 //  ipcMain.handle('search:string', function (searchString) {
 //    // start a search action on db
 //    console.log("in main.js, receive a search request for a string")

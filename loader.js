@@ -14,9 +14,9 @@ parentPort.on('message', function (a) {
         downloadHUNT(a[0]);
         downloadHUNTVariables(a[0]);
         //console.log("CALL DOWNLOAD HELSEDATA...");
-        downloadHelseData(a[0], 1, 100);
-        downloadCristinProjects(a[0], 1, 10);
-        downloadIdentifiers(a[0], 1, 100); // download the different pages from Identifiers
+        downloadHelseData(a[0], 1, 200);
+        downloadCristinProjects(a[0], 1, 20);
+        downloadIdentifiers(a[0], 1, 200); // download the different pages from Identifiers
         downloadCDEs(a[0], "https://raw.githubusercontent.com/HaukeBartsch/dd/main/CDEs.json");
         downloadQualityRegistries(a[0], "https://prod-mong-api.skde.org/info/names"); // https://prod-mong-api.skde.org/info/names
         // the next section requires a key from bioportals (added to .env)
@@ -199,6 +199,10 @@ function downloadCristinProjects(req, page, max_pages, proj) {
 
 function downloadCristinProjectsDescription(req, entries) {
 
+    if (entries.length == 0) {
+        return; // we are done
+    }
+
     var uri = "cristin://cristin.no/";
     var cristin_id = entries.shift();
     var url = "https://api.cristin.no/v2/projects/" + cristin_id;
@@ -258,9 +262,11 @@ function downloadCristinProjectsDescription(req, entries) {
                     parentPort.postMessage([req, proj]);
                 }
                 // for each class we should download descendence
-                setTimeout(function () {
-                    downloadCristinProjectsDescription(req, entries);
-                }, 100);
+                if (entries.length > 0) {
+                    setTimeout(function () {
+                        downloadCristinProjectsDescription(req, entries);
+                    }, 100);
+                }
             });
         });
     });

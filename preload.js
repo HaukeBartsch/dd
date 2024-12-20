@@ -7,7 +7,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openSettings: () => ipcRenderer.invoke('openSettings'),
   openSave: (arg) => ipcRenderer.invoke('openSave', arg),
   showAbout: () => ipcRenderer.invoke('show-about'),
-  newMessage: (package) => ipcRenderer.invoke('new-message', package)
+  newMessage: (package) => ipcRenderer.invoke('new-message', package),
+  saveDB: (arg) => ipcRenderer.invoke('saveDB', arg)
 });
 
 contextBridge.exposeInMainWorld('search', {
@@ -142,7 +143,7 @@ ipcRenderer.on('stats', function (evt, message) {
   var information_2 = document.getElementById('info2');
   var information_3 = document.getElementById('info3');
   if (information_1 == null) {
-    information.innerHTML += "<button class='btn btn-info' id='info1'>instruments " + numberWithCommas(message["instruments"]) + "</button>";
+    information.innerHTML += "<button class='btn btn-info' id='info1'>instruments: " + numberWithCommas(message["instruments"]) + "</button>";
   }
   if (information_2 == null) {
     information.innerHTML += "<button class='btn btn-info' id='info2'>projects: " + numberWithCommas(message["projects"]) + "</button>";
@@ -150,7 +151,7 @@ ipcRenderer.on('stats', function (evt, message) {
   if (information_3 == null) {
     information.innerHTML += "<button class='btn btn-info' id='info3'>fields: " + numberWithCommas(message["fields"]) + "</button>";
   }
-  document.getElementById('info1').innerHTML = "instruments " + numberWithCommas(message["instruments"]);
+  document.getElementById('info1').innerHTML = "instruments: " + numberWithCommas(message["instruments"]);
   document.getElementById('info2').innerHTML = "projects: " + numberWithCommas(message["projects"]);
   document.getElementById('info3').innerHTML = "fields: " + numberWithCommas(message["fields"]);
 

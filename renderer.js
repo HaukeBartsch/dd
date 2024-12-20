@@ -145,6 +145,21 @@ document.getElementById("settings").addEventListener('click', function (e) {
     window.electronAPI.openSettings();
 });
 
+document.getElementById("stats-text").addEventListener('click', function (e) {
+    // find out if the target is info1 or info2 or info3
+    var target = e.target;
+    var targetId = target.getAttribute("id");
+    if (targetId == "info1") {
+        window.electronAPI.saveDB("instruments");
+    } else if (targetId == "info2") {
+        window.electronAPI.saveDB("projects");
+    } else if (targetId == "info3") {
+        window.electronAPI.saveDB("fields");
+    } else {
+        console.log("Error: unknown target id: " + targetId);
+    }
+});
+
 document.getElementById("save-search").addEventListener('click', function (e) {
     var pattern = document.getElementById('search').value;
     if (pattern.length > 0) {// ignore if this is no search
