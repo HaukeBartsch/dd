@@ -126,11 +126,11 @@ function downloadQualityRegistries(req, url) {
                     proj.push({
                         "project": {
                             "name": entry.full_name,
-                            "description": (entry?.description != undefined ? entry.description : ""),
+                            "description": (entry?.description != undefined ? entry.description : entry.short_name),
                             "version": "",
-                            "instruments": entry.register_name,
+                            "instruments": entry.registry_name,
                             "@id": "SKDE:" + url,
-                            "uri": uri + "?instrument=" + entry.register_name
+                            "uri": uri + "?instrument=" + entry.registry_name
                         }
                     });
                 }
@@ -244,6 +244,14 @@ function downloadCristinProjectsDescription(req, entries) {
                         description = entry.academic_summary.en;
                     if (description == "" && typeof entry.academic_summary.no != "undefined")
                         description = entry.academic_summary.no;
+                    if (description == "" && typeof entry.academic_summary.nb != "undefined")
+                        description = entry.academic_summary.nb;
+                    if (description == "" && typeof entry.academic_summary.nn != "undefined")
+                        description = entry.academic_summary.nn;
+                    if (description == "" && typeof entry.academic_summary.da != "undefined")
+                        description = entry.academic_summary.da;
+                    if (description == "")
+                        console.log("no description found for project: " + title);
                 }
 
                 if (title.length > 0) {
