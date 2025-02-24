@@ -12,3 +12,15 @@ We propose a distributed architecture where data dictionaries locations are repr
 In order to provide such discovery information we will host a file in this repository that includes some examples.
 
 <img src="images/interface.jpg" alt="interface" width="auto" style="padding: 20px"/>
+
+## Build
+
+In order to run the application locally you need git and nodejs. Use a package manager to install nodejs first.
+
+```bash
+git clone "<this repository>"
+cd dd
+brew install node
+npm install
+```
+
